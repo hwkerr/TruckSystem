@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html style = "height: 100%;">
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body style = "height: 100%;">
+  <title>What the Truck!</title>
+<nav class = "navbar navbar-expand-lg navbar-default" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1);" >
+  <button type = "button" class = "btn btn-outline-light" onclick = "location.href" = "DesktopSite.html"><div class = "ProfileName" >
+    <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" src ="Assets/ProfilePicture.jpg" /></span>
+      <p style = "vertical-align: middle; display: inline-block; margin: auto;">
+        Andrew Zeringue
+      </p>
+    </div></button>
+  <div class = "navbar nav-right" id = "navbarNav">
+  <ul class = "navbar-nav" style = "justify-content: center;">
+    <li class = "nav-item" style = "color: white;">
+      <a class = "nav-link">Contact Us</a>
+    </li>
+    <li class = "nav-item" style = "color:white;">
+      <a class = "nav-link" href = "DesktopSite.html">Log Off</a>
+    </li>
+  </ul>
+  </div>
+</nav>
+    <nav class = "navbar navbar-default" style = "background-color: #E4A84D ;color: white; height: 100%; position:absolute; width: 11%;vertical-align:top;">
+        <ul class = "navbar-nav" style = "width: 100%;vertical-align:top;">
+          <li class = "nav-item">
+            <button type = "button" onclick = "showCatalogue()" class = "btn btn-outline-light btn-block">Catalogues</button><br />
+          </li>
+          <li class = "nav-item">
+            <button type = "button" onclick = "showDriver()" class = "btn btn-outline-light btn-block">Drivers</button><br />
+          </li>
+          <li class = "nav-item">
+            <button type = "button" onclick = "showCompany()" class = "btn btn-outline-light btn-block">Company Info</button>
+          </li>
+        </ul>
+    </nav>
+
+  <div id = "mainBody" style = "background-color: #d3d3d3; position: absolute; top: 100px; left: 250px; height: 800px; width: 1600px; text-align: center;vertical-align: middle;">
+    <h1 id = "CatalogInfo">Catalog info</h1>
+    <h1 id = "DriverInfo" style = "display:none;">Driver Info</h1>
+    <h1 id = "CompanyInfo" style = "display: none;">CompanyInfo</h1>
+  </div>
+</div>
+<br />
+</body>
+
+<script>
+function showCatalogue(){
+  var catalog = document.getElementById("CatalogInfo");
+  var driver = document.getElementById("DriverInfo");
+  var company = document.getElementById("CompanyInfo");
+  catalog.style.display = "block";
+  driver.style.display = "none";
+  company.style.display = "none";
+}
+function showDriver(){
+  var catalog = document.getElementById("CatalogInfo");
+  var driver = document.getElementById("DriverInfo");
+  var company = document.getElementById("CompanyInfo");
+  catalog.style.display = "none";
+  driver.style.display = "block";
+  company.style.display = "none";
+}
+function showCompany(){
+  var catalog = document.getElementById("CatalogInfo");
+  var driver = document.getElementById("DriverInfo");
+  var company = document.getElementById("CompanyInfo");
+  catalog.style.display = "none";
+  driver.style.display = "none";
+  company.style.display = "block";
+}
+</script>
