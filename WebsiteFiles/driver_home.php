@@ -1,4 +1,45 @@
-<!DOCTYPE html>
+<?php
+	include "../inc/dbinfo.inc";
+	$db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+	session_start();
+	
+	if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
+	{
+		header("location: logon.php");
+		exit;
+	}
+
+	$uid = $_SESSION['UserID'];
+	$st = $db->query("SELECT Image FROM Account WHERE UserID = '$uid'");
+	$image = null;
+	if ($row = $st->fetch_assoc())
+	{
+		$image = $row['Image'];
+	}
+
+	/*
+	$total = 0;
+	$driverID = $_SESSION['UserID'];
+	$st = $db->prepare("SELECT SUM(Amount) AS Total FROM DriverPointAddition WHERE DriverID = ?");
+	$st->bind_param("s", $_SESSION['UserID']);
+	$st->execute();
+	$res = $st->get_result();
+	$res->data_seek(0);
+	if ($row = $res->fetch_assoc())
+	{
+		$total = $total + $row['Total'];
+	}
+	$st = $db->prepare("SELECT SUM(PointPrice) AS Total FROM OrderCatalogItem INNER JOIN Order ON Order.OrderID = OrderCatalogItem.OrderID WHERE Order.DriverID = ?");
+	$st->bind_param("s", $_SESSION['UserID']);
+	$st->execute();
+	$res = $st->get_result();
+	$res->data_seek(0);
+	if ($row = $res->fetch_assoc())
+	{
+		$total = $total - $row['Total'];
+	}*/
+?>
+
 <html style = "height: 100%;">
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -11,9 +52,9 @@
   <title>What the Truck!</title>
 <nav class = "navbar navbar-expand-lg navbar-default" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1);" >
   <button type = "button" class = "btn btn-outline-light" onclick = "location.href" = "DesktopSite.html"><div class = "ProfileName" >
-    <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" src ="Assets/ProfilePicture.jpg" /></span>
+    <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" src =<?php echo $image ?> /></span>
       <p style = "vertical-align: middle; display: inline-block; margin: auto;">
-        Andrew Zeringue<br />Points: 10000
+        <?php echo htmlspecialchars($_SESSION['Email']); ?><br />Points: <?php echo htmlspecialchars($total); ?>
       </p>
     </div></button>
   <div class = "navbar nav-right" id = "navbarNav">
@@ -26,6 +67,15 @@
     </li>
     <form action = "logout.php">
       <input type = "submit" value = "Log Off">
+    </form>
+    <form action="upload_pfp.php" method="post" enctype="multipart/form-data">
+      Select Image File to Upload:
+      <input type="file" name="file">
+      <input type="submit" name="submit" value="Upload">
+    </form>
+    <form action = "url_pfp.php" method = "post">
+      <input type = "text">
+      <input type = "submit">
     </form>
   </ul>
   </div>
