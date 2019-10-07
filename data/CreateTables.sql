@@ -5,7 +5,7 @@ CREATE TABLE Account
     PassHash        CHAR(60)            NOT NULL,
     FName            VARCHAR(20)            NOT NULL,
     LName            VARCHAR(20)            NOT NULL,
-    Image            BLOB            NOT NULL,
+    Image            MEDIUMBLOB            NOT NULL,
     TempPass        BOOLEAN            NOT NULL,
     Deleted            BOOLEAN            NOT NULL,
     PRIMARY KEY (UserID)
@@ -22,7 +22,7 @@ CREATE TABLE Company
 (
     CompanyID        VARCHAR(16)            NOT NULL,
     Name            VARCHAR(40)            NOT NULL,
-    Image            BLOB            NOT NULL,
+    Image            MEDIUMBLOB            NOT NULL,
     Deleted            BOOLEAN            NOT NULL,
     PRIMARY KEY (CompanyID)
 );
@@ -112,7 +112,7 @@ CREATE TABLE CatalogCatalogItem
     CustomDesc        BOOLEAN            NOT NULL,
     Description        VARCHAR(256)            NULL,
     CustomImg        BOOLEAN            NOT NULL,
-    Image            BLOB            NULL,
+    Image            MEDIUMBLOB            NULL,
     PRIMARY KEY (CatalogID, ItemID),
     FOREIGN KEY (CatalogID) REFERENCES Catalog (CatalogID),
     FOREIGN KEY (ItemID) REFERENCES CatalogItem (ItemID)

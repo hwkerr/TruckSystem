@@ -11,7 +11,6 @@
 
 	$uid = $_SESSION['UserID'];
 	$st = $db->query("SELECT Image FROM Account WHERE UserID = '$uid'");
-	$image = null;
 	if ($row = $st->fetch_assoc())
 	{
 		$image = $row['Image'];
@@ -52,7 +51,7 @@
   <title>What the Truck!</title>
 <nav class = "navbar navbar-expand-lg navbar-default" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1);" >
   <button type = "button" class = "btn btn-outline-light" onclick = "location.href" = "DesktopSite.html"><div class = "ProfileName" >
-    <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" src =<?php echo $image ?> /></span>
+    <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" height="40px" src =<?php echo '"data:image/png;base64,'.base64_encode($image).'"'?> /></span>
       <p style = "vertical-align: middle; display: inline-block; margin: auto;">
         <?php echo htmlspecialchars($_SESSION['Email']); ?><br />Points: <?php echo htmlspecialchars($total); ?>
       </p>
@@ -74,8 +73,8 @@
       <input type="submit" name="submit" value="Upload">
     </form>
     <form action = "url_pfp.php" method = "post">
-      <input type = "text">
-      <input type = "submit">
+      <input type = "text" name="text">
+      <input type = "submit" value="Upload URL">
     </form>
   </ul>
   </div>
