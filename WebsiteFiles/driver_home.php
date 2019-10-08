@@ -2,7 +2,7 @@
 	include "../inc/dbinfo.inc";
 	$db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 	session_start();
-	
+
 	if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
 	{
 		header("location: logon.php");
@@ -38,6 +38,32 @@
 		$total = $total - $row['Total'];
 	}*/
 ?>
+
+<?php
+	function sort_orders($type){
+		//Creates the prepared statement
+		if($type == '1')
+	  		$statement = $db->prepare("SELECT Name, PointPrice, CustomImg FROM CatalogCatalogItem ORDER BY Name ASC");
+		else if($type == '2')
+			$statement = $db->prepare("SELECT Name, PointPrice, CustomImg FROM CatalogCatalogItem ORDER BY Name DESC");
+		else if($type == '3')
+			$statement = $db->prepare("SELECT Name, PointPrice, CustomImg FROM CatalogCatalogItem ORDER BY PointPrice ASC");
+		else
+				$statement = $db->prepare("SELECT Name, PointPrice, CustomImg FROM CatalogCatalogItem ORDER BY PointPrice DESC");
+
+		//Pulls data from prepared statement
+		$statement->execute();
+		$res = $statement->get_result();
+		$res->data_seek(0);
+		while($row = $res->fetch_assoc())
+		{
+				$Name = $row['Name'];
+				$PointPrice = $row['PointPrice'];
+				$CustomImg = $row['CustomImg'];
+				echo '<div class = "col"><div class="card" style="width: 18rem;"><img class="card-img-top" src="data:image/png;base64,'. base64_encode($CustomImg) . '"><div class="card-body"><h5 class="card-title">'. $Name .'</h5><p class="card-text">Points: ' . $PointPrice .'</p></div></div></div>';
+		}
+	}
+ ?>
 
 <html style = "height: 100%;">
 <head>
@@ -84,10 +110,10 @@
     <div class = "col-md-2">
       <div class = "card">
         <div class = "card-body">
-            <button class = "btn btn-light btn-block">Alphabetical Sort(A-Z)</button><br />
-            <button class = "btn btn-light btn-block">Alphabetical Sort(Z-A)</button><br />
-            <button class = "btn btn-light btn-block">Price Sort(Low-High)</button><br />
-            <button class = "btn btn-light btn-block">Price Sort(High-Low)</button>
+            <button class = "btn btn-light btn-block" onclick = "sort_orders(1)">Alphabetical Sort(A-Z)</button><br />
+            <button class = "btn btn-light btn-block" onclick = "sort_orders(2)">Alphabetical Sort(Z-A)</button><br />
+            <button class = "btn btn-light btn-block" onclick = "sort_orders(3)">Price Sort(Low-High)</button><br />
+            <button class = "btn btn-light btn-block" onclick = "sort_orders(4)">Price Sort(High-Low)</button>
           </div>
         </div>
       </div>
@@ -134,129 +160,6 @@
                               </div>
                               </div>
             </div><br />
-
-
-
-              <div class = "row">
-                <div class = "col">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                      <div class="card-body">
-                        <h5 class="card-title">Sample Item</h5>
-                        <p class="card-text">Points: 100</p>
-                      </div>
-                    </div>
-                    </div>
-                    <div class = "col">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                          <div class="card-body">
-                            <h5 class="card-title">Sample Item</h5>
-                            <p class="card-text">Points: 100</p>
-                          </div>
-                        </div>
-                        </div>
-                        <div class = "col">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                              <div class="card-body">
-                                <h5 class="card-title">Sample Item</h5>
-                                <p class="card-text">Points: 100</p>
-                              </div>
-                            </div>
-                            </div>
-                            <div class = "col">
-                            <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                                  <div class="card-body">
-                                    <h5 class="card-title">Sample Item</h5>
-                                    <p class="card-text">Points: 100</p>
-                                  </div>
-                                </div>
-                                </div>
-              </div><br />
-
-
-
-              <div class = "row">
-                <div class = "col">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                      <div class="card-body">
-                        <h5 class="card-title">Sample Item</h5>
-                        <p class="card-text">Points: 100</p>
-                      </div>
-                    </div>
-                    </div>
-                    <div class = "col">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                          <div class="card-body">
-                            <h5 class="card-title">Sample Item</h5>
-                            <p class="card-text">Points: 100</p>
-                          </div>
-                        </div>
-                        </div>
-                        <div class = "col">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                              <div class="card-body">
-                                <h5 class="card-title">Sample Item</h5>
-                                <p class="card-text">Points: 100</p>
-                              </div>
-                            </div>
-                            </div>
-                            <div class = "col">
-                            <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                                  <div class="card-body">
-                                    <h5 class="card-title">Sample Item</h5>
-                                    <p class="card-text">Points: 100</p>
-                                  </div>
-                                </div>
-                                </div>
-              </div><br />
-
-
-
-              <div class = "row">
-                <div class = "col">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                      <div class="card-body">
-                        <h5 class="card-title">Sample Item</h5>
-                        <p class="card-text">Points: 100</p>
-                      </div>
-                    </div>
-                    </div>
-                    <div class = "col">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                          <div class="card-body">
-                            <h5 class="card-title">Sample Item</h5>
-                            <p class="card-text">Points: 100</p>
-                          </div>
-                        </div>
-                        </div>
-                        <div class = "col">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                              <div class="card-body">
-                                <h5 class="card-title">Sample Item</h5>
-                                <p class="card-text">Points: 100</p>
-                              </div>
-                            </div>
-                            </div>
-                            <div class = "col">
-                            <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                                  <div class="card-body">
-                                    <h5 class="card-title">Sample Item</h5>
-                                    <p class="card-text">Points: 100</p>
-                                  </div>
-                                </div>
-                                </div>
-              </div><br />
               </div>
               <nav style = "margin: 0 auto;">
                 <ul class = "pagination">
@@ -285,3 +188,9 @@
 
 
 </body>
+
+
+<!--SELECT Name, PointPrice, CustomImg FROM CatalogCatalogItem ORDER BY Name ASC -->
+<!--SELECT Name, PointPrice, CustomImg FROM CatalogCatalogItem ORDER BY Name DESC -->
+<!--SELECT Name, PointPrice, CustomImg FROM CatalogCatalogItem ORDER BY PointPrice ASC -->
+<!--SELECT Name, PointPrice, CustomImg FROM CatalogCatalogItem ORDER BY PointPrice DESC -->

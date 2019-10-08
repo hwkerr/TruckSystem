@@ -1,0 +1,88 @@
+#mainBody{
+  height: 100%;
+  background-image: linear-gradient(to bottom right, #071461, #0B3583);
+}
+
+#homeBody{
+  width: 100%;
+}
+
+#logonContainer{
+  margin: 0 auto;
+}
+
+#navBarText{
+  vertical-align: middle;
+  display: inline-block;
+  margin: auto;
+}
+
+#WhiteText{
+  text-align: center;
+  color: white;
+}
+
+#center{
+  margin: auto;
+  text-align: center;
+}
+
+#hidden{
+  display = none;
+}
+
+#title{
+  font-size: 80px;
+  color: white;
+  text-align: center;
+  margin:auto;
+}
+
+#subtitle{
+  font-size: 20px;
+  color: white;
+  padding-left: 20px;
+}
+
+#sideNav{
+  background-image: linear-gradient(to bottom right, #071461, #0B3583);
+  color: white;
+  height: 100%;
+  position:fixed;
+  min-width: 250px;
+  max-width:250px;
+}
+
+#DriverContent{
+  padding-left: 10px;
+}
+#buttonList{
+  text-align: center;
+}
+
+#mainContent{
+  position:fixed;
+  left: 250px;
+  min-width: 1680px;
+  max-width:1680px;
+  top:0;
+}
+
+#AccountPicture{
+  vertical-align: middle;
+  margin: auto;
+  display: inline-block;
+  border-radius: 1px solid white;
+}
+
+#AccountText{
+  vertical-align: middle;
+  display: inline-block;
+  margin:auto;
+}
+
+#AccountProfile{
+  border-radius: 0rem;
+  padding-top:12px;
+  padding-bottom:12px;
+}
