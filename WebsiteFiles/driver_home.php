@@ -1,5 +1,6 @@
 <?php
 	include "../inc/dbinfo.inc";
+	include "db_ninja.php";
 	$db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 	session_start();
 
@@ -35,6 +36,8 @@
 	{
 		$total = $total - $row['Total'];
 	}*/
+
+	$total = ninja_points($uid);
 
 	function sort_orders($type){
 		//Creates the prepared statement

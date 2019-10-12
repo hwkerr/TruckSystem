@@ -31,6 +31,7 @@ CREATE TABLE Sponsor
 (
     UserID            VARCHAR(16)            NOT NULL,
     CompanyID        VARCHAR(16)            NOT NULL,
+    Accepted BOOLEAN NOT NULL,
     PRIMARY KEY (UserID),
     FOREIGN KEY (UserID) REFERENCES Account (UserID),
     FOREIGN KEY (CompanyID) REFERENCES Company (CompanyID)
@@ -43,9 +44,19 @@ CREATE TABLE Driver
     State            VARCHAR(2)            NOT NULL,
     City            VARCHAR(10)            NOT NULL,
     Street            VARCHAR(30)            NOT NULL,
-    CompanyID        VARCHAR(16)            NOT NULL,
+    Accepted BOOLEAN NOT NULL,
+    CurrComp VARCHAR(16) NOT NULL,
     PRIMARY KEY (UserID),
-    FOREIGN KEY (UserID) REFERENCES Account (UserID),
+    FOREIGN KEY (UserID) REFERENCES Account (UserID)
+);
+
+CREATE TABLE DriverCompany
+(
+    DriverID VARCHAR(16) NOT NULL,
+    CompanyID VARCHAR(16) NOT NULL,
+    Accepted BOOLEAN NOT NULL,
+    PRIMARY KEY (DriverID, CompanyID),
+    FOREIGN KEY (DriverID) REFERENCES Driver (UserID),
     FOREIGN KEY (CompanyID) REFERENCES Company (CompanyID)
 );
 
