@@ -1,6 +1,6 @@
 <?php
 
-function ninja_connect()
+function dojo_connect()
 {
 	include "../inc/dbinfo.inc";
 	return mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
@@ -8,7 +8,7 @@ function ninja_connect()
 
 function ninja_login($email, $pword)
 {
-	$db = ninja_connect();
+	$db = dojo_connect();
 	$pst = $db->prepare("SELECT PassHash, TempPass, UserID FROM
 			     Account WHERE Email = ?");
 	$pst->bind_param("s", $email);
@@ -25,7 +25,7 @@ function ninja_login($email, $pword)
 			$_SESSION['Logged'] = true;
 			$_SESSION['Email'] = $email;
 			
-			$pst2 = $db->prepare("SELECT Accepted FROM Driver WHERE UserID = ?");
+			$pst2 = $db->prepare("SELECT UserID FROM Driver WHERE UserID = ?");
 			$pst2->bind_param("s", $uid);
 			$pst2->execute();
 			$res2 =  $pst2->get_result();
@@ -38,7 +38,7 @@ function ninja_login($email, $pword)
 			}
 			else
 			{
-				$pst2 = $db->prepare("SELECT Accepted FROM Sponsor WHERE UserID = ?");
+				$pst2 = $db->prepare("SELECT UserID FROM Sponsor WHERE UserID = ?");
 				$pst2->bind_param("s", $uid);
 				$pst2->execute();
 				$res2 =  $pst2->get_result();
@@ -86,7 +86,7 @@ function ninja_points($uid)
 {
 	$total = 0;
 
-	$db = ninja_connect();
+	$db = dojo_connect();
 	
 	$pst = $db->prepare("SELECT SUM(Amount) AS Total FROM PointAddition WHERE DriverID = ?");
 	$pst->bind_param("s", $uid);
@@ -111,9 +111,140 @@ function ninja_points($uid)
 	return $total;
 }
 
+function ninja_check_email_taken($email)
+{
+	$db = dojo_connect();
+	
+	$pst = $db->prepare("SELECT Email FROM User WHERE Email = ?");
+	$pst->bind_param("s", $email);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+		return true;
+	else
+		return false;
+}
+
+function ninja_apply($type, $fname, $lname, $email, $info)
+{
+	$db = dojo_connect();
+	
+	// generate new id
+	$pst = $db->prepare("SELECT AppID FROM Application");
+	$pst->execute();
+	$res = $pst->get_result();
+	$newid = "";
+	$unique = false;
+	while (!$unique)
+	{
+		$newid = substr(md5(rand()), 0, 16);
+		$unique = true;
+		while ($row = $res->fetch_assoc())
+			if ($row['AppID'] === $newid)
+				$unique = false;
+	}
+
+	// insert application
+	$pst = $db->prepare("INSERT INTO Application VALUES (?, ?, ?, ?, ?, ?, 0)");
+	$pst->bind_param("ssssss", $newid, $fname, $lname, $email, $info, $type);
+	$pst->execute();
+}
+
+function dojo_new_generic_account($fname, $lname, $email, $pword)
+{
+	$db = dojo_connect();
+	
+	// generate new id
+	$pst = $db->prepare("SELECT UserID FROM Account");
+	$pst->execute();
+	$res = $pst->get_result();
+	$newid = "";
+	$unique = false;
+	while (!$unique)
+	{
+		$newid = substr(md5(rand()), 0, 16);
+		$unique = true;
+		while ($row = $res->fetch_assoc())
+			if ($row['UserID'] === $newid)
+				$unique = false;
+	}
+
+	// hash password
+	$phash = password_hash($pword, PASSWORD_BCRYPT);
+
+	// insert user
+	$pst = $db->prepate("INSERT INTO Account VALUES (?, ?, ?, ?, ?, x'', 1, 0)");
+	$pst->bind_param("sssss", $newid, $email, $phash, $fname, $lname);
+	$pst->execute();
+	return $newid;
+}
+
+function ninja_new_driver($fname, $lname, $email)
+{
+	$db = dojo_connect();
+
+	// generate random temporary password
+	$tpass = substr(md5(rand()), 0, 8);
+
+	// create account
+	$uid = dojo_new_generic_account($fname, $lname, $email, $tpass);
+
+	// create driver
+	$pst = $db->prepare("INSERT INTO Driver VALUES (?, '', '', '', '', '')");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	return $tpass;
+}
+
+function ninja_new_sponsor($fname, $lname, $email, $cid)
+{
+	$db = dojo_connect();
+	
+	// generate random temporary password
+	$tpass = substr(md5(rand()), 0, 8);
+	
+	// create account
+	$uid = dojo_new_generic_account($fname, $lname, $email, $tpass);
+
+	// create sponsor
+	$pst = $db->prepare("INSERT INTO Sponsor VALUES (?, ?)");
+	$pst->bind_param("ss", $uid, $cid);
+	$pst->execute();
+	return $tpass;
+}
+
+function ninja_accept_company($cname, $fname, $lname, $email)
+{
+	$db = dojo_connect();
+	
+	// generate new id
+	$pst = $db->prepare("SELECT CompanyID FROM Company");
+	$pst->execute();
+	$res = $pst->get_result();
+	$newid = "";
+	$unique = false;
+	while (!$unique)
+	{
+		$newid = substr(md5(rand()), 0, 16);
+		$unique = true;
+		while ($row = $res->fetch_assoc())
+			if ($row['CompanyID'] === $newid)
+				$unique = false;
+	}
+	
+	// create company
+	$pst = $db->prepare("INSERT INTO Company VALUES (?, ?, x'', 0)");
+	$pst->bind_param("ss", $newid, $cname);
+	$pst->execute();
+
+	// create sponsor account for company
+	$tpass = ninja_new_sponsor($fname, $lname, $email, $newid);
+	return $tpass;
+}
+
 function ninja_email_from_id($uid)
 {
-	$db = ninja_connect();
+	$db = dojo_connect();
 	$pst = $db->prepare("SELECT Email FROM Account WHERE UserID = ?");
 	$pst->bind_param("s", $uid);
 	$pst->execute();
@@ -129,7 +260,7 @@ function ninja_email_from_id($uid)
 
 function ninja_pfp_from_id($uid)
 {
-	$db = ninja_connect();
+	$db = dojo_connect();
 	$st = $db->query("SELECT Image FROM Account WHERE UserID = '$uid'");
 	if ($row = $st->fetch_assoc())
 	{
