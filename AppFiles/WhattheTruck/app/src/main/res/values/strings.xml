@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">What the Truck</string>
+    <string name="etUsername">Name</string>
+    <string name="etPassword">Password</string>
+    <string name="Login">Log In</string>
+    <string name="tvLoginFailure">Failed to Log In</string>
+    <string name="Title">What the Truck!</string>
+    <string name="Slogan">The Best Truckin\' Experience of Your Life</string>
+    <string name="btnForgotPassword">Forgot Password?</string>
+    <string name="forgotPasswordMsg">Enter the email associated with your account and we will send you an email with a link to reset your password</string>
+    <string name="etEmail">Email</string>
+    <string name="btnSendEmail">Send Email</string>
+</resources>
