@@ -31,7 +31,6 @@ CREATE TABLE Sponsor
 (
     UserID            VARCHAR(16)            NOT NULL,
     CompanyID        VARCHAR(16)            NOT NULL,
-    Accepted BOOLEAN NOT NULL,
     PRIMARY KEY (UserID),
     FOREIGN KEY (UserID) REFERENCES Account (UserID),
     FOREIGN KEY (CompanyID) REFERENCES Company (CompanyID)
@@ -44,7 +43,6 @@ CREATE TABLE Driver
     State            VARCHAR(2)            NOT NULL,
     City            VARCHAR(10)            NOT NULL,
     Street            VARCHAR(30)            NOT NULL,
-    Accepted BOOLEAN NOT NULL,
     CurrComp VARCHAR(16) NOT NULL,
     PRIMARY KEY (UserID),
     FOREIGN KEY (UserID) REFERENCES Account (UserID)
@@ -129,3 +127,14 @@ CREATE TABLE CatalogCatalogItem
     FOREIGN KEY (ItemID) REFERENCES CatalogItem (ItemID)
 );
 
+CREATE TABLE Application
+(
+    AppID VARCHAR(16) NOT NULL,
+    FName VARCHAR(20) NOT NULL,
+    LName VARCHAR(20) NOT NULL,
+    Email VARCHAR(50) NOT NULL,
+    Info VARCHAR(500) NOT NULL,
+    UserType VARCHAR(20) NOT NULL,
+    Processed BOOLEAN NOT NULL,
+    PRIMARY KEY (AppID)
+);
