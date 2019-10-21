@@ -1,6 +1,10 @@
+<?php include "../inc/dbinfo.inc"; ?>
 <!DOCTYPE html>
 <html style = "height: 100%;">
 <head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -50,7 +54,7 @@
     <!--Main Body-->
   <div id = "mainContent">
     <nav class = "navbar navbar-expand-md bg-light">
-      <form class = "form-inline mt-2 mt-md-0" style = " width:auto;">
+      <form class = "form-inline mt-2 mt-md-0" id = "searchBar" style = " width:auto;">
         <input class = "form-control" type = "text" placeholder="Search" />
         <button class = "btn btn-primary">Search</button>
       </form>
@@ -67,25 +71,77 @@
 
     </nav>
     <div class = "CatalogContent" id = "CatalogInfo" style = "display: none;">
-      <h1>Catalog info</h1>
-    </div>
-
-    <div id = "DriverContent">
-      <h1>Drivers</h1>
-      <table class = "table">
+      <div class = "jumbotron" style = "margin-bottom: 0px;">
+        <h1>Catalog info</h1>
+      </div>
+      <table class = "table table-hover">
         <thead>
           <tr>
-            <th scope = "col">#</th>
-            <th scope = "col">First Name</th>
-            <th scope = "col">Last Name</th>
-            <th scope = "col">Email</th>
-            <th scope = "col">Points</th>
-            <th scope = "col">Profile</th>
+            <th>#</th>
+            <th>Catalog Name</th>
+            <th>Number of Items</th>
+            <th>Items</th>
           </tr>
         </thead>
+        <tr>
+          <th>
+            1
+          </th>
+          <td>
+            Sample Catalog
+          </td>
+          <td>
+            10
+          </td>
+          <td>
+            <a href="#">View Items</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id = "DriverContent">
+      <div class = "jumbotron" style = "margin-bottom: 0;">
+        <h1>Drivers</h1>
+      </div>
+      <div class = "table-responsive-lg" style="overflow-x:auto;">
+      <table class = "table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Points</th>
+            <th>Profile</th>
+          </tr>
+        </thead>
+      <!--
+        //Pulls data from prepared statement
+        $statement = $db->prepare("SELECT FName, LName, Email")
+        $statement->execute();
+        $res = $statement->get_result();
+        $res->data_seek(0);
+        int count = 0;
+        while($row = $res->fetch_assoc())
+        {
+            count++;
+            $fName = $row['FName'];
+            $lName = $row['LName'];
+            $Email = $row['Email'];
+            echo '<tr>
+            <th scope = "row"> . count .
+            </th>
+
+            </tr>';
+            //Look up header function
+            header("location: DriverHome.html");
+            exit;
+        }
+      -->
+
         <tbody>
           <tr>
-            <th scope = "row">1</th>
+            <th>1</th>
             <td>Andrew</td>
             <td>Zeringue</td>
             <td>azering@clemson.edu</td>
@@ -93,7 +149,7 @@
             <td>Link</td>
           </tr>
           <tr>
-            <th scope = "row">2</th>
+            <th>2</th>
             <td>Harrison</td>
             <td>Kerr</td>
             <td>hwkerr@clemson.edu</td>
@@ -101,20 +157,41 @@
             <td>Link</td>
           </tr>
           <tr>
-            <th scope = "row">3</th>
+            <th>3</th>
             <td>Silas</td>
             <td>Miller</td>
             <td>silasm@clemson.edu</td>
-            <td>-2</td>
+            <td>10</td>
             <td>Link</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class = "CompanyContent" id = "CompanyInfo" style = "display: none;">
-          <h1>CompanyInfo</h1>
     </div>
-
+    <div class = "CompanyContent" id = "CompanyInfo" style = "display: none;">
+      <div class = "jumbotron">
+        <h1>CompanyName</h1>
+      </div>
+        <div class = "container">
+          <div class = "row">
+            <div class = "col-sm-2"></div>
+            <div class = "col-md-6">
+              <div class = "card-body">
+                Section where company can write information about themselves. This can include what
+                kind of products they have, what there point earning requirements are, contact info, etc.
+              </div>
+            </div>
+            <div class = "col-md-3">
+              <image src = "Assets/Download.png" class = "img-rounded "></image>
+            </div>
+          </div>
+          <div class = "row justify-content-center">
+            <div class = "col-sm-3">
+              <button class = "btn btn-primary">Edit Information</button>
+            </div>
+          </div>
+        </div>
+    </div>
   </div>
 </div>
 <br />
