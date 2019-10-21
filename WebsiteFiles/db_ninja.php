@@ -82,14 +82,14 @@ function ninja_login($email, $pword)
 	}
 }
 
-function ninja_points($uid)
+function ninja_points($uid, $cid)
 {
 	$total = 0;
 
 	$db = dojo_connect();
 	
-	$pst = $db->prepare("SELECT SUM(Amount) AS Total FROM PointAddition WHERE DriverID = ?");
-	$pst->bind_param("s", $uid);
+	$pst = $db->prepare("SELECT SUM(PointAddition.Amount) AS Total FROM PointAddition INNER JOIN Sponsor ON PointAddition.SponsorID = Sponsor.UserID WHERE PointAddition.DriverID = ? AND Sponsor.CompanyID = ?");
+	$pst->bind_param("ss", $uid, $cid);
 	$pst->execute();
 	$res = $pst->get_result();
 	$res->data_seek(0);
@@ -98,12 +98,12 @@ function ninja_points($uid)
 		$total += $row['Total'];
 	}
 
-	$pst = $db->prepare("SELECT SUM(ItemOrderCatalogItem.PointPrice) AS Total FROM ItemOrderCatalogItem INNER JOIN ItemOrder ON ItemOrderCatalogItem.OrderID = ItemOrder.OrderID WHERE ItemOrder.DriverID = ?");
-	$pst->bind_param("s", $uid);
+	$pst = $db->prepare("SELECT SUM(ItemOrderCatalogItem.PointPrice) AS Total FROM (((ItemOrderCatalogItem INNER JOIN ItemOrder ON ItemOrderCatalogItem.OrderID = ItemOrder.OrderID) INNER JOIN CatalogItem ON CatalogItem.ItemID = ItemOrderCatalogItem.ItemID) INNER JOIN CatalogCatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID) INNER JOIN Catalog ON CatalogCatalogItem.CatalogID = Catalog.CatalogID WHERE ItemOrder.DriverID = ? AND Catalog.CompanyID = ?");
+	$pst->bind_param("ss", $uid, $cid);
 	$pst->execute();
 	$res = $pst->get_result();
 	$res->data_seek(0);
-	if ($row = $res->fetch_assoc())
+	if ($row = $res->fetch_assoc())	
 	{
 		$total -= $row['Total'];
 	}
@@ -242,7 +242,7 @@ function ninja_accept_company($cname, $fname, $lname, $email)
 	return $tpass;
 }
 
-function ninja_email_from_id($uid)
+function ninja_email($uid)
 {
 	$db = dojo_connect();
 	$pst = $db->prepare("SELECT Email FROM Account WHERE UserID = ?");
@@ -258,7 +258,7 @@ function ninja_email_from_id($uid)
 	return $email;
 }
 
-function ninja_pfp_from_id($uid)
+function ninja_pfp($uid)
 {
 	$db = dojo_connect();
 	$st = $db->query("SELECT Image FROM Account WHERE UserID = '$uid'");
@@ -267,6 +267,44 @@ function ninja_pfp_from_id($uid)
 		$image = $row['Image'];
 	}
 	return $image;
+}
+
+function ninja_company_name($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Name FROM Company WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$res->data_seek(0);
+	$name = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$name = $row['Name'];
+	}
+	return $name;
+}
+
+function ninja_current_driver_company($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Company.Name AS CName FROM Driver INNER JOIN Company ON Driver.CurrComp = Company.CompanyID WHERE Driver.UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$res->data_seek(0);
+	$name = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$name = $row['CName'];
+	}
+	return $name;
+}
+
+function ninja_driver_company_list($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Company.Name AS CName FROM (Company INNER JOIN DriverCompany ON Company.CompanyID = DriverCompany.CompanyID) INNER JOIN Driver ON DriverCompany.DriverID = Driver.UserID WHERE Driver.UserID = ? AND DriverCompany.Accepted = 1");
 }
 
 ?>
