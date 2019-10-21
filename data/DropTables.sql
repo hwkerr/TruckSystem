@@ -10,6 +10,8 @@ DROP TABLE ItemOrder;
 
 DROP TABLE PointAddition;
 
+DROP TABLE DriverCompany;
+
 DROP TABLE Driver;
 
 DROP TABLE Sponsor;
@@ -19,4 +21,6 @@ DROP TABLE Company;
 DROP TABLE Admin;
 
 DROP TABLE Account;
+
+DROP TABLE Application;
 

@@ -38,11 +38,11 @@
 		}
 		else if ($_SESSION['UserType'] === 'Sponsor')
 		{
-			header("location: sponsor_home.php");
+			header("location: SponsorHome.html");
 		}
 		else if ($_SESSION['UserType'] === 'Admin')
 		{
-			header("location: admin_home.php");
+			header("location: driver_home.php");
 		}
 		exit;
 	}

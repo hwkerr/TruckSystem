@@ -1,5 +1,6 @@
 <?php
 	include "../inc/dbinfo.inc";
+	include "db_ninja.php";
 	$db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 	session_start();
 
@@ -10,31 +11,10 @@
 	}
 
 	$uid = $_SESSION['UserID'];
-	$st = $db->query("SELECT Image FROM Account WHERE UserID = '$uid'");
-	if ($row = $st->fetch_assoc())
-	{
-		$image = $row['Image'];
-	}
 
-	/*
-	$total = 0;
-	$driverID = $_SESSION['UserID'];
-	$st = $db->prepare("SELECT SUM(Amount) AS Total FROM DriverPointAddition WHERE DriverID = $driverID");
-	$st->execute();
-	$res = $st->get_result();
-	$res->data_seek(0);
-	if ($row = $res->fetch_assoc())
-	{
-		$total = $total + $row['Total'];
-	}
-	$st = $db->prepare("SELECT SUM(PointPrice) AS Total FROM OrderCatalogItem INNER JOIN Order ON Order.OrderID = OrderCatalogItem.OrderID WHERE Order.DriverID = $driverID");
-	$st->execute();
-	$res = $st->get_result();
-	$res->data_seek(0);
-	if ($row = $res->fetch_assoc())
-	{
-		$total = $total - $row['Total'];
-	}*/
+	$image = ninja_pfp($uid);
+
+	$total = ninja_points($uid, 'testcompany');
 
 	function sort_orders($type){
 		//Creates the prepared statement
