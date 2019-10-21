@@ -9,7 +9,7 @@ function dojo_connect()
 function ninja_login($email, $pword)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT PassHash, TempPass, UserID FROM
+	$pst = $db->prepare("SELECT PassHash, TempPass, UserID, FName, LName FROM
 			     Account WHERE Email = ?");
 	$pst->bind_param("s", $email);
 	$pst->execute();
@@ -24,6 +24,8 @@ function ninja_login($email, $pword)
 			$_SESSION['UserID'] = $uid;
 			$_SESSION['Logged'] = true;
 			$_SESSION['Email'] = $email;
+			$_SESSION['FName'] = $row['FName'];
+			$_SESSION['LName'] = $row['LName'];
 			
 			$pst2 = $db->prepare("SELECT UserID FROM Driver WHERE UserID = ?");
 			$pst2->bind_param("s", $uid);
@@ -305,6 +307,22 @@ function ninja_driver_company_list($uid)
 {
 	$db = dojo_connect();
 	$pst = $db->prepare("SELECT Company.Name AS CName FROM (Company INNER JOIN DriverCompany ON Company.CompanyID = DriverCompany.CompanyID) INNER JOIN Driver ON DriverCompany.DriverID = Driver.UserID WHERE Driver.UserID = ? AND DriverCompany.Accepted = 1");
+}
+
+function ninja_name($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT FName, LName FROM Account WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$res->data_seek(0);
+	$name = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$name = $row['FName']." ".$row['LName'];
+	}
+	return $name;
 }
 
 ?>

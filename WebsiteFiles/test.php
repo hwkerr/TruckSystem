@@ -1,7 +1,6 @@
 <?php
-	require("./vendor/phpmailer/phpmailer/src/PHPMailer.php");
-	require("./vendor/phpmailer/phpmailer/src/SMTP.php");
- $mail = new PHPMailer\PHPMailer\PHPMailer(); 
-$mail->Send(); 
+
+include "db_ninja.php";
+echo ninja_name("test");
 
 ?>

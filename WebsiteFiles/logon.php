@@ -8,15 +8,15 @@
 	{
 		if ($_SESSION['UserType'] === "Driver")
 		{
-			header("location: driver_home.php");
+			header("location: driver_view.php");
 		}
 		else if ($_SESSION['UserType'] === "Sponsor")
 		{
-			header("location: SponsorView.html");
+			header("location: sponsor_view.php");
 		}
 		else if ($_SESSION['UserType'] === "Admin")
 		{
-			header("location: driver_home.php");
+			header("location: admin_view.php");
 		}
 		exit;
 	}
@@ -32,15 +32,15 @@
 		}
 		else if ($status == 1)
 		{
-			header("location: driver_home.php");
+			header("location: driver_view.php");
 		}
 		else if ($status == 2)
 		{
-			header("location: SponsorView.html");
+			header("location: sponsor_view.php");
 		}
 		else if ($status == 3)
 		{
-			header("location: driver_home.php");
+			header("location: admin_view.php");
 		}
 	}
 ?>

@@ -34,15 +34,15 @@
 
 		if ($_SESSION['UserType'] === 'Driver')
 		{
-			header("location: driver_home.php");
+			header("location: driver_view.php");
 		}
 		else if ($_SESSION['UserType'] === 'Sponsor')
 		{
-			header("location: SponsorHome.html");
+			header("location: sponsor_view.php");
 		}
 		else if ($_SESSION['UserType'] === 'Admin')
 		{
-			header("location: driver_home.php");
+			header("location: admin_view.php");
 		}
 		exit;
 	}
