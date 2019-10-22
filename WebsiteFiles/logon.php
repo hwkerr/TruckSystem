@@ -81,6 +81,7 @@
             </div>
             <div class = "row justify-content-center">
               <button type = submit class = "btn btn-outline-light btn-block">Log In</button>
+              <a href = "DesktopSite.html" class = "form-text" style = "font-size: 12px; color: white;">Back to Home</a>
             </div>
           </form>
         </div>

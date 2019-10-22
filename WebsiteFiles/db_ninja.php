@@ -130,6 +130,28 @@ function ninja_check_email_taken($email)
 function ninja_apply($type, $fname, $lname, $email, $info)
 {
 	$db = dojo_connect();
+
+	// check for existing email in account
+	$pst = $db->prepare("SELECT Email FROM Account WHERE Email = ?");
+	$pst->bind_param("s", $email);
+	$pst->execute();
+	$res = $pst->get_result();
+	$res->data_seek(0);
+	if ($row = $res->fetch_assoc())
+	{
+		return 1;
+	}
+	
+	// check for existing email in application
+	$pst = $db->prepare("SELECT Email FROM Application WHERE Email = ? AND Processed = 0");
+	$pst->bind_param("s", $email);
+	$pst->execute();
+	$res = $pst->get_result();
+	$res->data_seek(0);
+	if ($row = $res->fetch_assoc())
+	{
+		return 2;
+	}
 	
 	// generate new id
 	$pst = $db->prepare("SELECT AppID FROM Application");
@@ -150,6 +172,7 @@ function ninja_apply($type, $fname, $lname, $email, $info)
 	$pst = $db->prepare("INSERT INTO Application VALUES (?, ?, ?, ?, ?, ?, 0)");
 	$pst->bind_param("ssssss", $newid, $fname, $lname, $email, $info, $type);
 	$pst->execute();
+	return 0;
 }
 
 function dojo_new_generic_account($fname, $lname, $email, $pword)
@@ -175,7 +198,7 @@ function dojo_new_generic_account($fname, $lname, $email, $pword)
 	$phash = password_hash($pword, PASSWORD_BCRYPT);
 
 	// insert user
-	$pst = $db->prepate("INSERT INTO Account VALUES (?, ?, ?, ?, ?, x'', 1, 0)");
+	$pst = $db->prepare("INSERT INTO Account VALUES (?, ?, ?, ?, ?, x'', 1, 0)");
 	$pst->bind_param("sssss", $newid, $email, $phash, $fname, $lname);
 	$pst->execute();
 	return $newid;
@@ -323,6 +346,57 @@ function ninja_name($uid)
 		$name = $row['FName']." ".$row['LName'];
 	}
 	return $name;
+}
+
+function ninja_driver_applications()
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT FName, LName, Email, Info FROM Application WHERE UserType = 'Driver' AND Processed = 0");
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_company_applications()
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT FName, LName, Email, Info FROM Application WHERE UserType = 'Sponsor' AND Processed = 0");
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_sponsor_company_id($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT CompanyID FROM Sponsor WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$cid = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$cid = $row['CompanyID'];
+	}
+	return $cid;
+}
+
+function ninja_company_driver_list($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT UserID, FName, LName, Email FROM Account INNER JOIN DriverCompany ON UserID = DriverID WHERE CompanyID = ? AND Accepted = 1");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_mark_email_application_processed($email)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Application SET Processed = 1 WHERE Email = ?");
+	$pst->bind_param("s", $email);
+	$pst->execute();
 }
 
 ?>

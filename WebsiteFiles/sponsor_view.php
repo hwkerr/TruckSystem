@@ -1,4 +1,18 @@
-<?php include "../inc/dbinfo.inc"; ?>
+<?php
+	include "db_ninja.php"; 
+	session_start();
+
+	if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] !== 'Sponsor')
+	{
+		header("location: logon.php");
+		exit;
+	}
+	
+	$uid = $_SESSION['UserID'];
+	$cid = ninja_sponsor_company_id($uid);
+	$fullname = ninja_name($uid);
+	$pfp = ninja_pfp($uid);
+?>
 <!DOCTYPE html>
 <html style = "height: 100%;">
 <head>
@@ -19,9 +33,9 @@
       <div id = "AccountProfile">
         <button type = "button" style = "border-radius: 0rem; color:white;"class = "btn btn-link btn-block" onclick = "location.href" = "DesktopSite.html">
           <div class = "ProfileName" >
-          <span id = "Accountpicture"><img width = "60px" src ="Assets/ProfilePicture.jpg" /></span><br />
+          <span id = "Accountpicture"><img width = "60px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
             <p id = "AccountText">
-              Andrew Zeringue<br />
+              <?php echo $fullname; ?><br />
             </p>
           </div>
         </button>
@@ -63,8 +77,8 @@
           <li class = "nav-item">
             <a class = "nav-link">Contact Us</a>
           </li>
-          <li class = "nav-item">
-            <a class = "nav-link" href = "DesktopSite.html">Log Off</a>
+          <li class = "nav-item" >
+            <a class = "nav-link" href = "logout.php">Log Off</a>
           </li>
         </ul>
       </div>
@@ -115,55 +129,22 @@
             <th>Profile</th>
           </tr>
         </thead>
-      <!--
-        //Pulls data from prepared statement
-        $statement = $db->prepare("SELECT FName, LName, Email")
-        $statement->execute();
-        $res = $statement->get_result();
-        $res->data_seek(0);
-        int count = 0;
-        while($row = $res->fetch_assoc())
-        {
-            count++;
-            $fName = $row['FName'];
-            $lName = $row['LName'];
-            $Email = $row['Email'];
-            echo '<tr>
-            <th scope = "row"> . count .
-            </th>
-
-            </tr>';
-            //Look up header function
-            header("location: DriverHome.html");
-            exit;
-        }
-      -->
-
-        <tbody>
-          <tr>
-            <th>1</th>
-            <td>Andrew</td>
-            <td>Zeringue</td>
-            <td>azering@clemson.edu</td>
-            <td>1000</td>
-            <td>Link</td>
-          </tr>
-          <tr>
-            <th>2</th>
-            <td>Harrison</td>
-            <td>Kerr</td>
-            <td>hwkerr@clemson.edu</td>
-            <td>999</td>
-            <td>Link</td>
-          </tr>
-          <tr>
-            <th>3</th>
-            <td>Silas</td>
-            <td>Miller</td>
-            <td>silasm@clemson.edu</td>
-            <td>10</td>
-            <td>Link</td>
-          </tr>
+	  <?php
+		$entry = 1;
+		$res = ninja_company_driver_list($cid);
+		while ($row = $res->fetch_assoc())
+		{
+			echo '<tr>';
+			echo '<th>'.$entry.'</th>';
+			echo '<td>'.$row['FName'].'</td>';
+			echo '<td>'.$row['LName'].'</td>';
+			echo '<td>'.$row['Email'].'</td>';
+			echo '<td>'.ninja_points($row['UserID'], $cid).'</td>';
+			echo '<td>Link</td>';
+			echo '</tr>';
+			$entry = $entry + 1;
+		}
+	  ?>
         </tbody>
       </table>
     </div>
