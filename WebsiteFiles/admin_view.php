@@ -45,9 +45,9 @@
       </div>
         <ul class = "navbar-nav" id = "buttonList">
           <li class = "nav-item">
-            <button type = "button" onclick = "showCatalogue()"
+            <button type = "button" onclick = "showApplications()"
             class = "btn btn-outline-light">
-              Create Account
+              Approve Applications
             </button>
             <br /><br />
           </li>
@@ -92,7 +92,7 @@
             <a class = "nav-link">Contact Us</a>
           </li>
           <li class = "nav-item">
-            <a class = "nav-link" href = "DesktopSite.html">Log Off</a>
+            <a class = "nav-link" href = "logout.php">Log Off</a>
           </li>
         </ul>
       </div>
@@ -100,8 +100,56 @@
     </nav>
     <div class = "CatalogContent" id = "CatalogInfo" style = "display: none;">
       <div class = "jumbotron" style = "margin-bottom: 0px;">
-        <h1>Catalog info</h1>
+        <h1>Applications</h1>
       </div>
+      <div class = "table-responsive-lg" style="overflow-x:auto;">
+      <table class = "table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+	    <th>Accept</th>
+            <th>Type</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Info</th>
+          </tr>
+        </thead>
+        <tbody>
+	  <?php
+		$entry = 1;
+		$res = ninja_driver_applications();
+		while ($row = $res->fetch_assoc())
+		{
+			echo '<tr>';
+			echo '<th>'.$entry.'</th>';
+			echo '<td><a href="approve_driver.php?FName='.$row['FName'].'&LName='.$row['LName'].'&Email='.$row['Email'].'">Approve</a></td>';
+			echo '<td>Driver</td>';
+			echo '<td>'.$row['FName'].'</td>';
+			echo '<td>'.$row['LName'].'</td>';
+			echo '<td>'.$row['Email'].'</td>';
+			echo '<td>'.$row['Info'].'</td>';
+			echo '</tr>';
+			$entry = $entry + 1;
+		}
+		$res = ninja_company_applications();
+		while ($row = $res->fetch_assoc())
+		{
+			echo '<tr>';
+			echo '<th>'.$entry.'</th>';
+			echo '<td><a href="approve_company.php?FName='.$row['FName'].'&LName='.$row['LName'].'&Email='.$row['Email'].'">Approve</a></td>';
+			echo '<td>Company</td>';
+			echo '<td>'.$row['FName'].'</td>';
+			echo '<td>'.$row['LName'].'</td>';
+			echo '<td>'.$row['Email'].'</td>';
+			echo '<td>'.$row['Info'].'</td>';
+			echo '</tr>';
+			$entry = $entry + 1;
+		}
+	  ?>
+        </tbody>
+      </table>
+    </div>
     </div>
     <div id = "DriverContent">
       <div class = "jumbotron" style = "margin-bottom: 0;">
@@ -118,7 +166,7 @@
 </body>
 
 <script>
-function showCatalogue(){
+function showApplications(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
   var company = document.getElementById("CompanyInfo");

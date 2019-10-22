@@ -54,14 +54,17 @@
 }
 
 #DriverContent{
-
+  padding-left: 10px;
 }
 #buttonList{
   text-align: center;
 }
 
 #mainContent{
-  margin-left: 250px;
+  position:fixed;
+  left: 250px;
+  min-width: 1680px;
+  max-width:1680px;
   top:0;
 }
 
@@ -82,10 +85,4 @@
   border-radius: 0rem;
   padding-top:12px;
   padding-bottom:12px;
-}
-
-@media only screen and (max-width: 760px){
-  #searchBar{
-    display: none;
-  }
 }

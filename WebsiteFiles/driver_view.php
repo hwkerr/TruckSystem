@@ -55,7 +55,7 @@
   <button type = "button" class = "btn btn-outline-light" onclick = "location.href" = "DesktopSite.html"><div class = "ProfileName" >
     <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" height="40px" src =<?php echo '"data:image/png;base64,'.base64_encode($image).'"'?> /></span>
       <p style = "vertical-align: middle; display: inline-block; margin: auto;">
-        <?php echo htmlspecialchars($_SESSION['Email']); ?><br />Points: <?php echo htmlspecialchars($total); ?>
+        <?php echo htmlspecialchars(ninja_name($uid)); ?><br />Points: <?php echo htmlspecialchars($total); ?>
       </p>
     </div></button>
   <div class = "navbar nav-right" id = "navbarNav">
@@ -64,11 +64,8 @@
       <a class = "nav-link">Contact Us</a>
     </li>
     <li class = "nav-item" style = "color:white;">
-      <a class = "nav-link" href = "DesktopSite.html">Log Off</a>
+      <a class = "nav-link" href = "logout.php">Log Off</a>
     </li>
-    <form action = "logout.php">
-      <input type = "submit" value = "Log Off">
-    </form>
     <form action="upload_pfp.php" method="post" enctype="multipart/form-data">
       Select Image File to Upload:
       <input type="file" name="file">
