@@ -84,20 +84,32 @@
 <br />
   <div class = "row">
     <div class = "col-md-2">
-      <div class = "card">
+      <!--<div class = "card">
         <div class = "card-body">
             <button class = "btn btn-light btn-block" onclick = "sort_orders(1)">Alphabetical Sort(A-Z)</button><br />
             <button class = "btn btn-light btn-block" onclick = "sort_orders(2)">Alphabetical Sort(Z-A)</button><br />
             <button class = "btn btn-light btn-block" onclick = "sort_orders(3)">Price Sort(Low-High)</button><br />
             <button class = "btn btn-light btn-block" onclick = "sort_orders(4)">Price Sort(High-Low)</button>
           </div>
-        </div>
+        </div>-->
       </div>
     <div class = "col-md-9">
       <div class = "Catalogue" style = "background-color: gray;">
           <div class = "card">
             <div class = "card-body">
             <br />
+
+						<form class="form-inline">
+							<select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+								<option value = "1">Alphabetical Sort(A-Z)</option>
+								<option value = "2">Alphabetical Sort(Z-A)</option>
+								<option value = "3">Price Sort(Low-High)</option>
+								<option value = "4">Price Sort(High-Low</option>
+							</select>
+							<button class = "btn btn-primary">Sort</button>
+						</form>
+
+
             <div class = "row">
               <div class = "col">
               <div class="card" style="width: 18rem;">
