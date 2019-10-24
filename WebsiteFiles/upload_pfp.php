@@ -15,7 +15,7 @@
 
 	{
 		$allowTypes = array('jpg','png','jpeg','gif');
-    		if(in_array($fileType, $allowTypes))
+    		if(in_array(strtolower($fileType), $allowTypes))
 		{
 			$uid = $_SESSION['UserID'];
 			$tempfile = $_FILES['file']['tmp_name'];

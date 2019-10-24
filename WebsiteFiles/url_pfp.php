@@ -14,7 +14,7 @@
 		$fileName = $_POST["text"];
 		$fileType = pathinfo($fileName,PATHINFO_EXTENSION);
 		$allowTypes = array('jpg','png','jpeg','gif','pdf');
-    		if(in_array($fileType, $allowTypes))
+    		if(in_array(strtolower($fileType), $allowTypes))
 		{
 			$img = addslashes(file_get_contents($fileName));
 			$uid = $_SESSION['UserID'];
