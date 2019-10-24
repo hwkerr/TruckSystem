@@ -9,7 +9,7 @@
 		header("location: logon.php");
 		exit;
 	}
-	
+
 	$uid = $_SESSION['UserID'];
 	$fullname = ninja_name($uid);
 	$pfp = ninja_pfp($uid);
@@ -45,34 +45,34 @@
       </div>
         <ul class = "navbar-nav" id = "buttonList">
           <li class = "nav-item">
-            <button type = "button" onclick = "showApplications()"
+            <button type = "button" onclick = "showCont   ent(1)"
             class = "btn btn-outline-light">
               Approve Applications
             </button>
             <br /><br />
           </li>
           <li class = "nav-item" id = "buttonList">
-            <button type = "button" onclick = "showAccountManagement()"
+            <button type = "button" onclick = "showContent(2)"
             class = "btn btn-outline-light">Manage Account
           </button>
           <br /><br />
           </li>
           <li class = "nav-item">
-            <button type = "button" onclick = "showDriver()"
+            <button type = "button" onclick = "showContent(3)"
             class = "btn btn-outline-light ">
               View Sponsors/Drivers
             </button>
             <br /><br />
           </li>
           <li class = "nav-item">
-            <button type = "button" onclick = "showCompany()"
+            <button type = "button" onclick = "showContent(4)"
             class = "btn btn-outline-light ">
               Create Order/Item
             </button>
             <br /><br />
           </li>
           <li class = "nav-item" id = "buttonList">
-            <button type = "button" onclick = "showAnalytics()"
+            <button type = "button" onclick = "showContent(5)"
             class = "btn btn-outline-light">Analytics
           </button>
           <br /><br />
@@ -98,7 +98,7 @@
       </div>
 
     </nav>
-    <div class = "CatalogContent" id = "CatalogInfo" style = "display: none;">
+    <div id = "Applications">
       <div class = "jumbotron" style = "margin-bottom: 0px;">
         <h1>Applications</h1>
       </div>
@@ -107,7 +107,7 @@
         <thead>
           <tr>
             <th>#</th>
-	    <th>Accept</th>
+	    			<th>Accept</th>
             <th>Type</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -151,14 +151,24 @@
       </table>
     </div>
     </div>
-    <div id = "DriverContent">
+		<div id = "ManageAccountContent" style = "display:none;">
       <div class = "jumbotron" style = "margin-bottom: 0;">
-        <h1>Drivers</h1>
+        <h1>Create a Account</h1>
       </div>
     </div>
-    <div class = "CompanyContent" id = "CompanyInfo" style = "display: none;">
+		<div id = "ViewAccountContent" style = "display:none;">
+      <div class = "jumbotron" style = "margin-bottom: 0;">
+        <h1>View Drivers and Sponsors</h1>
+      </div>
+    </div>
+    <div id = "OrderItemContent" style = "display:none;">
+      <div class = "jumbotron" style = "margin-bottom: 0;">
+        <h1>Create an Order</h1>
+      </div>
+    </div>
+    <div id = "AnalyticsContent" style = "display: none;">
       <div class = "jumbotron">
-        <h1>CompanyName</h1>
+        <h1>Analytics</h1>
       </div>
     </div>
   </div>
@@ -166,28 +176,46 @@
 </body>
 
 <script>
-function showApplications(){
-  var catalog = document.getElementById("CatalogInfo");
-  var driver = document.getElementById("DriverContent");
-  var company = document.getElementById("CompanyInfo");
-  catalog.style.display = "block";
-  driver.style.display = "none";
-  company.style.display = "none";
-}
-function showDriver(){
-  var catalog = document.getElementById("CatalogInfo");
-  var driver = document.getElementById("DriverContent");
-  var company = document.getElementById("CompanyInfo");
-  catalog.style.display = "none";
-  driver.style.display = "block";
-  company.style.display = "none";
-}
-function showCompany(){
-  var catalog = document.getElementById("CatalogInfo");
-  var driver = document.getElementById("DriverContent");
-  var company = document.getElementById("CompanyInfo");
-  catalog.style.display = "none";
-  driver.style.display = "none";
-  company.style.display = "block";
+function showContent(i){
+	var applications = document.getElementById("Applications");
+  var manageAccounts = document.getElementById("ManageAccountContent");
+  var viewAccounts = document.getElementById("ViewAccountContent");
+	var createOrders = document.getElementById("OrderItemContent")
+	var analytics = document.getElementById("AnalyticsContent")
+	if(i == 1){
+		applications.style.display = "block";
+		manageAccounts.style.display = "none";
+		viewAccounts.style.display = "none";
+		createOrders.style.display = "none";
+		analytics.style.display = "none";
+	}
+	else if(i == 2){
+		applications.style.display = "none";
+		manageAccounts.style.display = "block";
+		viewAccounts.style.display = "none";
+		createOrders.style.display = "none";
+		analytics.style.display = "none";
+	}
+	else if(i == 3){
+		applications.style.display = "none";
+		manageAccounts.style.display = "none";
+		viewAccounts.style.display = "block";
+		createOrders.style.display = "none";
+		analytics.style.display = "none";
+	}
+	else if(i == 4){
+		applications.style.display = "none";
+		manageAccounts.style.display = "none";
+		viewAccounts.style.display = "none";
+		createOrders.style.display = "block";
+		analytics.style.display = "none";
+	}
+	else{
+		applications.style.display = "none";
+		manageAccounts.style.display = "none";
+		viewAccounts.style.display = "none";
+		createOrders.style.display = "none";
+		analytics.style.display = "block";
+	}
 }
 </script>
