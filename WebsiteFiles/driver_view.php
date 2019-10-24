@@ -91,13 +91,10 @@
         </div>-->
       </div>
     <div class = "col-md-9">
-      <div class = "Catalogue" style = "background-color: gray;">
-          <div class = "card">
-            <div class = "card-body">
+      <div class = "Catalogue">
             <br />
-
 						<form class="form-inline">
-							<select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+							<select class="custom-select my-1 mr-sm-2 " style = "width: 20%; float:right;" id="inlineFormCustomSelectPref">
 								<option value = "1">Alphabetical Sort(A-Z)</option>
 								<option value = "2">Alphabetical Sort(Z-A)</option>
 								<option value = "3">Price Sort(Low-High)</option>
@@ -106,8 +103,6 @@
 							<button class = "btn btn-primary">Sort</button>
 						</form>
 
-
-            <div class = "row">
               <div class = "col">
               <div class="card" style="width: 18rem;">
                   <img class="card-img-top" src="Assets/DefaultPicture.jpg">
@@ -117,41 +112,8 @@
                     </div>
                   </div>
                   </div>
-                  <div class = "col">
-                  <div class="card" style="width: 18rem;">
-                      <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                        <div class="card-body">
-                          <h5 class="card-title">Sample Item</h5>
-                          <p class="card-text">Points: 100</p>
-                        </div>
-                      </div>
-                      </div>
-                      <div class = "col">
-                      <div class="card" style="width: 18rem;">
-                          <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                            <div class="card-body">
-                              <h5 class="card-title">Sample Item</h5>
-                              <p class="card-text">Points: 100</p>
-                            </div>
-                          </div>
-                          </div>
-                          <div class = "col">
-                          <div class="card" style="width: 18rem;">
-                              <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                                <div class="card-body">
-                                  <h5 class="card-title">Sample Item</h5>
-                                  <p class="card-text">Points: 100</p>
-                                </div>
-                              </div>
-                              </div>
-            </div><br />
-
-
-
               <br />
-
-              </div>
-              <nav style = "margin: 0 auto;">
+              <nav style = "margin: 0 auto; text-align: center;">
                 <ul class = "pagination">
                   <li class = "page-item">
                     <a class = "page-link" href ="#"><</a>
