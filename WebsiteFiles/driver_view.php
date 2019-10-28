@@ -63,9 +63,15 @@
     <li class = "nav-item" style = "color: white;">
       <a class = "nav-link">Contact Us</a>
     </li>
+		
+		<li class = "nav-item" style = "color:white;">
+			<a class = "nav-link" href = "3">Edit Account Info</a>
+		</li>
+
     <li class = "nav-item" style = "color:white;">
       <a class = "nav-link" href = "logout.php">Log Off</a>
     </li>
+
     <form action="upload_pfp.php" method="post" enctype="multipart/form-data">
       Select Image File to Upload:
       <input type="file" name="file">
@@ -91,13 +97,10 @@
         </div>-->
       </div>
     <div class = "col-md-9">
-      <div class = "Catalogue" style = "background-color: gray;">
-          <div class = "card">
-            <div class = "card-body">
+      <div class = "Catalogue">
             <br />
-
 						<form class="form-inline">
-							<select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+							<select class="custom-select my-1 mr-sm-2 " style = "width: 20%; float:right;" id="inlineFormCustomSelectPref">
 								<option value = "1">Alphabetical Sort(A-Z)</option>
 								<option value = "2">Alphabetical Sort(Z-A)</option>
 								<option value = "3">Price Sort(Low-High)</option>
@@ -106,8 +109,6 @@
 							<button class = "btn btn-primary">Sort</button>
 						</form>
 
-
-            <div class = "row">
               <div class = "col">
               <div class="card" style="width: 18rem;">
                   <img class="card-img-top" src="Assets/DefaultPicture.jpg">
@@ -117,6 +118,7 @@
                     </div>
                   </div>
                   </div>
+<<<<<<< HEAD
                   <div class = "col">
                   <div class="card" style="width: 18rem;">
                       <img class="card-img-top" src="Assets/DefaultPicture.jpg">
@@ -148,10 +150,10 @@
 
 
 
+=======
+>>>>>>> 5d31db20382cce6ba5bda90064cd92792ce1705e
               <br />
-
-              </div>
-              <nav style = "margin: 0 auto;">
+              <nav style = "margin: 0 auto; text-align: center;">
                 <ul class = "pagination">
                   <li class = "page-item">
                     <a class = "page-link" href ="#"><</a>
