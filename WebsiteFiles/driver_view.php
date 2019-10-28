@@ -13,8 +13,10 @@
 	$uid = $_SESSION['UserID'];
 
 	$image = ninja_pfp($uid);
+	
+	$cid = ninja_current_driver_company($uid);
 
-	$total = ninja_points($uid, 'testcompany');
+	$total = ninja_points($uid, $cid);
 
 	function sort_orders($type){
 		//Creates the prepared statement
@@ -52,7 +54,7 @@
 <body>
   <title>What the Truck!</title>
 <nav class = "navbar navbar-expand-lg navbar-default" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1);" >
-  <button type = "button" class = "btn btn-outline-light" onclick = "location.href" = "DesktopSite.html"><div class = "ProfileName" >
+  <button type = "button" class = "btn btn-outline-light" onclick = "location.href = 'view_profile.php';"><div class = "ProfileName" >
     <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" height="40px" src =<?php echo '"data:image/png;base64,'.base64_encode($image).'"'?> /></span>
       <p style = "vertical-align: middle; display: inline-block; margin: auto;">
         <?php echo htmlspecialchars(ninja_name($uid)); ?><br />Points: <?php echo htmlspecialchars($total); ?>
@@ -64,23 +66,11 @@
       <a class = "nav-link">Contact Us</a>
     </li>
 		
-		<li class = "nav-item" style = "color:white;">
-			<a class = "nav-link" href = "3">Edit Account Info</a>
-		</li>
 
     <li class = "nav-item" style = "color:white;">
       <a class = "nav-link" href = "logout.php">Log Off</a>
     </li>
 
-    <form action="upload_pfp.php" method="post" enctype="multipart/form-data">
-      Select Image File to Upload:
-      <input type="file" name="file">
-      <input type="submit" name="submit" value="Upload">
-    </form>
-    <form action = "url_pfp.php" method = "post">
-      <input type = "text" name="text">
-      <input type = "submit" value="Upload URL">
-    </form>
   </ul>
   </div>
 </nav>
@@ -113,45 +103,11 @@
               <div class="card" style="width: 18rem;">
                   <img class="card-img-top" src="Assets/DefaultPicture.jpg">
                     <div class="card-body">
-                      <h5 class="card-title">Sample Item</h5>
+                      <a href = "driver_item_view.php"><h5 class="card-title">Sample Item</h5></a>
                       <p class="card-text">Points: 100</p>
                     </div>
                   </div>
                   </div>
-<<<<<<< HEAD
-                  <div class = "col">
-                  <div class="card" style="width: 18rem;">
-                      <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                        <div class="card-body">
-                          <h5 class="card-title">Sample Item</h5>
-                          <p class="card-text">Points: 100</p>
-                        </div>
-                      </div>
-                      </div>
-                      <div class = "col">
-                      <div class="card" style="width: 18rem;">
-                          <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                            <div class="card-body">
-                              <a href = "item_driver_view.php"><h5 class="card-title">Sample Item</h5></a>
-                              <p class="card-text">Points: 100</p>
-                            </div>
-                          </div>
-                          </div>
-                          <div class = "col">
-                          <div class="card" style="width: 18rem;">
-                              <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                                <div class="card-body">
-                                  <h5 class="card-title">Sample Item</h5>
-                                  <p class="card-text">Points: 100</p>
-                                </div>
-                              </div>
-                              </div>
-            </div><br />
-
-
-
-=======
->>>>>>> 5d31db20382cce6ba5bda90064cd92792ce1705e
               <br />
               <nav style = "margin: 0 auto; text-align: center;">
                 <ul class = "pagination">
@@ -178,3 +134,4 @@
       </div>
     </div>
 </body>
+

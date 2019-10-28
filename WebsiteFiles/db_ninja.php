@@ -126,7 +126,7 @@ function ninja_point_additions($uid, $cid)
 	$res->data_seek(0);
 	if ($row = $res->fetch_assoc())
 	{
-		$total = $row['Total'];
+		$total += $row['Total'];
 	}
 
 	return $total;
@@ -145,7 +145,7 @@ function ninja_point_subtractions($uid, $cid)
 	$res->data_seek(0);
 	if ($row = $res->fetch_assoc())	
 	{
-		$total = $row['Total'];
+		$total += $row['Total'];
 	}
 
 	return $total;
@@ -348,10 +348,10 @@ function ninja_company_name($cid)
 	return $name;
 }
 
-function ninja_current_driver_company($uid)
+function ninja_current_driver_company($uid)  // modified to return CompanyID
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT Company.Name AS CName FROM Driver INNER JOIN Company ON Driver.CurrComp = Company.CompanyID WHERE Driver.UserID = ?");
+	$pst = $db->prepare("SELECT Company.CompanyID AS CName FROM Driver INNER JOIN Company ON Driver.CurrComp = Company.CompanyID WHERE Driver.UserID = ?");
 	$pst->bind_param("s", $uid);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -464,6 +464,180 @@ function ninja_user_type($uid)
 		return "Admin";
 
 	return "error";
+}
+
+function ninja_fname($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT FName FROM Account WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$fname = "";
+	if ($row = $res->fetch_assoc())
+		$fname = $row['FName'];
+	return $fname;
+}
+
+function ninja_lname($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT LName FROM Account WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$lname = "";
+	if ($row = $res->fetch_assoc())
+		$lname = $row['LName'];
+	return $lname;
+}
+
+function ninja_update_name($uid, $fname, $lname)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Account SET FName = ?, LName = ? WHERE UserID = ?");
+	$pst->bind_param("sss", $fname, $lname, $uid);
+	$pst->execute();
+}
+
+function ninja_address_oneline($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Street, Street2, City, State, Zip FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$address = "";
+	if ($row = $res->fetch_assoc())
+	{
+		if ($row['Street2'] === '')
+			$address = $row['Street'].', '.$row['City'].', '.$row['State'].', '.$row['Zip'];
+		else
+			$address = $row['Street'].' '.$row['Street2'].', '.$row['City'].', '.$row['State'].', '.$row['Zip'];
+	}
+	return $address;
+}
+
+function ninja_phone_dashes($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Phone FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$phone = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$phone = $row['Phone'];
+		// TODO format
+	}
+	return $phone;
+}
+
+function ninja_phone($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Phone FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$phone = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$phone = $row['Phone'];
+	}
+	return $phone;
+}
+
+function ninja_address_street($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Street AS Value FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$value = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$value = $row['Value'];
+	}
+	return $value;
+}
+
+function ninja_address_street2($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Street2 AS Value FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$value = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$value = $row['Value'];
+	}
+	return $value;
+}
+
+function ninja_address_city($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT City AS Value FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$value = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$value = $row['Value'];
+	}
+	return $value;
+}
+
+function ninja_address_state($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT State AS Value FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$value = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$value = $row['Value'];
+	}
+	return $value;
+}
+
+function ninja_address_zip($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Zip AS Value FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$value = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$value = $row['Value'];
+	}
+	return $value;
+}
+
+function ninja_address_update($uid, $street, $street2, $city, $state, $zip)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Driver SET Street = ?, Street2 = ?, City = ?, State = ?, Zip = ? WHERE UserID = ?");
+	$pst->bind_param("ssssss", $street, $street2, $city, $state, $zip, $uid);
+	$pst->execute();
+}
+
+function ninja_update_phone($uid, $phone)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Driver SET Phone = ? WHERE UserID = ?");
+	$pst->bind_param("ss", $phone, $uid);
+	$pst->execute();
 }
 
 ?>
