@@ -113,6 +113,44 @@ function ninja_points($uid, $cid)
 	return $total;
 }
 
+function ninja_point_additions($uid, $cid)
+{
+	$total = 0;
+
+	$db = dojo_connect();
+	
+	$pst = $db->prepare("SELECT SUM(PointAddition.Amount) AS Total FROM PointAddition INNER JOIN Sponsor ON PointAddition.SponsorID = Sponsor.UserID WHERE PointAddition.DriverID = ? AND Sponsor.CompanyID = ?");
+	$pst->bind_param("ss", $uid, $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$res->data_seek(0);
+	if ($row = $res->fetch_assoc())
+	{
+		$total = $row['Total'];
+	}
+
+	return $total;
+}
+
+function ninja_point_subtractions($uid, $cid)
+{
+	$total = 0;
+
+	$db = dojo_connect();
+	
+	$pst = $db->prepare("SELECT SUM(ItemOrderCatalogItem.PointPrice) AS Total FROM (((ItemOrderCatalogItem INNER JOIN ItemOrder ON ItemOrderCatalogItem.OrderID = ItemOrder.OrderID) INNER JOIN CatalogItem ON CatalogItem.ItemID = ItemOrderCatalogItem.ItemID) INNER JOIN CatalogCatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID) INNER JOIN Catalog ON CatalogCatalogItem.CatalogID = Catalog.CatalogID WHERE ItemOrder.DriverID = ? AND Catalog.CompanyID = ?");
+	$pst->bind_param("ss", $uid, $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$res->data_seek(0);
+	if ($row = $res->fetch_assoc())	
+	{
+		$total = $row['Total'];
+	}
+
+	return $total;
+}
+
 function ninja_check_email_taken($email)
 {
 	$db = dojo_connect();
@@ -401,6 +439,31 @@ function ninja_mark_email_application_processed($email)
 	$pst = $db->prepare("UPDATE Application SET Processed = 1 WHERE Email = ?");
 	$pst->bind_param("s", $email);
 	$pst->execute();
+}
+
+function ninja_user_type($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT UserID FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+		return "Driver";
+	$pst = $db->prepare("SELECT UserID FROM Sponsor WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+		return "Sponsor";
+	$pst = $db->prepare("SELECT UserID FROM Admin WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+		return "Admin";
+
+	return "error";
 }
 
 ?>

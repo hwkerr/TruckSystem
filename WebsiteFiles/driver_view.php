@@ -130,7 +130,7 @@
                       <div class="card" style="width: 18rem;">
                           <img class="card-img-top" src="Assets/DefaultPicture.jpg">
                             <div class="card-body">
-                              <h5 class="card-title">Sample Item</h5>
+                              <a href = "item_driver_view.php"><h5 class="card-title">Sample Item</h5></a>
                               <p class="card-text">Points: 100</p>
                             </div>
                           </div>
