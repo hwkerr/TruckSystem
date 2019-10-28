@@ -63,9 +63,15 @@
     <li class = "nav-item" style = "color: white;">
       <a class = "nav-link">Contact Us</a>
     </li>
+		
+		<li class = "nav-item" style = "color:white;">
+			<a class = "nav-link" href = "3">Edit Account Info</a>
+		</li>
+
     <li class = "nav-item" style = "color:white;">
       <a class = "nav-link" href = "logout.php">Log Off</a>
     </li>
+
     <form action="upload_pfp.php" method="post" enctype="multipart/form-data">
       Select Image File to Upload:
       <input type="file" name="file">
