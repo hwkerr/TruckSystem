@@ -44,6 +44,8 @@ CREATE TABLE Driver
     City            VARCHAR(10)            NOT NULL,
     Street            VARCHAR(30)            NOT NULL,
     CurrComp VARCHAR(16) NOT NULL,
+	Phone		VARCHAR(10)		NOT NULL,
+	Street2		VARCHAR(30)		NOT NULL,
     PRIMARY KEY (UserID),
     FOREIGN KEY (UserID) REFERENCES Account (UserID)
 );

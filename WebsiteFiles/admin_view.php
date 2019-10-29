@@ -33,7 +33,7 @@
     <!--SideNav-->
     <nav class = "justify-content-center" id = "sideNav">
       <div id = "AccountProfile">
-        <button type = "button" style = "border-radius: 0rem; color:white;"class = "btn btn-link btn-block" onclick = "location.href" = "DesktopSite.html">
+        <button type = "button" style = "border-radius: 0rem; color:white;"class = "btn btn-link btn-block" onclick = "location.href = 'view_profile.php'">
           <div class = "ProfileName" >
           <span id = "Accountpicture"><img width = "60px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
             <p id = "AccountText">

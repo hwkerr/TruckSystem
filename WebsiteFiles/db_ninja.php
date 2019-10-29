@@ -155,7 +155,7 @@ function ninja_check_email_taken($email)
 {
 	$db = dojo_connect();
 	
-	$pst = $db->prepare("SELECT Email FROM User WHERE Email = ?");
+	$pst = $db->prepare("SELECT Email FROM Account WHERE Email = ?");
 	$pst->bind_param("s", $email);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -367,7 +367,7 @@ function ninja_current_driver_company($uid)  // modified to return CompanyID
 function ninja_driver_company_list($uid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT Company.Name, Company.CompanyID AS CName FROM (Company INNER JOIN DriverCompany ON Company.CompanyID = DriverCompany.CompanyID) INNER JOIN Driver ON DriverCompany.DriverID = Driver.UserID WHERE Driver.UserID = ? AND DriverCompany.Accepted = 1 AND Company.Deleted = 0");
+	$pst = $db->prepare("SELECT Company.Name AS CName, Company.CompanyID AS CID FROM (Company INNER JOIN DriverCompany ON Company.CompanyID = DriverCompany.CompanyID) INNER JOIN Driver ON DriverCompany.DriverID = Driver.UserID WHERE Driver.UserID = ? AND DriverCompany.Accepted = 1 AND Company.Deleted = 0");
 	$pst->bind_param($uid);
 	$pst->execute();
 	$res = $pst->get_result();
