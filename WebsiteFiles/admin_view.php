@@ -45,7 +45,7 @@
       </div>
         <ul class = "navbar-nav" id = "buttonList">
           <li class = "nav-item">
-            <button type = "button" onclick = "showCont   ent(1)"
+            <button type = "button" onclick = "showContent(1)"
             class = "btn btn-outline-light">
               Approve Applications
             </button>
@@ -53,7 +53,7 @@
           </li>
           <li class = "nav-item" id = "buttonList">
             <button type = "button" onclick = "showContent(2)"
-            class = "btn btn-outline-light">Manage Account
+            class = "btn btn-outline-light">Create/Mangage Account
           </button>
           <br /><br />
           </li>
@@ -154,22 +154,106 @@
 		<div id = "ManageAccountContent" style = "display:none;">
       <div class = "jumbotron" style = "margin-bottom: 0;">
         <h1>Create a Account</h1>
-      </div>
+      </div><br /><br />
+			<div class = "container">
+				<h2>Enter new account info</h2>
+				<form>
+					<div class = "row">
+						<div class = "col">
+							<label for="fName">First Name</label>
+							<input type = "text" class = "form-control" id = "fName" placeholder = "First name"/>
+							</div>
+							<div class = "col">
+								<label for="lName">Last Name</label>
+								<input type = "text" class = "form-control" id = "lName" placeholder = "Last name"/>
+								</div>
+						</div>
+						<div class = "row">
+							<div class = "col">
+								<label for="newEmail">Email</label>
+								<input type = "email" class = "form-control" id = "newEmail" / placeholder = "Enter email">
+								</div>
+								<div class = "col">
+									<label for = "accountType">Account Type</label>
+									<select id = "accountType" class = "form-control">
+										<option selected>Driver</option>
+										<option>Sponsor</option>
+									</select>
+								</div>
+							</div><br />
+							<button class = "btn btn-primary">Create Account</button>
+					</form>
+				</div>
     </div>
 		<div id = "ViewAccountContent" style = "display:none;">
       <div class = "jumbotron" style = "margin-bottom: 0;">
         <h1>View Drivers and Sponsors</h1>
       </div>
+			<div class = "table-responsive-lg" style="overflow-x:auto;">
+      <table class = "table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+	    			<th>Account Type</th>
+            <th>Company</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Info</th>
+          </tr>
+        </thead>
+        <tbody>
+					</tbody>
+			</table>
+			</div>
     </div>
     <div id = "OrderItemContent" style = "display:none;">
       <div class = "jumbotron" style = "margin-bottom: 0;">
-        <h1>Create an Order</h1>
+        <h1>Create an Item</h1>
       </div>
+			<div class = "container">
+				<h2>Enter item info here:</h2>
+				<form>
+					<div class = "row">
+						<div class = "col">
+							<label for = "itemName">Item Name</label>
+							<input type = "text" id = "itemName" class = "form-control" placeholder="Name" />
+						</div>
+						<div class = "col">
+							<label for = "itemPrice">Item Price</label>
+							<input type = "text" id = "itemPrice" class = "form-control" placeholder="Price" />
+						</div>
+					</div>
+					<div class = "row">
+						<div class = "col">
+							<label for = "itemQuantity">Item Amount</label>
+							<input type = "text" id = "itemQuantity" class = "form-control" placeholder="Quantity" />
+						</div>
+						<div class = "col">
+							<label for = "catalog">Catalog</label>
+							<input type = "text" id = "catalog" class = "form-control" placeholder="Catalog Name" />
+						</div>
+					</div><br />
+					<div class = "row">
+						<div class = "col">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="choosePicture">
+								<label class="custom-file-label" for="choosePicture">Choose Picture</label>
+							</div>
+							</div>
+					</div><br />
+					<button class = "btn btn-primary">Submit</button>
+
+					</form>
+				</div>
     </div>
     <div id = "AnalyticsContent" style = "display: none;">
       <div class = "jumbotron">
         <h1>Analytics</h1>
       </div>
+			<p>
+				Future content for data visualization on orders will apear here.
+			</p>
     </div>
   </div>
 </div>
