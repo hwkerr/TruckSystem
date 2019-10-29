@@ -1,9 +1,6 @@
 <?php
 	include "../inc/dbinfo.inc";
-	include "../inc/mailinfo.inc";
-	require("./vendor/phpmailer/phpmailer/src/Exception.php");
-	require("./vendor/phpmailer/phpmailer/src/PHPMailer.php");
-	require("./vendor/phpmailer/phpmailer/src/SMTP.php");
+	include "mailer.php";
 	
 	$db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 	
@@ -31,17 +28,6 @@
 		
 			//send email
 			$link = "<a href='http://ec2-54-234-169-204.compute-1.amazonaws.com/password_link.php?UserID=".$uid."'>Click To Reset password</a>";
-			//mail($email, "What the Truck! Password Reset", $link);
-			$mail = new PHPMailer\PHPMailer\PHPMailer();
-			$mail->CharSet = "utf-8";
-			$mail->IsSMTP();
-			$mail->SMTPAuth = true;
-			$mail->Username = SEND_NAME;
-			$mail->Password = SEND_PASS;
-			$mail->SMTPSecure = "ssl";
-			$mail->Host = "smtp.gmail.com";
-			$mail->Port = "465";
-			$mail->From = SEND_NAME;
 			$mail->FromName = "What the Truck!";
 			$mail->AddAddress($email, 'Valued Customer');
 			$mail->Subject = 'Reset your What the Truck! password';

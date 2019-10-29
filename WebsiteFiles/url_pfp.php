@@ -9,21 +9,20 @@
 		exit;
 	}
 
-	$fileName = basename($_POST["URL"]);
-	$fileType = pathinfo($fileName,PATHINFO_EXTENSION);
-
-	if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"]))
+	if (!empty($_POST["text"]))
 	{
+		$fileName = $_POST["text"];
+		$fileType = pathinfo($fileName,PATHINFO_EXTENSION);
 		$allowTypes = array('jpg','png','jpeg','gif','pdf');
-    		if(in_array($fileType, $allowTypes))
+    		if(in_array(strtolower($fileType), $allowTypes))
 		{
-			$img = file_get_contents($fileName);
-			$uid = $_Session['UserID'];
+			$img = addslashes(file_get_contents($fileName));
+			$uid = $_SESSION['UserID'];
             		$insert = $db->query("UPDATE Account SET Image = '$img' WHERE UserID = '$uid'");
 			if($insert)
 			{
             			$statusMsg = "The file ".$fileName. " has been uploaded successfully.";
-           		}
+			}
 			else
 			{
            	    		$statusMsg = "File upload failed, please try again.";

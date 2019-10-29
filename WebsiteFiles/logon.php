@@ -1,55 +1,46 @@
-<?php include "../inc/dbinfo.inc"; ?>
+<?php include "db_ninja.php"; ?>
 <html>
 <body>
 <?php
-	$db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 	session_start();
 
 	if (isset($_SESSION['Logged']) && $_SESSION['Logged'] === true)
 	{
 		if ($_SESSION['UserType'] === "Driver")
 		{
-			header("location: driver_home.php");
+			header("location: driver_view.php");
 		}
 		else if ($_SESSION['UserType'] === "Sponsor")
 		{
-			header("location: sponsor_home.php");
+			header("location: sponsor_view.php");
 		}
 		else if ($_SESSION['UserType'] === "Admin")
 		{
-			header("location: admin_home.php");
-		}	
+			header("location: admin_view.php");
+		}
 		exit;
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST")
 	{
-		$email = mysqli_real_escape_string($db, $_POST['ID']);
-		$pword = mysqli_real_escape_string($db, $_POST['Password']);
-		$pst = $db->prepare("SELECT PassHash, TempPass, UserID FROM
-				     Account WHERE Email = ?");
-		$pst->bind_param("s", $email);
-		$pst->execute();
-		$res =  $pst->get_result();
-		$res->data_seek(0);
-		if ($row = $res->fetch_assoc())
+		$email = htmlspecialchars($_POST['ID']);
+		$pword = htmlspecialchars($_POST['Password']);
+		$status = ninja_login($email, $pword);
+		if ($status == 0)
 		{
-			if (password_verify($pword, $row['PassHash']))
-			{
-				session_start();
-				$_SESSION['UserID'] = $row['UserID'];
-				$_SESSION['Logged'] = true;
-				$_SESSION['Email'] = $email;
-				$_SESSION['UserType'] = "Driver";
-				if ($row['TempPass'] == 1)
-				{
-					header("location: change_password.php");
-				}
-				else
-				{
-					header("location: driver_home.php");
-				}
-			}
+			header("location: change_password.php");
+		}
+		else if ($status == 1)
+		{
+			header("location: driver_view.php");
+		}
+		else if ($status == 2)
+		{
+			header("location: sponsor_view.php");
+		}
+		else if ($status == 3)
+		{
+			header("location: admin_view.php");
 		}
 	}
 ?>
@@ -90,6 +81,7 @@
             </div>
             <div class = "row justify-content-center">
               <button type = submit class = "btn btn-outline-light btn-block">Log In</button>
+              <a href = "DesktopSite.html" class = "form-text" style = "font-size: 12px; color: white;">Back to Home</a>
             </div>
           </form>
         </div>
