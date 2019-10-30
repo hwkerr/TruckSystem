@@ -10,9 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
-
 public class LoginActivity extends AppCompatActivity {
 
     public static final String EXTRA_USERNAME = "com.app.whatthetruck.USERNAME";
@@ -21,8 +18,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText Password;
     private Button Login;
     private TextView LoginFailure;
-
-    private Dictionary<String, String> userpass = new Hashtable<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +33,14 @@ public class LoginActivity extends AppCompatActivity {
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validate(Name.getText().toString().toLowerCase(), Password.getText().toString());
-                //test();
+                validate();
             }
         });
-
-        populateUsers();
     }
 
-    public void validate(String userName, String userPassword) {
-        DBNinja db = new OkDBNinja();
-        db.login(this, userName, userPassword);
+    public void validate() {
+        NetNinja db = new OkNetNinja();
+        db.login(this);
     }
 
     public String getUsername()
@@ -64,11 +56,9 @@ public class LoginActivity extends AppCompatActivity {
     public void login(boolean success, String userID)
     {
         if (success) {
-            Log.d("BEEF--*****", "login...");
+            Log.d("BEEF--", "login...");
             LoginFailure.setVisibility(View.INVISIBLE);
-            Intent intent = new Intent(this, HomeActivity.class);
-            if (!userID.isEmpty())
-                userID = userID.substring(0, 1).toUpperCase() + userID.substring(1);
+            Intent intent = new Intent(this, DrawerActivity.class);
             intent.putExtra(LoginActivity.EXTRA_USERNAME, userID);
             startActivity(intent);
         } else {
@@ -79,12 +69,5 @@ public class LoginActivity extends AppCompatActivity {
     public void forgotPassword(View view) {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
-    }
-
-    private void populateUsers()
-    {
-        String pass = "beefsteak";
-        userpass.put("admin", pass);
-        userpass.put("user", pass);
     }
 }
