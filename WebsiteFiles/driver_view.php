@@ -63,7 +63,7 @@
   <div class = "navbar nav-right" id = "navbarNav">
   <ul class = "navbar-nav">
     <li class = "nav-item" style = "color: white;">
-      <a class = "nav-link">Contact Us</a>
+      <a class = "nav-link" href = "contact_admin.php">Contact Us</a>
     </li>
 		
 

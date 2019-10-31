@@ -1,4 +1,3 @@
-<?php include "../inc/dbinfo.inc"; ?>
 
 <?php
 	include "db_ninja.php";
@@ -63,6 +62,13 @@
               View Sponsors/Drivers
             </button>
             <br /><br />
+          </li>
+          <li class = "nav-item" id = "buttonList">
+            <button type = "button" onclick = "showContent(6)"
+            class = "btn btn-outline-light">
+		View Companies
+          </button>
+          <br /><br />
           </li>
           <li class = "nav-item">
             <button type = "button" onclick = "showContent(4)"
@@ -199,10 +205,76 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>Info</th>
           </tr>
         </thead>
         <tbody>
+	  <?php
+		$entry = 1;
+		$res = ninja_drivers();
+		while ($row = $res->fetch_assoc())
+		{
+			echo '<tr>';
+			echo '<th>'.$entry.'</th>';
+			echo '<td>Driver</td>';
+			$cid = $row['CompanyID'];
+			echo '<td>'.ninja_company_name($cid).'</td>';
+			echo '<td>'.$row['FName'].'</td>';
+			echo '<td>'.$row['LName'].'</td>';
+			echo '<td>'.$row['Email'].'</td>';
+			echo '</tr>';
+			$entry = $entry + 1;
+		}
+		$res = ninja_sponsors();
+		while ($row = $res->fetch_assoc())
+		{
+			echo '<tr>';
+			echo '<th>'.$entry.'</th>';
+			echo '<td>Sponsor</td>';
+			$cid = $row['CompanyID'];
+			echo '<td>'.ninja_company_name($cid).'</td>';
+			echo '<td>'.$row['FName'].'</td>';
+			echo '<td>'.$row['LName'].'</td>';
+			echo '<td>'.$row['Email'].'</td>';
+			echo '</tr>';
+			$entry = $entry + 1;
+		}
+	  ?>
+					</tbody>
+			</table>
+			</div>
+    </div>
+		<div id = "ViewCompanyContent" style = "display:none;">
+      <div class = "jumbotron" style = "margin-bottom: 0;">
+        <h1>View Companies</h1>
+      </div>
+			<div class = "table-responsive-lg" style="overflow-x:auto;">
+      <table class = "table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Company ID</th>
+            <th>Company Name</th>
+            <th>Sponsors</th>
+            <th>Drivers</th>
+          </tr>
+        </thead>
+        <tbody>
+	  <?php
+		$entry = 1;
+		$res = ninja_companies();
+		while ($row = $res->fetch_assoc())
+		{
+			echo '<tr>';
+			echo '<th>'.$entry.'</th>';
+			$cid = $row['CompanyID'];
+			echo '<td>'.$cid.'</td>';
+			echo '<td>'.ninja_company_name($cid).'</td>';
+			echo '<td>'.ninja_company_sponsor_count($cid).'</td>';
+			echo '<td>'.ninja_company_driver_count($cid).'</td>';
+			echo '</tr>';
+			$entry = $entry + 1;
+		}
+	  ?>
 					</tbody>
 			</table>
 			</div>
@@ -264,14 +336,16 @@ function showContent(i){
 	var applications = document.getElementById("Applications");
   var manageAccounts = document.getElementById("ManageAccountContent");
   var viewAccounts = document.getElementById("ViewAccountContent");
-	var createOrders = document.getElementById("OrderItemContent")
-	var analytics = document.getElementById("AnalyticsContent")
+	var createOrders = document.getElementById("OrderItemContent");
+	var analytics = document.getElementById("AnalyticsContent");
+	var viewCompanies = document.getElementById("ViewCompanyContent");
 	if(i == 1){
 		applications.style.display = "block";
 		manageAccounts.style.display = "none";
 		viewAccounts.style.display = "none";
 		createOrders.style.display = "none";
 		analytics.style.display = "none";
+		viewCompanies.style.display = "none";
 	}
 	else if(i == 2){
 		applications.style.display = "none";
@@ -279,6 +353,7 @@ function showContent(i){
 		viewAccounts.style.display = "none";
 		createOrders.style.display = "none";
 		analytics.style.display = "none";
+		viewCompanies.style.display = "none";
 	}
 	else if(i == 3){
 		applications.style.display = "none";
@@ -286,6 +361,7 @@ function showContent(i){
 		viewAccounts.style.display = "block";
 		createOrders.style.display = "none";
 		analytics.style.display = "none";
+		viewCompanies.style.display = "none";
 	}
 	else if(i == 4){
 		applications.style.display = "none";
@@ -293,13 +369,31 @@ function showContent(i){
 		viewAccounts.style.display = "none";
 		createOrders.style.display = "block";
 		analytics.style.display = "none";
+		viewCompanies.style.display = "none";
+	}
+	else if(i == 5){
+		applications.style.display = "none";
+		manageAccounts.style.display = "none";
+		viewAccounts.style.display = "none";
+		createOrders.style.display = "none";
+		analytics.style.display = "block";
+		viewCompanies.style.display = "none";
+	}
+	else if(i == 6){
+		applications.style.display = "none";
+		manageAccounts.style.display = "none";
+		viewAccounts.style.display = "none";
+		createOrders.style.display = "none";
+		analytics.style.display = "none";
+		viewCompanies.style.display = "block";
 	}
 	else{
 		applications.style.display = "none";
 		manageAccounts.style.display = "none";
 		viewAccounts.style.display = "none";
 		createOrders.style.display = "none";
-		analytics.style.display = "block";
+		analytics.style.display = "none";
+		viewCompanies.style.display = "none";
 	}
 }
 </script>

@@ -368,7 +368,7 @@ function ninja_driver_company_list($uid)
 {
 	$db = dojo_connect();
 	$pst = $db->prepare("SELECT Company.Name AS CName, Company.CompanyID AS CID FROM (Company INNER JOIN DriverCompany ON Company.CompanyID = DriverCompany.CompanyID) INNER JOIN Driver ON DriverCompany.DriverID = Driver.UserID WHERE Driver.UserID = ? AND DriverCompany.Accepted = 1 AND Company.Deleted = 0");
-	$pst->bind_param($uid);
+	$pst->bind_param("s", $uid);
 	$pst->execute();
 	$res = $pst->get_result();
 	return $res;
@@ -638,6 +638,87 @@ function ninja_update_phone($uid, $phone)
 	$pst = $db->prepare("UPDATE Driver SET Phone = ? WHERE UserID = ?");
 	$pst->bind_param("ss", $phone, $uid);
 	$pst->execute();
+}
+
+function ninja_random_admin()
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT UserID FROM Admin");
+	$pst->execute();
+	$res = $pst->get_result();
+	$length = 0;
+	$res->data_seek(0);
+	while ($row = $res->fetch_assoc())
+	{
+		$length++;
+	}
+	$target = rand(0, $length);
+	$current = 0;
+	$res->data_seek(0);
+	while ($row = $res->fetch_assoc())
+	{
+		if ($target == $current)
+		{
+			return $row['UserID'];
+		}
+		$current++;
+	}
+	return false;
+}
+
+function ninja_drivers()
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Account.UserID, CurrComp AS CompanyID, FName, LName, Email FROM Driver INNER JOIN Account ON Driver.UserID = Account.UserID WHERE Deleted = 0");
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_sponsors()
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Account.UserID, CompanyID, FName, LName, Email FROM Sponsor INNER JOIN Account ON Sponsor.UserID = Account.UserID WHERE Deleted = 0");
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_companies()
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT CompanyID, Name FROM Company WHERE Deleted = 0");
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_company_sponsor_count($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT COUNT(UserID) AS Sponsors FROM Sponsor WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['Sponsors'];
+	}
+	return 0;
+}
+
+function ninja_company_driver_count($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT COUNT(DriverID) AS Drivers FROM DriverCompany WHERE CompanyID = ? AND Accepted = 1");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['Drivers'];
+	}
+	return 0;
 }
 
 ?>

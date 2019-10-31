@@ -75,7 +75,7 @@
       <div class = "d-flex justify-content-end" style = "float:right;">
         <ul class = "navbar-nav mr-auto">
           <li class = "nav-item">
-            <a class = "nav-link">Contact Us</a>
+            <a class = "nav-link" href = "contact_admin.php">Contact Us</a>
           </li>
           <li class = "nav-item" >
             <a class = "nav-link" href = "logout.php">Log Off</a>
