@@ -2,9 +2,9 @@
 
 include "../db_ninja.php";
 
-$username = $_GET['userID'];
-$password = $_GET['password'];
+$email = $_GET['email'] ?? '';
+$password = $_GET['password'] ?? '';
 
-echo ninja_login($username, $password);
+echo ninja_login($email, $password);
 
 ?>

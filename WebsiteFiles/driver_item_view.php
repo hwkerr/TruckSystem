@@ -1,3 +1,20 @@
+<?php
+
+include "db_ninja.php";
+session_start();
+if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
+{
+	header("location: logon.php");
+	exit;
+}
+
+$uid = $_SESSION['UserID'];
+$image = ninja_pfp($uid);
+$cid = ninja_current_driver_company($uid);
+$total = ninja_points($uid, $cid);
+
+?>
+
 <html style = "height: 100%;">
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -8,29 +25,7 @@
 </head>
 <body>
   <title>What the Truck!</title>
-<nav class = "navbar navbar-expand-lg navbar-default" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1);" >
-  <button type = "button" class = "btn btn-outline-light" onclick = "location.href" = "DesktopSite.html"><div class = "ProfileName" >
-    <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" height="40px" src =<?php echo '"data:image/png;base64,'.base64_encode($image).'"'?> /></span>
-      <p style = "vertical-align: middle; display: inline-block; margin: auto;">
-        <?php echo htmlspecialchars(ninja_name($uid)); ?><br />Points: <?php echo htmlspecialchars($total); ?>
-      </p>
-    </div></button>
-  <div class = "navbar nav-right" id = "navbarNav">
-  <ul class = "navbar-nav">
-    <li class = "nav-item">
-      <a class = "nav-link" style = "color: white;">Contact Us</a>
-    </li>
-
-		<li class = "nav-item" >
-			<a class = "nav-link" style = "color:white;" href = "3">Edit Account Info</a>
-		</li>
-
-    <li class = "nav-item">
-      <a class = "nav-link" style = "color:white;" href = "logout.php">Log Off</a>
-    </li>
-  </ul>
-  </div>
-</nav>
+<?php include "driver_header.php"; ?>
 <br/>
 <div class = "container">
   <br /><br />

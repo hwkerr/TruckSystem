@@ -84,6 +84,20 @@ function ninja_login($email, $pword)
 	}
 }
 
+function ninja_userid($email)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT UserID FROM Account WHERE Email = ?");
+	$pst->bind_param("s", $email);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['UserID'];
+	}
+	return false;
+}
+
 function ninja_points($uid, $cid)
 {
 	$total = 0;
@@ -652,7 +666,7 @@ function ninja_random_admin()
 	{
 		$length++;
 	}
-	$target = rand(0, $length);
+	$target = rand(0, $length-1);
 	$current = 0;
 	$res->data_seek(0);
 	while ($row = $res->fetch_assoc())
@@ -719,6 +733,39 @@ function ninja_company_driver_count($cid)
 		return $row['Drivers'];
 	}
 	return 0;
+}
+
+function ninja_driver_apply_company($uid, $cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("INSERT INTO DriverCompany VALUES (?, ?, 0)");
+	$pst->bind_param("ss", $uid, $cid);
+	$pst->execute();
+}
+
+function ninja_company_accept_driver($cid, $uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE DriverCompany SET Accepted = 1 WHERE CompanyID = ? AND DriverID = ?");
+	$pst->bind_param("ss", $cid, $uid);
+	$pst->execute();
+}
+
+function ninja_driver_company_status($uid, $cid)  // -1 = no app, 0 = app submitted, 1 = app approved
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Accepted FROM DriverCompany WHERE DriverID = ? AND CompanyID = ?");
+	$pst->bind_param("ss", $uid, $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['Accepted'];
+	}
+	else
+	{
+		return -1;
+	}
 }
 
 ?>
