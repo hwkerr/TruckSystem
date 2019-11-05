@@ -842,7 +842,7 @@ function ninja_change_alert($uid)
 function ninja_update_alerts($uid, $point, $order, $change)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("UPDATE Driver SET PointAlert = ?, OrderAlert = ?, ChangeAlert = ?, WHERE UserID = ?");
+	$pst = $db->prepare("UPDATE Driver SET PointAlert = ?, OrderAlert = ?, ChangeAlert = ? WHERE UserID = ?");
 	$pst->bind_param("iiis", $point, $order, $change, $uid);
 	$pst->execute();
 }

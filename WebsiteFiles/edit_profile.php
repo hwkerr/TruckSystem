@@ -22,8 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")  // write changes
 		$city = $_POST['City'];
 		$state = $_POST['State'];
 		$zip = $_POST['Zip'];
+		$palert = $_POST['PAlert'] == 'on';
+		$oalert = $_POST['OAlert'] == 'on';
+		$calert = $_POST['CAlert'] == 'on';
 		ninja_address_update($uid, $street, $street2, $city, $state, $zip);
 		ninja_update_phone($uid, $phone);
+		ninja_update_alerts($uid, $palert, $oalert, $calert);
 	}
 	header("location: view_profile.php");  // redirect
 }
@@ -39,6 +43,9 @@ else  // populate data
 		$city = ninja_address_city($uid);
 		$state = ninja_address_state($uid);
 		$zip = ninja_address_zip($uid);
+		$palert = ninja_point_alert($uid);
+		$oalert = ninja_order_alert($uid);
+		$calert = ninja_change_alert($uid);
 	}
 }
 
@@ -75,6 +82,32 @@ else  // populate data
           <input type = "submit" value="Upload URL">
         </form>
           <form style = "margin: 0 auto;" method = "post">
+<?php
+		if ($_SESSION['UserType'] === "Driver")
+		{
+			$pchecked = "";
+			$ochecked = "";
+			$cchecked = "";
+			if ($palert)
+				$pchecked = "checked";
+			if ($oalert)
+				$ochecked = "checked";
+			if ($calert)
+				$cchecked = "checked";
+			echo '<div class = "form-group form-check" style = "color: white;">';
+			echo '<input type = "checkbox" class = "form-check-input" id = "PAlert" name = "PAlert" '.$pchecked.'>';
+			echo '<label class = "form-check-label" for = "PAlert">Receive Alerts for Point Additions</label>';
+			echo '</div>';
+			echo '<div class = "form-group form-check" style = "color: white;">';
+			echo '<input type = "checkbox" class = "form-check-input" id = "OAlert" name = "OAlert" '.$ochecked.'>';
+			echo '<label class = "form-check-label" for = "PAlert">Receive Alerts for Order Submissions</label>';
+			echo '</div>';
+			echo '<div class = "form-group form-check" style = "color: white;">';
+			echo '<input type = "checkbox" class = "form-check-input" id = "CAlert" name = "CAlert" '.$cchecked.'>';
+			echo '<label class = "form-check-label" for = "PAlert">Receive Alerts for Order Changes</label>';
+			echo '</div>';
+		}
+?>
             <div class = "form-group" style = "margin-center: auto;">
               <input type= "text" name = "FName" class = "form-control" id = "InputFName" value = <?php echo $fname ?> placeholder="First Name"/>
             </div>

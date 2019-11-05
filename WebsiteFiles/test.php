@@ -1,6 +1,6 @@
 <?php
 
 include "db_ninja.php";
-echo ninja_random_admin();
+ninja_update_alerts('testdriver', 1, 1, 1);
 
 ?>
