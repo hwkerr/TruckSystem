@@ -37,7 +37,11 @@
     </li>
 
     <li class = "nav-item" style = "color:white;">
-	<a class = "nav-link style = color:white;" href = "#">Download Mobile App</a>
+	<a class = "nav-link" style = "color:white;" href = "#">Download Mobile App</a>
+    </li>
+
+    <li class = "nav-item" style = "color:white;">
+	<a class = "nav-link" style = "color:white;" href = "driver_sponsor_list.php">Apply for Sponsors</a>
     </li>
   </ul>
   </div>

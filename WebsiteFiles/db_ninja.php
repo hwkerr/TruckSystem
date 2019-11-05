@@ -768,4 +768,18 @@ function ninja_driver_company_status($uid, $cid)  // -1 = no app, 0 = app submit
 	}
 }
 
+function ninja_company_pic($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Image FROM Company WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		$image = $row['Image'];
+	}
+	return $image;
+}
+
 ?>
