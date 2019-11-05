@@ -57,6 +57,13 @@
             <br /><br />
           </li>
           <li class = "nav-item">
+            <button type = "button" onclick = "showApplication()"
+            class = "btn btn-outline-light ">
+              Applications
+            </button>
+            <br /><br />
+          </li>
+          <li class = "nav-item">
             <button type = "button" onclick = "showCompany()"
             class = "btn btn-outline-light ">
               Company Info
@@ -113,7 +120,7 @@
         </tr>
       </table>
     </div>
-    <div id = "DriverContent">
+    <div id = "DriverContent" style = "display: block;">
       <div class = "jumbotron" style = "margin-bottom: 0;">
         <h1>Drivers</h1>
       </div>
@@ -140,7 +147,43 @@
 			echo '<td>'.$row['LName'].'</td>';
 			echo '<td>'.$row['Email'].'</td>';
 			echo '<td>'.ninja_points($row['UserID'], $cid).'</td>';
-			echo '<td>Link</td>';
+			echo '<td><a href="sponsor_driver_profile.php?DID='.$row['UserID'].'">View Profile</a></td>';
+			echo '</tr>';
+			$entry = $entry + 1;
+		}
+	  ?>
+        </tbody>
+      </table>
+    </div>
+    </div>
+    <div id = "ApplicationContent" style = "display: none;">
+      <div class = "jumbotron" style = "margin-bottom: 0;">
+        <h1>Driver Applications</h1>
+      </div>
+      <div class = "table-responsive-lg" style="overflow-x:auto;">
+      <table class = "table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Accept</th>
+            <th>Reject</th>
+          </tr>
+        </thead>
+	  <?php
+		$entry = 1;
+		$res = ninja_company_driver_applications($cid);
+		while ($row = $res->fetch_assoc())
+		{
+			echo '<tr>';
+			echo '<th>'.$entry.'</th>';
+			echo '<td>'.$row['FName'].'</td>';
+			echo '<td>'.$row['LName'].'</td>';
+			echo '<td>'.$row['Email'].'</td>';
+			echo '<td><a href="sponsor_approve_driver.php?DID='.$row['UserID'].'">Accept</a></td>';
+			echo '<td><a href="sponsor_reject_driver.php?DID='.$row['UserID'].'">Reject</a></td>';
 			echo '</tr>';
 			$entry = $entry + 1;
 		}
@@ -182,25 +225,41 @@
 function showCatalogue(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
+  var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
   catalog.style.display = "block";
   driver.style.display = "none";
+  application.style.display = "none";
   company.style.display = "none";
 }
 function showDriver(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
+  var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
   catalog.style.display = "none";
   driver.style.display = "block";
+  application.style.display = "none";
+  company.style.display = "none";
+}
+function showApplication(){
+  var catalog = document.getElementById("CatalogInfo");
+  var driver = document.getElementById("DriverContent");
+  var application = document.getElementById("ApplicationContent");
+  var company = document.getElementById("CompanyInfo");
+  catalog.style.display = "none";
+  driver.style.display = "none";
+  application.style.display = "block";
   company.style.display = "none";
 }
 function showCompany(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
+  var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
   catalog.style.display = "none";
   driver.style.display = "none";
+  application.style.display = "none";
   company.style.display = "block";
 }
 </script>

@@ -782,4 +782,22 @@ function ninja_company_pic($cid)
 	return $image;
 }
 
+function ninja_company_decline_driver($cid, $uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("DELETE FROM DriverCompany WHERE CompanyID = ? AND DriverID = ?");
+	$pst->bind_param("ss", $cid, $uid);
+	$pst->execute();
+}
+
+function ninja_company_driver_applications($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT UserID, FName, LName, Email FROM Account INNER JOIN DriverCompany ON UserID = DriverID WHERE DriverCompany.Accepted = 0 AND DriverCompany.CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
 ?>
