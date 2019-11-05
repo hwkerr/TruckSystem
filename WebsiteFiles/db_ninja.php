@@ -839,27 +839,11 @@ function ninja_change_alert($uid)
 	}
 }
 
-function ninja_update_point_alert($uid, $val)
+function ninja_update_alerts($uid, $point, $order, $change)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("UPDATE Driver SET PointAlert = ? WHERE UserID = ?");
-	$pst->bind_param("is", $val, $uid);
-	$pst->execute();
-}
-
-function ninja_update_order_alert($uid, $val)
-{
-	$db = dojo_connect();
-	$pst = $db->prepare("UPDATE Driver SET OrderAlert = ? WHERE UserID = ?");
-	$pst->bind_param("is", $val, $uid);
-	$pst->execute();
-}
-
-function ninja_update_change_alert($uid, $val)
-{
-	$db = dojo_connect();
-	$pst = $db->prepare("UPDATE Driver SET ChangeAlert = ? WHERE UserID = ?");
-	$pst->bind_param("is", $val, $uid);
+	$pst = $db->prepare("UPDATE Driver SET PointAlert = ?, OrderAlert = ?, ChangeAlert = ?, WHERE UserID = ?");
+	$pst->bind_param("iiis", $point, $order, $change, $uid);
 	$pst->execute();
 }
 
