@@ -800,4 +800,67 @@ function ninja_company_driver_applications($cid)
 	return $res;
 }
 
+function ninja_point_alert($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT PointAlert FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['PointAlert'];
+	}
+}
+
+function ninja_order_alert($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT OrderAlert FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['OrderAlert'];
+	}
+}
+
+function ninja_change_alert($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT ChangeAlert FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['ChangeAlert'];
+	}
+}
+
+function ninja_update_point_alert($uid, $val)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Driver SET PointAlert = ? WHERE UserID = ?");
+	$pst->bind_param("is", $val, $uid);
+	$pst->execute();
+}
+
+function ninja_update_order_alert($uid, $val)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Driver SET OrderAlert = ? WHERE UserID = ?");
+	$pst->bind_param("is", $val, $uid);
+	$pst->execute();
+}
+
+function ninja_update_change_alert($uid, $val)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Driver SET ChangeAlert = ? WHERE UserID = ?");
+	$pst->bind_param("is", $val, $uid);
+	$pst->execute();
+}
+
 ?>
