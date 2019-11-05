@@ -46,6 +46,9 @@ CREATE TABLE Driver
     CurrComp VARCHAR(16) NOT NULL,
 	Phone		VARCHAR(10)		NOT NULL,
 	Street2		VARCHAR(30)		NOT NULL,
+	PointAlert	BOOLEAN		NOT NULL,
+	OrderAlert	BOOLEAN		NOT NULL,
+	ChangeAlert	BOOLEAN		NOT NULL,
     PRIMARY KEY (UserID),
     FOREIGN KEY (UserID) REFERENCES Account (UserID)
 );
