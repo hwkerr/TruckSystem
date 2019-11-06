@@ -12,6 +12,9 @@
 	$cid = ninja_sponsor_company_id($uid);
 	$fullname = ninja_name($uid);
 	$pfp = ninja_pfp($uid);
+	$cname = ninja_company_name($cid);
+	$cimage = ninja_company_pic($cid);
+	$cinfo = ninja_company_sponsor_info($cid);
 ?>
 <!DOCTYPE html>
 <html style = "height: 100%;">
@@ -202,19 +205,20 @@
     </div>
     <div class = "CompanyContent" id = "CompanyInfo" style = "display: none;">
       <div class = "jumbotron">
-        <h1>CompanyName</h1>
+        <h1><?php echo $cname; ?></h1>
       </div>
         <div class = "container">
           <div class = "row">
             <div class = "col-sm-2"></div>
             <div class = "col-md-6">
               <div class = "card-body">
-                Section where company can write information about themselves. This can include what
-                kind of products they have, what there point earning requirements are, contact info, etc.
+		<?php
+			echo $cinfo;
+		?>
               </div>
             </div>
             <div class = "col-md-3">
-              <image src = "Assets/Download.png" class = "img-rounded "></image>
+              <img src = <?php echo '"data:image/png;base64,'.base64_encode($cimage).'"';?> class = "img-rounded "></img>
             </div>
           </div>
           <div class = "row justify-content-center">

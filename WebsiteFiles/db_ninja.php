@@ -871,4 +871,34 @@ function ninja_add_points($did, $sid, $points)
 	$pst->execute();
 }
 
+function ninja_company_sponsor_info($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT SponsorInfo FROM Company WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$info = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$info = $row['SponsorInfo'];
+	}
+	return $info;
+}
+
+function ninja_company_driver_ad($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT DriverAd FROM Company WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$info = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$info = $row['DriverAd'];
+	}
+	return $info;
+}
+
 ?>
