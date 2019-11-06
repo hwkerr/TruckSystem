@@ -215,6 +215,7 @@ function ninja_apply($type, $fname, $lname, $email, $info)
 	{
 		$newid = substr(md5(rand()), 0, 16);
 		$unique = true;
+		$res->data_seek(0);
 		while ($row = $res->fetch_assoc())
 			if ($row['AppID'] === $newid)
 				$unique = false;
@@ -241,6 +242,7 @@ function dojo_new_generic_account($fname, $lname, $email, $pword)
 	{
 		$newid = substr(md5(rand()), 0, 16);
 		$unique = true;
+		$res->data_seek(0);
 		while ($row = $res->fetch_assoc())
 			if ($row['UserID'] === $newid)
 				$unique = false;
@@ -844,6 +846,28 @@ function ninja_update_alerts($uid, $point, $order, $change)
 	$db = dojo_connect();
 	$pst = $db->prepare("UPDATE Driver SET PointAlert = ?, OrderAlert = ?, ChangeAlert = ? WHERE UserID = ?");
 	$pst->bind_param("iiis", $point, $order, $change, $uid);
+	$pst->execute();
+}
+
+function ninja_add_points($did, $sid, $points)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT AdditionID FROM PointAddition");
+	$pst->execute();
+	$res = $pst->get_result();
+	$newid = "";
+	$unique = false;
+	while (!$unique)
+	{
+		$newid = substr(md5(rand()), 0, 16);
+		$unique = true;
+		$res->data_seek(0);
+		while ($row = $res->fetch_assoc())
+			if ($row['AdditionID'] === $newid)
+				$unique = false;
+	}
+	$pst = $db->prepare("INSERT INTO PointAddition VALUES (?, ?, NOW(), ?, ?)");
+	$pst->bind_param("siss", $newid, $points, $sid, $did);
 	$pst->execute();
 }
 

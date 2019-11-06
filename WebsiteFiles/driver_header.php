@@ -37,12 +37,15 @@
     </li>
 
     <li class = "nav-item" style = "color:white;">
-	<a class = "nav-link" style = "color:white;" href = "#">Download Mobile App</a>
+	<a class = "nav-link" style = "color:white;" href = "Assets/Files/wtt-alpha-s7.apk" download>Download Mobile App</a>
     </li>
 
     <li class = "nav-item" style = "color:white;">
 	<a class = "nav-link" style = "color:white;" href = "driver_sponsor_list.php">Apply for Sponsors</a>
     </li>
+	<li class = "nav-item">
+		<a class = "nav-link" style = "color:white;" href = "driver_cart.html">View Cart</a>
+	</li>
   </ul>
   </div>
 </nav>

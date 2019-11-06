@@ -133,6 +133,7 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Points</th>
+	    <th>Add</th>
             <th>Profile</th>
           </tr>
         </thead>
@@ -147,6 +148,13 @@
 			echo '<td>'.$row['LName'].'</td>';
 			echo '<td>'.$row['Email'].'</td>';
 			echo '<td>'.ninja_points($row['UserID'], $cid).'</td>';
+			echo '<td>';
+			echo '<form action = "add_points.php">';
+			echo '<input type = "text" name = "PointAdd">';
+			echo '<input type = "hidden" name = "DID" value = "'.$row['UserID'].'">';
+			echo '<input type = "submit" value = "Add Points">';
+			echo '</form>';
+			echo '</td>';
 			echo '<td><a href="sponsor_driver_profile.php?DID='.$row['UserID'].'">View Profile</a></td>';
 			echo '</tr>';
 			$entry = $entry + 1;

@@ -9,7 +9,7 @@
 </head>
 <body>
   <title>What the Truck!</title>
-<nav class = "navbar navbar-expand-lg navbar-default" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1);" >
+<nav class = "navbar navbar-expand-lg navbar-default" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1); z-index: 1;" >
   <button type = "button" class = "btn btn-outline-light" onclick = "location.href = 'view_profile.php';"><div class = "ProfileName" >
     <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" height="40px" src =<?php echo '"data:image/png;base64,'.base64_encode($image).'"'?> /></span>
       <p style = "vertical-align: middle; display: inline-block; margin: auto;">
@@ -55,8 +55,9 @@
       </div>
     </div>
 
-<div id = "cartSideBar">
-  
+<div id = "cartSideBar" style = "background-image: linear-gradient(to bottom right, #E5E5E5, #FFFFFF);">
+<br/><br/><br/><br/><br/><br/>
+<h1 style = "text-align:center; color: black;">Options</h1><hr>
   <ul class = "navbar-nav" id = "buttonList">
     <li class = "nav-item">
       <button class = "btn btn-primary">Checkout</button>
