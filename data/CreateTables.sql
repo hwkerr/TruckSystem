@@ -24,6 +24,8 @@ CREATE TABLE Company
     Name            VARCHAR(40)            NOT NULL,
     Image            MEDIUMBLOB            NOT NULL,
     Deleted            BOOLEAN            NOT NULL,
+    DriverAd VARCHAR(500) NOT NULL,
+    SponsorInfo VARCHAR(500) NOT NULL,
     PRIMARY KEY (CompanyID)
 );
 
