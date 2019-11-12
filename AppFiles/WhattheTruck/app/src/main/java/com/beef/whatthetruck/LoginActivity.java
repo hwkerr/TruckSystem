@@ -1,7 +1,5 @@
 package com.beef.whatthetruck;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class LoginActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class LoginActivity extends AppCompatActivity implements Networkable {
 
     public static final String EXTRA_USERNAME = "com.app.whatthetruck.USERNAME";
 
@@ -39,27 +39,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void validate() {
-        NetNinja db = new OkNetNinja();
-        db.login(this);
+        OkNetNinja db = new OkNetNinja(); // change back to NetNinja
+
+        String username = Name.getText().toString().toLowerCase();
+        String password = Password.getText().toString();
+
+        db.startTask(new NetFunction(this, NetNinja.Function.LOGIN, username, password));
     }
 
-    public String getUsername()
-    {
-        return Name.getText().toString().toLowerCase();
-    }
-
-    public String getPassword()
-    {
-        return Password.getText().toString();
-    }
-
-    public void login(boolean success, String userID)
+    public void login(boolean success, String username)
     {
         if (success) {
             Log.d("BEEF--", "login...");
             LoginFailure.setVisibility(View.INVISIBLE);
             Intent intent = new Intent(this, DrawerActivity.class);
-            intent.putExtra(LoginActivity.EXTRA_USERNAME, userID);
+            intent.putExtra(LoginActivity.EXTRA_USERNAME, username);
             startActivity(intent);
         } else {
             LoginFailure.setVisibility(View.VISIBLE);
@@ -69,5 +63,24 @@ public class LoginActivity extends AppCompatActivity {
     public void forgotPassword(View view) {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void getResult(NetNinja.Function function, Object... results) {
+
+        // boolean success, String username
+        if (function == NetNinja.Function.LOGIN) {
+            boolean success = (boolean)results[1];
+            String username = (String)results[2];
+            if (success) {
+                Log.d("BEEF--", "login...");
+                LoginFailure.setVisibility(View.INVISIBLE);
+                Intent intent = new Intent(this, DrawerActivity.class);
+                intent.putExtra(LoginActivity.EXTRA_USERNAME, username);
+                startActivity(intent);
+            } else {
+                LoginFailure.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

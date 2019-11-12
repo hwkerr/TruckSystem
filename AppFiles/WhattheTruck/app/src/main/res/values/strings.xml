@@ -8,7 +8,7 @@
     <string name="Slogan">The Best Truckin\' Experience of Your Life</string>
     <string name="btnForgotPassword">Forgot Password?</string>
     <string name="forgotPasswordMsg">Enter the email associated with your account and we will send you an email with a link to reset your password</string>
-    <string name="etEmail">Email</string>
+    <string name="text_email">Email</string>
     <string name="btnSendEmail">Send Email</string>
     <string name="title_activity_drawer">DrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -27,4 +27,22 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_category_help">Help</string>
     <string name="textName">Name</string>
+    <string name="text_address">Address</string>
+    <string name="text_company_name">Company</string>
+    <string name="label_name">Name:</string>
+    <string name="label_company_name">Company:</string>
+    <string name="label_address">Address:</string>
+    <string name="label_email">Email:</string>
+    <string name="text_points">Points</string>
+    <string name="label_points">Points:</string>
+    <string name="text_name_first">First</string>
+    <string name="text_name_last">Last</string>
+    <string name="bttnSave">Save Changes</string>
+    <string name="label_phone">Phone Number:</string>
+    <string name="text_phone">Phone Number</string>
+    <string name="text_address_street">Street</string>
+    <string name="text_address_street2">Street 2 (optional)</string>
+    <string name="text_address_city">City</string>
+    <string name="text_address_state">State</string>
+    <string name="text_address_zip">Zip Code</string>
 </resources>
