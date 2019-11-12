@@ -52,15 +52,9 @@ else  // populate data
 ?>
 
 <html style = "height: 100%;">
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</head>
-
+<?php include "htmlhead.php"?>
 <body style = "height: 100%;background-image: linear-gradient(to bottom right, #071461, #0B358E);">
-  <title>Edit Profile</title><br /><br /><br />
+ <br /><br /><br />
 <div class = "container" style = "margin: 0 auto;">
   <div class = "row justify-content-center">
     <div class = "col-lg-6" style = "text-align: center; color: white;">
@@ -109,10 +103,10 @@ else  // populate data
 		}
 ?>
             <div class = "form-group" style = "margin-center: auto;">
-              <input type= "text" name = "FName" class = "form-control" id = "InputFName" value = <?php echo $fname ?> placeholder="First Name"/>
+              <input type= "text" name = "FName" class = "form-control" id = "InputFName" value = <?php echo '"'.$fname.'"' ?> placeholder="First Name"/>
             </div>
             <div class = "form-group">
-              <input type = "text" name = "LName" class = "form-control" id = "InputLName" value = <?php echo $lname ?> placeholder="Last Name"/>
+              <input type = "text" name = "LName" class = "form-control" id = "InputLName" value = <?php echo '"'.$lname.'"' ?> placeholder="Last Name"/>
             </div>
 		<?php
 		if ($_SESSION['UserType'] === "Driver")

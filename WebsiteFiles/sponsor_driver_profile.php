@@ -11,6 +11,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['Us
 $uid = $_GET['DID'];
 $sid = $_SESSION['UserID'];
 $cid = ninja_sponsor_company_id($sid);
+$did = $uid;
 
 if (ninja_driver_company_status($uid, $cid) != 1)
 {
@@ -67,6 +68,7 @@ $address = ninja_address_oneline($uid);
 			echo "<p id = 'EarnedPoints'>";
 			echo "Total Points Earned: ".$earned;
 			echo "</p>";
+			echo '<button onclick = "window.location.href = \'sponsor_driver_point_additions.php?DriverID='.$did.'\';">View Additions</button>';
 			echo "<p id = 'DriverSpace'>";
 			echo "";
 			echo "</p>";

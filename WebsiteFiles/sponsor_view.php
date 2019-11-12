@@ -18,16 +18,7 @@
 ?>
 <!DOCTYPE html>
 <html style = "height: 100%;">
-<head>
-  <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<link rel = "stylesheet" href = "style.css">
-</head>
+<?php include "htmlhead.php"?>
 <body style = "height: 100%;">
   <title>What the Truck!</title>
 <div id = "homeBody">
@@ -48,14 +39,14 @@
           <li class = "nav-item">
             <button type = "button" onclick = "showCatalogue()"
             class = "btn btn-outline-light">
-              Catalogues
+              View Catalogues
             </button>
             <br /><br />
           </li>
           <li class = "nav-item">
             <button type = "button" onclick = "showDriver()"
             class = "btn btn-outline-light ">
-              Drivers
+              Manage Drivers
             </button>
             <br /><br />
           </li>
@@ -69,7 +60,7 @@
           <li class = "nav-item">
             <button type = "button" onclick = "showCompany()"
             class = "btn btn-outline-light ">
-              Company Info
+             View Company
             </button>
           </li>
         </ul>
@@ -104,7 +95,7 @@
             <th>#</th>
             <th>Catalog Name</th>
             <th>Number of Items</th>
-            <th>Items</th>
+	    <th>View Catalog</th>
           </tr>
         </thead>
         <tr>
@@ -117,9 +108,7 @@
           <td>
             10
           </td>
-          <td>
-            <a href="#">View Items</a>
-          </td>
+	 <td><a href = "catalog_view.php">View Catalog</a>
         </tr>
       </table>
     </div>
@@ -223,7 +212,7 @@
           </div>
           <div class = "row justify-content-center">
             <div class = "col-sm-3">
-              <button class = "btn btn-primary">Edit Information</button>
+              <button class = "btn btn-primary" onclick = "window.location.href = 'edit_company.php';">Edit Information</button>
             </div>
           </div>
         </div>
