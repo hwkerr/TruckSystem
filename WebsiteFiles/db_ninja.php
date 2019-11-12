@@ -942,7 +942,7 @@ function ninja_update_company_image($cid, $image)
 function ninja_point_gains($did, $cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT Amount, Timestamp FROM PointAddition INNER JOIN Sponsor ON PointAddition.SponsorID = Sponsor.UserID WHERE PointAddition.DriverID = ? AND Sponsor.CompanyID = ?");
+	$pst = $db->prepare("SELECT Amount, Timestamp FROM PointAddition INNER JOIN Sponsor ON PointAddition.SponsorID = Sponsor.UserID WHERE PointAddition.DriverID = ? AND Sponsor.CompanyID = ? ORDER BY Timestamp DESC");
 	$pst->bind_param("ss", $did, $cid);
 	$pst->execute();
 	$res = $pst->get_result();

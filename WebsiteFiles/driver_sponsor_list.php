@@ -15,7 +15,7 @@
 <body>
 <?php include "driver_header.php"; ?>
 <div class = "jumbotron" style = "margin-bottom: 0rem;">
-    <h1>View Sonsors</h1>
+    <h1>View Sponsors</h1>
 </div>
 <table class = "table table-hover">
   <thead>

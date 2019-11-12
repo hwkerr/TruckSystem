@@ -103,18 +103,22 @@ else  // populate data
 		}
 ?>
             <div class = "form-group" style = "margin-center: auto;">
+	      <label for = "InputFName">First Name</label>
               <input type= "text" name = "FName" class = "form-control" id = "InputFName" value = <?php echo '"'.$fname.'"' ?> placeholder="First Name"/>
             </div>
             <div class = "form-group">
+	      <label for = "InputLName">Last Name</label>
               <input type = "text" name = "LName" class = "form-control" id = "InputLName" value = <?php echo '"'.$lname.'"' ?> placeholder="Last Name"/>
             </div>
 		<?php
 		if ($_SESSION['UserType'] === "Driver")
 		{
 			echo '<div class = "form-group">';
+			echo '<label for = "InputPhone">Phone Number</label>';
 			echo '<input type = "text" name = "Phone" class = "form-control" id = "InputPhone" value = "'.$phone.'" placeholder = "Phone Number (10-digit, no spaces/dashes/etc)"/>';
 			echo '</div>';
 			echo '<div class = "form-group">';
+			echo '<label for = "InputStreet"></label>';
 			echo '<input type = "text" name = "Street" class = "form-control" id = "InputStreet" value = "'.$street.'" placeholder = "Street Address"/>';
 			echo '</div>';
 			echo '<div class = "form-group">';

@@ -18,7 +18,7 @@
 
  ?>
 
-<nav class = "navbar navbar-expand-lg navbar-light" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1);" >
+<nav class = "navbar sticky-top navbar-expand-lg navbar-light" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1);" >
 
     <a class = "navbar-brand" style = "color:white;" onclick = "window.location.href = 'driver_view.php';">
 	<img width = "30px" height = "30px" src = "Assets/logo-blue.png">What the Truck!<a>
