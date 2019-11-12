@@ -215,6 +215,7 @@ function ninja_apply($type, $fname, $lname, $email, $info)
 	{
 		$newid = substr(md5(rand()), 0, 16);
 		$unique = true;
+		$res->data_seek(0);
 		while ($row = $res->fetch_assoc())
 			if ($row['AppID'] === $newid)
 				$unique = false;
@@ -241,6 +242,7 @@ function dojo_new_generic_account($fname, $lname, $email, $pword)
 	{
 		$newid = substr(md5(rand()), 0, 16);
 		$unique = true;
+		$res->data_seek(0);
 		while ($row = $res->fetch_assoc())
 			if ($row['UserID'] === $newid)
 				$unique = false;
@@ -780,6 +782,177 @@ function ninja_company_pic($cid)
 		$image = $row['Image'];
 	}
 	return $image;
+}
+
+function ninja_company_decline_driver($cid, $uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("DELETE FROM DriverCompany WHERE CompanyID = ? AND DriverID = ?");
+	$pst->bind_param("ss", $cid, $uid);
+	$pst->execute();
+}
+
+function ninja_company_driver_applications($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT UserID, FName, LName, Email FROM Account INNER JOIN DriverCompany ON UserID = DriverID WHERE DriverCompany.Accepted = 0 AND DriverCompany.CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_point_alert($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT PointAlert FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['PointAlert'];
+	}
+}
+
+function ninja_order_alert($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT OrderAlert FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['OrderAlert'];
+	}
+}
+
+function ninja_change_alert($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT ChangeAlert FROM Driver WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		return $row['ChangeAlert'];
+	}
+}
+
+function ninja_update_alerts($uid, $point, $order, $change)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Driver SET PointAlert = ?, OrderAlert = ?, ChangeAlert = ? WHERE UserID = ?");
+	$pst->bind_param("iiis", $point, $order, $change, $uid);
+	$pst->execute();
+}
+
+function ninja_add_points($did, $sid, $points)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT AdditionID FROM PointAddition");
+	$pst->execute();
+	$res = $pst->get_result();
+	$newid = "";
+	$unique = false;
+	while (!$unique)
+	{
+		$newid = substr(md5(rand()), 0, 16);
+		$unique = true;
+		$res->data_seek(0);
+		while ($row = $res->fetch_assoc())
+			if ($row['AdditionID'] === $newid)
+				$unique = false;
+	}
+	$pst = $db->prepare("INSERT INTO PointAddition VALUES (?, ?, NOW(), ?, ?)");
+	$pst->bind_param("siss", $newid, $points, $sid, $did);
+	$pst->execute();
+}
+
+function ninja_company_sponsor_info($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT SponsorInfo FROM Company WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$info = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$info = $row['SponsorInfo'];
+	}
+	return $info;
+}
+
+function ninja_company_driver_ad($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT DriverAd FROM Company WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$info = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$info = $row['DriverAd'];
+	}
+	return $info;
+}
+
+function ninja_update_company($cid, $name, $sponsorinfo, $driverad)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Company SET Name = ?, SponsorInfo = ?, DriverAd = ? WHERE CompanyID = ?");
+	$pst->bind_param("ssss", $name, $sponsorinfo, $driverad, $cid);
+	$pst->execute();
+}
+
+function ninja_update_pfp($uid, $image)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Account SET Image = ? WHERE UserID = ?");
+	$pst->bind_param("ss", $image, $uid);
+	if($pst->execute())
+	{
+        	return "The file has been uploaded successfully.";
+	}
+	else
+	{
+        	return "File upload failed, please try again.";
+        } 
+}
+
+function ninja_update_company_image($cid, $image)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Company SET Image = '$image' WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	if($pst->execute())
+	{
+        	return "The file has been uploaded successfully.";
+	}
+	else
+	{
+        	return "File upload failed, please try again.";
+        } 
+}
+
+function ninja_point_gains($did, $cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Amount, Timestamp FROM PointAddition INNER JOIN Sponsor ON PointAddition.SponsorID = Sponsor.UserID WHERE PointAddition.DriverID = ? AND Sponsor.CompanyID = ?");
+	$pst->bind_param("ss", $did, $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_orders($did, $cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT SUM(ItemOrderCatalogItem.PointPrice) AS Total FROM (((ItemOrderCatalogItem INNER JOIN ItemOrder ON ItemOrderCatalogItem.OrderID = ItemOrder.OrderID) INNER JOIN CatalogItem ON CatalogItem.ItemID = ItemOrderCatalogItem.ItemID) INNER JOIN CatalogCatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID) INNER JOIN Catalog ON CatalogCatalogItem.CatalogID = Catalog.CatalogID WHERE ItemOrder.DriverID = ? AND Catalog.CompanyID = ?");
 }
 
 ?>

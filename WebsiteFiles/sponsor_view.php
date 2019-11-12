@@ -12,19 +12,13 @@
 	$cid = ninja_sponsor_company_id($uid);
 	$fullname = ninja_name($uid);
 	$pfp = ninja_pfp($uid);
+	$cname = ninja_company_name($cid);
+	$cimage = ninja_company_pic($cid);
+	$cinfo = ninja_company_sponsor_info($cid);
 ?>
 <!DOCTYPE html>
 <html style = "height: 100%;">
-<head>
-  <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<link rel = "stylesheet" href = "style.css">
-</head>
+<?php include "htmlhead.php"?>
 <body style = "height: 100%;">
   <title>What the Truck!</title>
 <div id = "homeBody">
@@ -45,21 +39,28 @@
           <li class = "nav-item">
             <button type = "button" onclick = "showCatalogue()"
             class = "btn btn-outline-light">
-              Catalogues
+              View Catalogues
             </button>
             <br /><br />
           </li>
           <li class = "nav-item">
             <button type = "button" onclick = "showDriver()"
             class = "btn btn-outline-light ">
-              Drivers
+              Manage Drivers
+            </button>
+            <br /><br />
+          </li>
+          <li class = "nav-item">
+            <button type = "button" onclick = "showApplication()"
+            class = "btn btn-outline-light ">
+              Applications
             </button>
             <br /><br />
           </li>
           <li class = "nav-item">
             <button type = "button" onclick = "showCompany()"
             class = "btn btn-outline-light ">
-              Company Info
+             View Company
             </button>
           </li>
         </ul>
@@ -94,7 +95,7 @@
             <th>#</th>
             <th>Catalog Name</th>
             <th>Number of Items</th>
-            <th>Items</th>
+	    <th>View Catalog</th>
           </tr>
         </thead>
         <tr>
@@ -107,13 +108,11 @@
           <td>
             10
           </td>
-          <td>
-            <a href="#">View Items</a>
-          </td>
+	 <td><a href = "catalog_view.php">View Catalog</a>
         </tr>
       </table>
     </div>
-    <div id = "DriverContent">
+    <div id = "DriverContent" style = "display: block;">
       <div class = "jumbotron" style = "margin-bottom: 0;">
         <h1>Drivers</h1>
       </div>
@@ -126,6 +125,7 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Points</th>
+	    <th>Add</th>
             <th>Profile</th>
           </tr>
         </thead>
@@ -140,7 +140,50 @@
 			echo '<td>'.$row['LName'].'</td>';
 			echo '<td>'.$row['Email'].'</td>';
 			echo '<td>'.ninja_points($row['UserID'], $cid).'</td>';
-			echo '<td>Link</td>';
+			echo '<td>';
+			echo '<form action = "add_points.php">';
+			echo '<input type = "text" name = "PointAdd">';
+			echo '<input type = "hidden" name = "DID" value = "'.$row['UserID'].'">';
+			echo '<input type = "submit" value = "Add Points">';
+			echo '</form>';
+			echo '</td>';
+			echo '<td><a href="sponsor_driver_profile.php?DID='.$row['UserID'].'">View Profile</a></td>';
+			echo '</tr>';
+			$entry = $entry + 1;
+		}
+	  ?>
+        </tbody>
+      </table>
+    </div>
+    </div>
+    <div id = "ApplicationContent" style = "display: none;">
+      <div class = "jumbotron" style = "margin-bottom: 0;">
+        <h1>Driver Applications</h1>
+      </div>
+      <div class = "table-responsive-lg" style="overflow-x:auto;">
+      <table class = "table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Accept</th>
+            <th>Reject</th>
+          </tr>
+        </thead>
+	  <?php
+		$entry = 1;
+		$res = ninja_company_driver_applications($cid);
+		while ($row = $res->fetch_assoc())
+		{
+			echo '<tr>';
+			echo '<th>'.$entry.'</th>';
+			echo '<td>'.$row['FName'].'</td>';
+			echo '<td>'.$row['LName'].'</td>';
+			echo '<td>'.$row['Email'].'</td>';
+			echo '<td><a href="sponsor_approve_driver.php?DID='.$row['UserID'].'">Accept</a></td>';
+			echo '<td><a href="sponsor_reject_driver.php?DID='.$row['UserID'].'">Reject</a></td>';
 			echo '</tr>';
 			$entry = $entry + 1;
 		}
@@ -151,24 +194,25 @@
     </div>
     <div class = "CompanyContent" id = "CompanyInfo" style = "display: none;">
       <div class = "jumbotron">
-        <h1>CompanyName</h1>
+        <h1><?php echo $cname; ?></h1>
       </div>
         <div class = "container">
           <div class = "row">
             <div class = "col-sm-2"></div>
             <div class = "col-md-6">
               <div class = "card-body">
-                Section where company can write information about themselves. This can include what
-                kind of products they have, what there point earning requirements are, contact info, etc.
+		<?php
+			echo $cinfo;
+		?>
               </div>
             </div>
             <div class = "col-md-3">
-              <image src = "Assets/Download.png" class = "img-rounded "></image>
+              <img src = <?php echo '"data:image/png;base64,'.base64_encode($cimage).'"';?> class = "img-rounded "></img>
             </div>
           </div>
           <div class = "row justify-content-center">
             <div class = "col-sm-3">
-              <button class = "btn btn-primary">Edit Information</button>
+              <button class = "btn btn-primary" onclick = "window.location.href = 'edit_company.php';">Edit Information</button>
             </div>
           </div>
         </div>
@@ -182,25 +226,41 @@
 function showCatalogue(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
+  var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
   catalog.style.display = "block";
   driver.style.display = "none";
+  application.style.display = "none";
   company.style.display = "none";
 }
 function showDriver(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
+  var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
   catalog.style.display = "none";
   driver.style.display = "block";
+  application.style.display = "none";
+  company.style.display = "none";
+}
+function showApplication(){
+  var catalog = document.getElementById("CatalogInfo");
+  var driver = document.getElementById("DriverContent");
+  var application = document.getElementById("ApplicationContent");
+  var company = document.getElementById("CompanyInfo");
+  catalog.style.display = "none";
+  driver.style.display = "none";
+  application.style.display = "block";
   company.style.display = "none";
 }
 function showCompany(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
+  var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
   catalog.style.display = "none";
   driver.style.display = "none";
+  application.style.display = "none";
   company.style.display = "block";
 }
 </script>
