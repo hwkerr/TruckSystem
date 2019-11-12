@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.okhttp.OkHttpClient;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -22,14 +23,21 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
-public class DrawerActivity extends AppCompatActivity {
+public class DrawerActivity extends AppCompatActivity implements Networkable {
 
     private AppBarConfiguration mAppBarConfiguration;
+
+    public static final String DEFAULT_NET_TEXT = "Retrieving...";
+    private static String email, uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+
+        email = uid = DEFAULT_NET_TEXT;
+        retrieveNetData();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -67,4 +75,20 @@ public class DrawerActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    private void retrieveNetData() {
+        email = getIntent().getExtras().getString(LoginActivity.EXTRA_USERNAME);
+        OkNetNinja db = new OkNetNinja();
+        db.startTask(this, NetNinja.Function.USERID, email);
+    }
+
+    @Override
+    public void getResult(NetNinja.Function function, Object... results) {
+        if (function == NetNinja.Function.USERID) {
+            uid = results[0].toString();
+        }
+    }
+
+    public static String getEmail() { return email; }
+    public static String getUserID() { return uid; }
 }
