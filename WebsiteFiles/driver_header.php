@@ -32,7 +32,7 @@
 	<a class = "nav-link" style = "color:white;" href = "driver_sponsor_list.php">Apply for Sponsors</a>
     </li>
 	<li class = nav-item">
-		<a class = "nav-link" style = "color: white;" href = "driver_history.php">Account History</a>
+		<a class = "nav-link" style = "color: white;" href = "driver_history.php">History</a>
 	</li>
 	<li class = "nav-item">
 		<a class = "nav-link" style = "color:white;" href = "driver_cart.php">View Cart</a>
@@ -67,4 +67,18 @@
 </ul>
 <!--</button>-->
 </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
