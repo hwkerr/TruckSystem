@@ -958,7 +958,11 @@ function ninja_orders($did, $cid)
 function ninja_catalog_items($cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT");
+	$pst = $db->prepare("SELECT CatalogCatalogItem.Name AS Name, CatalogCatalogItem.PointPrice AS Price, CatalogCatalogItem.Image AS Image, CatalogCatalogItem.Description AS Description, CatalogItem.WebSource AS WebSource, CatalogItem.LinkInfo AS LinkInfo, CatalogCatalogItem.CustomImg AS CustomImg, CatalogCatalogItem.CustomDesc AS CustomDesc FROM CatalogCatalogItem INNER JOIN CatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID WHERE CatalogCatalogItem.CatalogID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
 }
 
 ?>
