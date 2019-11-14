@@ -67,15 +67,15 @@
 			$iid = $row['ItemID'];
 			$catid = $row['CatalogID'];
 			$iimg = $row['Image'];
-              		echo '<div class = "col">'
-              		echo 	'<div class="card" style="width: 18rem;">'
-              		echo     '<img class="card-img-top" src="data:image/png;base64,'.base64_encode($iimg).'">'
-              		echo       '<div class="card-body">'
-              		echo         '<a href = "driver_item_view.php?ItemID='.$iid.'&CatalogID='.$catid.'"><h5 class="card-title">'.$name.'</h5></a>'
-              		echo         '<p class="card-text">Points: 100</p>'
-              		echo       '</div>'
-              		echo     '</div>'
-              		echo   '</div>'
+              		echo '<div class = "col">';
+              		echo 	'<div class="card" style="width: 18rem;">';
+              		echo     '<img class="card-img-top" src="data:image/png;base64,'.base64_encode($iimg).'">';
+              		echo       '<div class="card-body">';
+              		echo         '<a href = "driver_item_view.php?ItemID='.$iid.'&CatalogID='.$catid.'"><h5 class="card-title">'.$name.'</h5></a>';
+              		echo         '<p class="card-text">Points: 100</p>';
+              		echo       '</div>';
+              		echo     '</div>';
+              		echo   '</div>';
 		}
 	?>
               <br />

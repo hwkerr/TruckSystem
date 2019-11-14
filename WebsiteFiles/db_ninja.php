@@ -1091,4 +1091,34 @@ function ninja_item_price($iid, $cid)
 	return $price;
 }
 
+function ninja_item_name($iid, $cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Name FROM CatalogCatalogItem WHERE ItemID = ? AND CatalogID = ?");
+	$pst->bind_param("ss", $iid, $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$name = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$name = $row['Name'];
+	}
+	return $name;
+}
+
+function ninja_item_description($iid, $cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Description FROM CatalogCatalogItem WHERE ItemID = ? AND CatalogID = ?");
+	$pst->bind_param("ss", $iid, $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$desc = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$desc = $row['Description'];
+	}
+	return $desc;
+}
+
 ?>
