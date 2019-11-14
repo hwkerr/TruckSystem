@@ -13,6 +13,10 @@ $image = ninja_pfp($uid);
 $cid = ninja_current_driver_company($uid);
 $total = ninja_points($uid, $cid);
 
+$iid = $_GET['ItemID'];
+$catid = $_GET['CatalogID'];
+$price = ninja_item_price($iid, $catid);
+
 ?>
 
 <html style = "height: 100%;">
@@ -46,7 +50,7 @@ $total = ninja_points($uid, $cid);
         </li>
       </ul><br />
       <button class = "btn btn-primary">Buy Now</button>
-      <button class = "btn btn-secondary" onclick="window.location.href = '<?php echo 'cart_add_item.php?'; ?>';">Add to Cart</button>
+      <button class = "btn btn-secondary" onclick="window.location.href = '<?php echo 'cart_add_item.php?ItemID='.$iid.'&Price='.$price.'&CatalogID='.$catid; ?>';">Add to Cart</button>
     </div>
   </div><br /><br />
   <div class = "row">
