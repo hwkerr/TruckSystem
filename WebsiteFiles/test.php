@@ -1,8 +1,11 @@
 <?php
 
 include "db_ninja.php";
-$res = ninja_point_gains("testdriver", 'testcompany');
-while ($row = $res->fetch_assoc())
-	echo $row['Timestamp']->format('Y-m-d');
+if (isset($_SESSION['Cart']))
+	echo $_SESSION['Cart'];
+else
+	echo 'not even set smh';
+
+ninja_catalogs('testcompany');
 
 ?>

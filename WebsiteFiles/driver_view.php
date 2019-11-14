@@ -34,7 +34,15 @@
 				$Name = $row['Name'];
 				$PointPrice = $row['PointPrice'];
 				$CustomImg = $row['CustomImg'];
-				echo '<div class = "col"><div class="card" style="width: 18rem;"><img class="card-img-top" src="data:image/png;base64,'. base64_encode($CustomImg) . '"><div class="card-body"><h5 class="card-title">'. $Name .'</h5><p class="card-text">Points: ' . $PointPrice .'</p></div></div></div>';
+				echo '<div class = "col">
+					<div class="card" style="width: 18rem;">
+						<img class="card-img-top" src="data:image/png;base64,'. base64_encode($CustomImg) . '">
+							<div class="card-body">
+								<h5 class="card-title">'. $Name .'</h5>
+								<p class="card-text">Points: ' . $PointPrice .'</p>
+							</div>
+						</div>
+				</div>';
 		}
 	}
  ?>
@@ -61,13 +69,16 @@
 
 	<?php
 		$items = ninja_browse_catalog_items($cid);
+		$rank = 0;
 		while ($row = $items->fetch_assoc())
 		{
 			$name = $row['Name'];
 			$iid = $row['ItemID'];
 			$catid = $row['CatalogID'];
 			$iimg = $row['Image'];
-              		echo '<div class = "col">';
+			if ($rank % 4 == 0)
+              		echo '<div class = "row">';
+			echo '<div class = "col-sm-4">';
               		echo 	'<div class="card" style="width: 18rem;">';
               		echo     '<img class="card-img-top" src="data:image/png;base64,'.base64_encode($iimg).'">';
               		echo       '<div class="card-body">';
@@ -75,8 +86,14 @@
               		echo         '<p class="card-text">Points: 100</p>';
               		echo       '</div>';
               		echo     '</div>';
-              		echo   '</div>';
+			echo   '</div>';
+			if ($rank+1 % 4 == 0)
+              			echo   '</div>';
+
+			$rank++;
 		}
+		if ($rank % 4 != 0)
+			echo '</div>';
 	?>
               <br />
           </div>

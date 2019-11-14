@@ -64,7 +64,7 @@ $desc = ninja_item_description($iid, $catid);
   </div>
   <div class = "row">
     <div class = "col-lg-6">
-      <button class = "btn btn-primary">Back to Home</button>
+      <button class = "btn btn-primary" onclick = "window.location.href = 'driver_view.php';">Back to Home</button>
     </div>
   </div>
 </div>

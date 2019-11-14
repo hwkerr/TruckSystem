@@ -1121,4 +1121,29 @@ function ninja_item_description($iid, $cid)
 	return $desc;
 }
 
+function ninja_item_image($iid, $cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Image FROM CatalogCatalogItem WHERE ItemID = ? AND CatalogID = ?");
+	$pst->bind_param("ss", $iid, $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$image = '';
+	if ($row = $res->fetch_assoc())
+	{
+		$image = $row['Image'];
+	}
+	return $image;
+}
+
+function ninja_catalogs($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Name, CatalogID FROM Catalog WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
 ?>

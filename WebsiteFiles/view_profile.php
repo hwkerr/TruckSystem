@@ -36,19 +36,19 @@ if ($_SESSION['UserType'] === "Driver")
 <body style = "height: 100%;">
   <title><?php echo $name ?></title>
 <?php include "driver_header.php";?>
+<div class = "jumbotron">
+   <h1><?php echo $name?></h1>
+</div>
 <div class = "container" style = "margin: 0 auto;">
   <div class = "row justify-content-center">
-    <div class = "col-lg-6" style = "text-align: center; color: white;">
-      <h1>
-        <br /><?php echo $name ?><br/><hr/>
-      </h1>
-    </br>
-    </div>
   </div>
   <div class = "row justify-content-center" style = "margin: auto;">
       <div class = "col-md-6">
           <div class = "ProfileName">
-          <span id = "Accountpicture"><img width = "60px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
+          <span id = "Accountpicture"><img width = "260px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
+	  </div>
+       </div>
+	  <div class = "col-md-6">
             <p id = "AccountText">
               <?php echo ""; ?><br />
             </p>
@@ -106,7 +106,7 @@ if ($_SESSION['UserType'] === "Driver")
           </div>
           <form style = "margin: 0 auto;" action = "logon.php">
             <div class = "row justify-content-center">
-              <button type = submit class = "btn btn-outline-light btn-block">Return to Home</button>
+              <button type = submit class = "btn btn-primary-light btn-block">Return to Home</button>
               <a href = "edit_profile.php" class = "form-text" style = "font-size: 12px;">Edit Information</a>
             </div>
           </form>

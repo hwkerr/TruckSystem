@@ -98,18 +98,31 @@
 	    <th>View Catalog</th>
           </tr>
         </thead>
-        <tr>
-          <th>
-            1
-          </th>
-          <td>
-            Sample Catalog
-          </td>
-          <td>
-            10
-          </td>
-	 <td><a href = "catalog_view.php">View Catalog</a>
-        </tr>
+	<?php
+
+	$catalogs = ninja_catalogs($cid);
+	$num = 1;
+	while ($row = $catalogs->fetch_assoc())
+	{
+		echo '<tr>';
+		echo '<th>';
+		echo $num;
+		echo '</th>';
+		echo '<td>';
+		echo $row['Name'];
+		echo '</td>';
+		echo '<td>';
+		echo 'number of items';
+		echo '</td>';
+		echo '<td>';
+		echo '<a href = "catalog_view.php?CatalogID='.$row['CatalogID'].'">View Catalog</a>';
+		echo '</td>';
+		echo '</tr>';
+
+		$num++;
+	}
+
+	?>
       </table>
 	<div>
         <form action = "create_catalog.php" method = "post">
