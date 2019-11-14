@@ -22,42 +22,42 @@
 
     <a class = "navbar-brand" style = "color:white;" onclick = "window.location.href = 'driver_view.php';">
 	<img width = "30px" height = "30px" src = "Assets/logo-blue.png">What the Truck!<a>
-<button class = "navbar-toggler" style = "background-color: white;float: right;" type = "button" data-toggle="collapse" data-target = "#navbarNav" aria-expanded="false" aria-controls = "navbarNav" aria-label = "Toggles navbar">
+<button class = "navbar-toggler" style = "background-color: white;" type = "button" data-toggle="collapse" data-target = "#navbarNav" aria-expanded="false" aria-controls = "navbarNav" aria-label = "Toggles navbar">
 	<span class = "navbar-toggler-icon" ></span>
 </button>
 <!--Navbar Links-->
  <div class = "collapse navbar-collapse" id = "navbarNav">
-  <ul class = "navbar-nav" id = "navbarNav">
+  <ul class = "navbar-nav mr-auto">
     <li class = "nav-item" style = "color:white;">
 	<a class = "nav-link" style = "color:white;" href = "driver_sponsor_list.php">Apply for Sponsors</a>
     </li>
 	<li class = nav-item">
 		<a class = "nav-link" style = "color: white;" href = "driver_history.php">History</a>
 	</li>
-	<li class = "nav-item">
+<!--	<li class = "nav-item">
 		<a class = "nav-link" style = "color:white;" href = "driver_cart.php">View Cart</a>
 	</li>
-
+-->
     <li class = "nav-item" style = "color: white;">
       <a class = "nav-link" style = "color:white;" href = "contact_admin.php">Contact Us</a>
     </li>
 
-    <li class = "nav-item" style = "color:white;">
+   <!-- <li class = "nav-item" style = "color:white;">
         <a class = "nav-link" style = "color:white;" href = "Assets/Files/wtt-alpha-s7.apk" download>Download Mobile App</a>
     </li>
 
  <li class = "nav-item" style = "color:white;">
       <a class = "nav-link" style = "color:white;" href = "logout.php">Log Off</a>
-    </li>
+    </li>-->
 
 
   </ul>
 </div>
 
 <!--Profile-->  
-<ul class = "nav navbar-nav navbar-right" onclick = "location.href = 'view_profile.php';" style = "display: inline-block; float: right;">
+<ul id = "profilepic" class = "nav navbar-nav navbar-right" onclick = "location.href = 'view_profile.php';" style = "display: inline-block; float: right;">
 <li>
-<div class = "ProfileName" style = "padding-left: 20px; color: white; border-left: white 1px solid">
+<div id = "ProfileName" style = "padding-left: 20px; color: white; border-left: white 1px solid">
     <span class = "Accountpicture" style = "vertical-align: middle; margin: auto;display: inline-block;"><img width = "40px" height="40px" src =<?php echo '"data:image/png;base64,'.base64_encode($image).'"'?> /></span>
       <p style = "vertical-align: middle; display: inline-block; margin: auto;">
         <?php echo htmlspecialchars(ninja_name($uid)); ?><br />Points: <?php echo htmlspecialchars($total); ?>
@@ -68,8 +68,16 @@
 <!--</button>-->
 </nav>
 
-
-
+<script>
+$(function () {
+ $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+<div id = "buttonContainer">
+<button class = "btn btn-success" data-toggle="tooltip" data-placement="left" title="Download App" id = "circular"><span class = "oi oi-data-transfer-download"></span></button><br>
+<button class = "btn btn-warning" onclick = "location.href = 'driver_cart.php'"data-toggle="tooltip" data-placement="left" title="View Cart" id = "circular"><span class = "oi oi-cart"></span></button><br>
+<button class = "btn btn-danger" onclick = "location.href = 'logout.php'" data-toggle="tooltip" data-placement="left" title="Log Off" id = "circular"><span class = "oi oi-account-logout"></span></button>
+</div>
 
 
 

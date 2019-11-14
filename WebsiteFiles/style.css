@@ -7,6 +7,12 @@
   width: 100%;
 }
 
+#sortSelect{
+  /* display: inline-block;
+   float: right;
+   text-align:right;*/
+}
+
 #logonContainer{
   margin: 0 auto;
 }
@@ -101,6 +107,31 @@
   padding-bottom:12px;
 }
 
+#buttonContainer{
+  z-index: 1;
+  bottom: 20;
+  right: 20;
+  position: fixed;
+  background-size: auto;
+  text-align: center;
+}
+#circular{
+  margin-top: 5px;
+  width: 70px;
+  height: 70px;
+  padding: 12px 25px;
+  border-radius: 45px;
+  font-size: 10px;
+  text-align: center;
+  box-shadow: 1px 1px 5px grey;
+}
 .table td{
   vertical-align: middle;
 }
+
+@media only screen and (max-width: 1026px){
+  #profilepic{
+	display: none;
+}
+}
+

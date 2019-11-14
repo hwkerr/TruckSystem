@@ -111,7 +111,15 @@
 	 <td><a href = "catalog_view.php">View Catalog</a>
         </tr>
       </table>
+	<div>
+        <form action = "create_catalog.php" method = "post">
+          <input type = "text" name="NewCatalogName" placeholder = "New Catalog Name">
+	  <input type = "hidden" name = "CID" value = "<?php echo $cid; ?>">
+          <button type = "submit" value="Create New Catalog">
+        </form>
+	</div>
     </div>
+
     <div id = "DriverContent" style = "display: block;">
       <div class = "jumbotron" style = "margin-bottom: 0;">
         <h1>Drivers</h1>

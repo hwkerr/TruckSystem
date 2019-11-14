@@ -46,7 +46,7 @@ $total = ninja_points($uid, $cid);
         </li>
       </ul><br />
       <button class = "btn btn-primary">Buy Now</button>
-      <button class = "btn btn-secondary">Add to Cart</button>
+      <button class = "btn btn-secondary" onclick="window.location.href = '<?php echo 'cart_add_item.php?'; ?>';">Add to Cart</button>
     </div>
   </div><br /><br />
   <div class = "row">

@@ -113,6 +113,7 @@ CREATE TABLE ItemOrderCatalogItem
     Position            INT                NOT NULL,
     Shipped        BOOLEAN            NOT NULL,
     Cancelled        BOOLEAN            NOT NULL,
+    CatalogID	VARCHAR(16)	NOT NULL,
     PRIMARY KEY (OrderID, ItemID),
     FOREIGN KEY (OrderID) REFERENCES ItemOrder (OrderID),
     FOREIGN KEY (ItemID) REFERENCES CatalogItem (ItemID)

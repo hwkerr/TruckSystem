@@ -32,15 +32,10 @@ if ($_SESSION['UserType'] === "Driver")
 ?>
 
 <html style = "height: 100%;">
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</head>
-
-<body style = "height: 100%;background-image: linear-gradient(to bottom right, #071461, #0B358E);">
-  <title><?php echo $name ?></title><br /><br /><br />
+<?php include "htmlhead.php";?>
+<body style = "height: 100%;">
+  <title><?php echo $name ?></title>
+<?php include "driver_header.php";?>
 <div class = "container" style = "margin: 0 auto;">
   <div class = "row justify-content-center">
     <div class = "col-lg-6" style = "text-align: center; color: white;">
@@ -52,7 +47,7 @@ if ($_SESSION['UserType'] === "Driver")
   </div>
   <div class = "row justify-content-center" style = "margin: auto;">
       <div class = "col-md-6">
-          <div class = "ProfileName" style = "color: white;">
+          <div class = "ProfileName">
           <span id = "Accountpicture"><img width = "60px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
             <p id = "AccountText">
               <?php echo ""; ?><br />
@@ -112,7 +107,7 @@ if ($_SESSION['UserType'] === "Driver")
           <form style = "margin: 0 auto;" action = "logon.php">
             <div class = "row justify-content-center">
               <button type = submit class = "btn btn-outline-light btn-block">Return to Home</button>
-              <a href = "edit_profile.php" class = "form-text" style = "font-size: 12px; color: white;">Edit Information</a>
+              <a href = "edit_profile.php" class = "form-text" style = "font-size: 12px;">Edit Information</a>
             </div>
           </form>
         </div>

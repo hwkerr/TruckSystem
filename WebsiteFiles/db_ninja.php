@@ -952,7 +952,11 @@ function ninja_point_gains($did, $cid)
 function ninja_orders($did, $cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT ItemOrderCatalogItem.PointPrice AS Price FROM (((ItemOrderCatalogItem INNER JOIN ItemOrder ON ItemOrderCatalogItem.OrderID = ItemOrder.OrderID) INNER JOIN CatalogItem ON CatalogItem.ItemID = ItemOrderCatalogItem.ItemID) INNER JOIN CatalogCatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID) INNER JOIN Catalog ON CatalogCatalogItem.CatalogID = Catalog.CatalogID WHERE ItemOrder.DriverID = ? AND Catalog.CompanyID = ?");
+	$pst = $db->prepare("SELECT ItemOrderCatalogItem.PointPrice AS Price, CatalogCatalogItem.Image AS Image, CatalogCatalogItem.Name AS Name, CatalogItem.WebSource AS WebSource, CatalogItem.LinkInfo AS LinkInfo, CatalogCatalogItem.CustomImg AS CustomImg, CatalogCatalogItem.CustomDesc AS CustomDesc FROM (((ItemOrderCatalogItem INNER JOIN ItemOrder ON ItemOrderCatalogItem.OrderID = ItemOrder.OrderID) INNER JOIN CatalogItem ON CatalogItem.ItemID = ItemOrderCatalogItem.ItemID) INNER JOIN CatalogCatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID) INNER JOIN Catalog ON CatalogCatalogItem.CatalogID = Catalog.CatalogID WHERE ItemOrder.DriverID = ? AND Catalog.CompanyID = ?");
+	$pst->bind_param("ss", $did, $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
 }
 
 function ninja_catalog_items($cid)
@@ -963,6 +967,113 @@ function ninja_catalog_items($cid)
 	$pst->execute();
 	$res = $pst->get_result();
 	return $res;
+}
+
+function ninja_add_base_item($source, $link)
+{
+	$db = dojo_connect();
+	
+	// generate new id
+	$pst = $db->prepare("SELECT ItemID FROM CatalogItem");
+	$pst->execute();
+	$res = $pst->get_result();
+	$newid = "";
+	$unique = false;
+	while (!$unique)
+	{
+		$newid = substr(md5(rand()), 0, 16);
+		$unique = true;
+		$res->data_seek(0);
+		while ($row = $res->fetch_assoc())
+			if ($row['ItemID'] === $newid)
+				$unique = false;
+	}
+
+	// insert item
+	$pst = $db->prepare("INSERT INTO CatalogItem VALUES (?, ?, ?)");
+	$pst->bind_param("sss", $newid, $source, $link);
+	$pst->execute();
+
+	return $newid;
+}
+
+function ninja_new_catalog($cid, $name)
+{
+	$db = dojo_connect();
+	
+	// generate new id
+	$pst = $db->prepare("SELECT CatalogID FROM Catalog");
+	$pst->execute();
+	$res = $pst->get_result();
+	$newid = "";
+	$unique = false;
+	while (!$unique)
+	{
+		$newid = substr(md5(rand()), 0, 16);
+		$unique = true;
+		$res->data_seek(0);
+		while ($row = $res->fetch_assoc())
+			if ($row['CatalogID'] === $newid)
+				$unique = false;
+	}
+
+	// insert catalog
+	$pst = $db->prepare("INSERT INTO Catalog VALUES(?, ?, 0, ?)");
+	$pst->bind_param("sss", $newid, $name, $cid);
+	$pst->execute();
+
+	return $newid;
+}
+
+function ninja_browse_catalog_items($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Name, Image, PointPrice AS Price, CustomImg, WebSource, LinkInfo FROM CatalogCatalogItem INNER JOIN CatalogItem ON CatalogCatalogItem.ItemID = CatalogItem.ItemID WHERE CatalogCatalogItem.ItemID IN (SELECT ItemID FROM CatalogCatalogItem INNER JOIN Catalog ON Catalog.CatalogID = CatalogCatalogItem.CatalogID WHERE Catalog.CompanyID = ?)");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_place_order($uid, $items)
+{
+	$db = dojo_connect();
+	
+	// generate new id
+	$pst = $db->prepare("SELECT OrderID FROM ItemOrder");
+	$pst->execute();
+	$res = $pst->get_result();
+	$newid = "";
+	$unique = false;
+	while (!$unique)
+	{
+		$newid = substr(md5(rand()), 0, 16);
+		$unique = true;
+		$res->data_seek(0);
+		while ($row = $res->fetch_assoc())
+			if ($row['OrderID'] === $newid)
+				$unique = false;
+	}
+
+	// create new order
+	$pst = $db->prepare("INSERT INTO ItemOrder VALUES(?, NOW(), 0, ?)");
+	$pst->bind_param("ss", $newid, $uid); 
+	$pst->execute();
+
+	// add items to order
+	$position = 1;
+	foreach ($items as $item)
+	{
+		$pst = $db->prepare("INSERT INTO ItemOrderCatalogItem VALUES(?, ?, ?, ?, 0, 0, ?)");
+		$iid = $item['ItemID'];
+		$price = $item['Price'];
+		$cid = $item['CatalogID'];
+		$pst->bind_param("ssiis", $newid, $iid, $price, $position, $cid);
+		$pst->execute();
+		$position++;
+	}
+
+	return $newid;
 }
 
 ?>
