@@ -1146,4 +1146,19 @@ function ninja_catalogs($cid)
 	return $res;
 }
 
+function ninja_catalog_item_count($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT COUNT(*) AS Items FROM CatalogCatalogItem WHERE CatalogID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$items = 0;
+	if ($row = $res->fetch_assoc())
+	{
+		$items = $row['Items'];
+	}
+	return $items;
+}
+
 ?>

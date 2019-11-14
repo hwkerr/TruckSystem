@@ -112,7 +112,7 @@
 		echo $row['Name'];
 		echo '</td>';
 		echo '<td>';
-		echo 'number of items';
+		echo ninja_catalog_item_count($row['CatalogID']);
 		echo '</td>';
 		echo '<td>';
 		echo '<a href = "catalog_view.php?CatalogID='.$row['CatalogID'].'">View Catalog</a>';

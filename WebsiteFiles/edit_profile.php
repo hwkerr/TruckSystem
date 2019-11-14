@@ -35,6 +35,7 @@ else  // populate data
 {
 	$fname = ninja_fname($uid);
 	$lname = ninja_lname($uid);
+	$pfp = ninja_pfp($uid);
 	if ($_SESSION['UserType'] === "Driver")
 	{
 		$phone = ninja_phone($uid);  // no dashes
@@ -63,7 +64,7 @@ else  // populate data
 <div class = "container" style = "margin: 0 auto;">
   <div class = "row justify-content-center" style = "margin: auto;">
       <div class = "col-md-6">
-	<img width = "200px" src = "Assets/ProfilePicture.jpg"></img>
+	<img width = "200px" src = "<?php echo 'data:image/png;base64,'.base64_encode($pfp); ?>"></img>
 	<hr>
 	<br>
         <form action="upload_pfp.php" method="post" enctype="multipart/form-data">

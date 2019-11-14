@@ -8,4 +8,6 @@ else
 
 ninja_catalogs('testcompany');
 
+echo ninja_catalog_item_count('testcatalog');
+
 ?>
