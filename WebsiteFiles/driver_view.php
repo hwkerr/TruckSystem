@@ -59,16 +59,25 @@
 			</form>
 		</div>
 
-              <div class = "col">
-              	<div class="card" style="width: 18rem;">
-                  <img class="card-img-top" src="Assets/DefaultPicture.jpg">
-                    <div class="card-body">
-                      <a href = "driver_item_view.php"><h5 class="card-title">Sample Item</h5></a>
-                      <p class="card-text">Points: 100</p>
-                    </div>
-                  </div>
-                </div>
-
+	<?php
+		$items = ninja_browse_catalog_items($cid);
+		while ($row = $items->fetch_assoc())
+		{
+			$name = $row['Name'];
+			$iid = $row['ItemID'];
+			$catid = $row['CatalogID'];
+			$iimg = $row['Image'];
+              		echo '<div class = "col">'
+              		echo 	'<div class="card" style="width: 18rem;">'
+              		echo     '<img class="card-img-top" src="data:image/png;base64,'.base64_encode($iimg).'">'
+              		echo       '<div class="card-body">'
+              		echo         '<a href = "driver_item_view.php?ItemID='.$iid.'&CatalogID='.$catid.'"><h5 class="card-title">'.$name.'</h5></a>'
+              		echo         '<p class="card-text">Points: 100</p>'
+              		echo       '</div>'
+              		echo     '</div>'
+              		echo   '</div>'
+		}
+	?>
               <br />
           </div>
 </body>

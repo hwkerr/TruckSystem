@@ -1028,7 +1028,7 @@ function ninja_new_catalog($cid, $name)
 function ninja_browse_catalog_items($cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT Name, Image, PointPrice AS Price, CustomImg, WebSource, LinkInfo FROM CatalogCatalogItem INNER JOIN CatalogItem ON CatalogCatalogItem.ItemID = CatalogItem.ItemID WHERE CatalogCatalogItem.ItemID IN (SELECT ItemID FROM CatalogCatalogItem INNER JOIN Catalog ON Catalog.CatalogID = CatalogCatalogItem.CatalogID WHERE Catalog.CompanyID = ?)");
+	$pst = $db->prepare("SELECT Name, Image, PointPrice AS Price, CustomImg, CatalogCatalogItem.ItemID AS ItemID, CatalogCatalogItem.CatalogID AS CatalogID, WebSource, LinkInfo FROM CatalogCatalogItem INNER JOIN CatalogItem ON CatalogCatalogItem.ItemID = CatalogItem.ItemID WHERE CatalogCatalogItem.ItemID IN (SELECT ItemID FROM CatalogCatalogItem INNER JOIN Catalog ON Catalog.CatalogID = CatalogCatalogItem.CatalogID WHERE Catalog.CompanyID = ?)");
 	$pst->bind_param("s", $cid);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -1074,6 +1074,21 @@ function ninja_place_order($uid, $items)
 	}
 
 	return $newid;
+}
+
+function ninja_item_price($iid, $cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT PointPrice FROM CatalogCatalogItem WHERE ItemID = ? AND CatalogID = ?");
+	$pst->bind_param("ss", $iid, $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$price = 0;
+	if ($row = $res->fetch_assoc())
+	{
+		$price = $row['PointPrice'];
+	}
+	return $price;
 }
 
 ?>
