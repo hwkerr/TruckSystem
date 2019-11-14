@@ -45,6 +45,7 @@ if ($_SESSION['UserType'] === "Driver")
   <div class = "row justify-content-center" style = "margin: auto;">
       <div class = "col-md-6">
           <div class = "ProfileName">
+	  <h2>Profile Info</h2>
           <span id = "Accountpicture"><img width = "260px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
 	  </div>
        </div>

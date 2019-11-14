@@ -221,18 +221,21 @@
           <div class = "row">
             <div class = "col-sm-2"></div>
             <div class = "col-md-6">
+	     <h2>Company Description</h2>
+	     <div class = "card">
               <div class = "card-body">
 		<?php
 			echo $cinfo;
 		?>
               </div>
+	     </div>
             </div>
             <div class = "col-md-3">
-              <img src = <?php echo '"data:image/png;base64,'.base64_encode($cimage).'"';?> class = "img-rounded "></img>
+              <img width = "200px" src = <?php echo '"data:image/png;base64,'.base64_encode($cimage).'"';?> class = "img-rounded "></img>
             </div>
           </div>
           <div class = "row justify-content-center">
-            <div class = "col-sm-3">
+            <div class = "col-sm-3"><br>
               <button class = "btn btn-primary" onclick = "window.location.href = 'edit_company.php';">Edit Information</button>
             </div>
           </div>

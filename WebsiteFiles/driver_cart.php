@@ -24,7 +24,7 @@ $fname = ninja_fname($uid);
     <div class = "container-fluid">
 	<?php
 
-	if (isset($_SESSION['Cart']))
+	if (isset($_SESSION['Cart']) && count($_SESSION['Cart']) > 0)
 	{	
 		$items = $_SESSION['Cart'];
 		$element = 0;
@@ -57,6 +57,14 @@ $fname = ninja_fname($uid);
 
 			$element++;
 		}
+	}
+	else
+	{
+      		echo '<div class = "row" style =>
+        		<div class = "col-md-3">
+			<p style = "top: 50%;">No Items in Cart</p>
+		</div>
+		</div>';
 	}
 
 	?>
