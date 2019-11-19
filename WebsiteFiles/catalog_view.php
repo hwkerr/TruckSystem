@@ -11,7 +11,21 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['Us
 }
 
 $cid = $_GET['CatalogID'];
+
+if ($_SESSION['UserType'] === 'Sponsor')  // check if sponsor belongs to same company as catalog
+{
+	$ccid = ninja_catalog_company_id($cid);
+	$uid = $_SESSION['UserID'];
+	$scid = ninja_sponsor_company_id($uid);
+	if ($ccid != $scid)
+	{
+		header("location: logon.php");
+		exit;
+	}
+}
+
 $items = ninja_catalog_items($cid);
+$catname = ninja_catalog_name($cid);
 
 ?>
 
@@ -19,25 +33,45 @@ $items = ninja_catalog_items($cid);
 <?php include"htmlhead.php" ?>
 <body>
 <div class = "jumbotron" style = "margin:0;"> 
-  <h1>Catalog Info</h1>
+  <h1><?php echo $catname; ?></h1>
 </div>
 <table class = "table">
 <thead>
    <th>Item Number</th>
+   <th>Image</th>
    <th>Item Name</th>
    <th>Item Point Value</th>
-   <th>Item Quantity</th>
    <th>Edit Item</th>
    <th>Remove Item</td>
 </thead>
+<?php
+
+$rank = 1;
+while ($row = $items->fetch_assoc())
+{
+	echo '
 <tr>
-	<td>1</td>
-	<td>Moon Shoes</td>
-	<td>10000</td>
-	<td>1</td>
-	<td><a href = "edit_item.php">Link</a></td>
-	<td>Drop Item</td>
+	<td>'.$rank.'</td>
+	<td>
+	<img src = "data:image/png;base64,'.base64_encode($row['Image']).'" width = " 80px"/>
+	</td>
+	<td>'.$row['Name'].'</td>
+	<td>'.$row['Price'].'</td>
+	<td><a href = "edit_item.php?ItemID='.$row['ItemID'].'&CatalogID='.$cid.'">Edit</a></td>
+	<td><a href = "remove_catalog_item.php?ItemID='.$row['ItemID'].'&CatalogID='.$cid.'">Remove</a></td>
+</tr>
+	';
+	
+}
+
+?>
 </table><div style = "text-align: center;">
-<button class = "btn btn-primary" onclick = "location.href = 'create_item.php' ">Add New Item</button></div>
+<button class = "btn btn-primary" onclick = "location.href = 'base_catalog.php?CatalogID=<?php echo $cid; ?>' ">Add New Item</button>
+<button class = "btn btn-primary" onclick = "location.href = 'logon.php' ">Back to Home</button></div>
+			<form action = "rename_catalog.php">
+			<input type = "text" name = "CatalogName">
+			<input type = "hidden" name = "CatalogID" value = "<?php echo $cid; ?>">
+			<input type = "submit" value = "Rename Catalog">
+			</form>
 </body>
 </html>

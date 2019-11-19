@@ -952,7 +952,7 @@ function ninja_point_gains($did, $cid)
 function ninja_orders($did, $cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT ItemOrderCatalogItem.PointPrice AS Price, CatalogCatalogItem.Image AS Image, CatalogCatalogItem.Name AS Name, CatalogItem.WebSource AS WebSource, CatalogItem.LinkInfo AS LinkInfo, CatalogCatalogItem.CustomImg AS CustomImg, CatalogCatalogItem.CustomDesc AS CustomDesc FROM (((ItemOrderCatalogItem INNER JOIN ItemOrder ON ItemOrderCatalogItem.OrderID = ItemOrder.OrderID) INNER JOIN CatalogItem ON CatalogItem.ItemID = ItemOrderCatalogItem.ItemID) INNER JOIN CatalogCatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID) INNER JOIN Catalog ON CatalogCatalogItem.CatalogID = Catalog.CatalogID WHERE ItemOrder.DriverID = ? AND Catalog.CompanyID = ?");
+	$pst = $db->prepare("SELECT ItemOrderCatalogItem.PointPrice AS Price, CatalogCatalogItem.Image AS Image, CatalogCatalogItem.Name AS Name, CatalogItem.WebSource AS WebSource, CatalogItem.LinkInfo AS LinkInfo, ItemOrderCatalogItem.OrderID AS OrderID, ItemOrder.Timestamp AS Timestamp, CatalogCatalogItem.CustomImg AS CustomImg, CatalogCatalogItem.CustomDesc AS CustomDesc FROM (((ItemOrderCatalogItem INNER JOIN ItemOrder ON ItemOrderCatalogItem.OrderID = ItemOrder.OrderID) INNER JOIN CatalogItem ON CatalogItem.ItemID = ItemOrderCatalogItem.ItemID) INNER JOIN CatalogCatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID) INNER JOIN Catalog ON CatalogCatalogItem.CatalogID = Catalog.CatalogID WHERE ItemOrder.DriverID = ? AND Catalog.CompanyID = ? ORDER BY OrderID");
 	$pst->bind_param("ss", $did, $cid);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -962,7 +962,7 @@ function ninja_orders($did, $cid)
 function ninja_catalog_items($cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT CatalogCatalogItem.Name AS Name, CatalogCatalogItem.PointPrice AS Price, CatalogCatalogItem.Image AS Image, CatalogCatalogItem.Description AS Description, CatalogItem.WebSource AS WebSource, CatalogItem.LinkInfo AS LinkInfo, CatalogCatalogItem.CustomImg AS CustomImg, CatalogCatalogItem.CustomDesc AS CustomDesc FROM CatalogCatalogItem INNER JOIN CatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID WHERE CatalogCatalogItem.CatalogID = ?");
+	$pst = $db->prepare("SELECT CatalogCatalogItem.Name AS Name, CatalogCatalogItem.PointPrice AS Price, CatalogCatalogItem.Image AS Image, CatalogCatalogItem.Description AS Description, CatalogCatalogItem.ItemID AS ItemID, CatalogCatalogItem.CatalogID AS CatalogID, CatalogItem.WebSource AS WebSource, CatalogItem.LinkInfo AS LinkInfo, CatalogCatalogItem.CustomImg AS CustomImg, CatalogCatalogItem.CustomDesc AS CustomDesc FROM CatalogCatalogItem INNER JOIN CatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID WHERE CatalogCatalogItem.CatalogID = ?");
 	$pst->bind_param("s", $cid);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -1159,6 +1159,93 @@ function ninja_catalog_item_count($cid)
 		$items = $row['Items'];
 	}
 	return $items;
+}
+
+function ninja_catalog_name($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Name FROM Catalog WHERE CatalogID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$name = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$name = $row['Name'];
+	}
+	return $name;
+}
+
+function ninja_update_catalog_item($iid, $cid, $name, $price, $desc)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE CatalogCatalogItem SET Name = ?, PointPrice = ?, Description = ? WHERE ItemID = ? AND CatalogID = ?");
+	$pst->bind_param("sisss", $name, $price, $desc, $iid, $cid);
+	$pst->execute();
+}
+
+function ninja_update_catalog_item_image($iid, $cid, $image)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE CatalogCatalogItem SET Image = '$image' WHERE ItemID = ? AND CatalogID = ?");
+	$pst->bind_param("ss", $iid, $cid);
+	if($pst->execute())
+	{
+        	return "The file has been uploaded successfully.";
+	}
+	else
+	{
+        	return "File upload failed, please try again.";
+        } 
+}
+
+function ninja_remove_catalog_item($iid, $cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("DELETE FROM CatalogCatalogItem WHERE ItemID = ? AND CatalogID = ?");
+	$pst->bind_param("ss", $iid, $cid);
+	$pst->execute();
+}
+
+function ninja_catalog_company_id($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT CompanyID FROM Catalog WHERE CatalogID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$id = "";
+	if ($row = $res->fetch_assoc())
+	{
+		$id = $row['CompanyID'];
+	}
+	return $id;
+}
+
+function ninja_update_catalog_name($cid, $name)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Catalog SET Name = ? WHERE CatalogID = ?");
+	$pst->bind_param("ss", $name, $cid);
+	$pst->execute();
+}
+
+function ninja_browse_base_items($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT ItemID, WebSource, LinkInfo FROM CatalogItem WHERE ItemID NOT IN (SELECT ItemID FROM CatalogCatalogItem WHERE CatalogID = ?)");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_add_catalog_item($iid, $cid, $name, $price, $desc, $image)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("INSERT INTO CatalogCatalogItem VALUES(?, ?, ?, ?, 0.0, 1, ?, 1, '$image')");
+	$pst->bind_param("sssis", $cid, $iid, $name, $price, $desc);
+	$pst->execute();
 }
 
 ?>

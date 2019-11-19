@@ -24,7 +24,6 @@
 			if($insert)
 			{
             			$statusMsg = "The file ".$fileName. " has been uploaded successfully.";
-				header("location: logon.php");
            		}
 			else
 			{
@@ -32,5 +31,7 @@
             		} 
 		}
 	}
+	
+	header("location: edit_profile.php");
 
 ?>

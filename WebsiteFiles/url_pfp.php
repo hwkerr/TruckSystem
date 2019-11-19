@@ -30,5 +30,5 @@
 		}
 	}
 
-	header("location: logon.php");
+	header("location: edit_profile.php");
 ?>

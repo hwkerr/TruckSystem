@@ -17,7 +17,7 @@ $fname = ninja_fname($uid);
 <body>
 <?php include "driver_header.php"; ?>
 
-<div id = "cartBody">
+<div id = "cartBody" style = "width: 100%;">
   <div class = "jumbotron">
     <h1><?php echo $fname; ?>'s Cart</h1>
     </div>
@@ -34,9 +34,9 @@ $fname = ninja_fname($uid);
 			$catid = $item['CatalogID'];
 			$price = $item['Price'];
 			$iname = ninja_item_name($iid, $catid);
-      			echo '<div class = "row" style =>';
+      			echo '<div class = "row">';
         		echo '<div class = "col-md-3">';
-        	  	echo '<img src = "Assets/DefaultPicture.jpg" />';
+        	  	echo '<img width = "100px " src = "Assets/DefaultPicture.jpg" />';
         	  	echo '</div>';
         	  	echo '<div class = "col-md-6" style = "vertical-align: middle;">';
         	    	echo '<p style = "top: 50%;">';
@@ -60,7 +60,7 @@ $fname = ninja_fname($uid);
 	}
 	else
 	{
-      		echo '<div class = "row" style =>
+      		echo '<div class = "row">
         		<div class = "col-md-3">
 			<p style = "top: 50%;">No Items in Cart</p>
 		</div>
@@ -71,18 +71,12 @@ $fname = ninja_fname($uid);
         <hr />
       </div>
     </div>
-
-<div id = "cartSideBar" style = "background-image: linear-gradient(to bottom right, #E5E5E5, #FFFFFF);">
-<br/><br/><br/><br/><br/><br/>
-<h1 style = "text-align:center; color: black;">Options</h1><hr>
-  <ul class = "navbar-nav" id = "buttonList">
-    <li class = "nav-item">
-      <button class = "btn btn-primary" onclick = "window.location.href = 'place_order.php';" >Checkout</button>
-      </li><br />
-      <li class = "nav-item">
-        <button class = "btn btn-primary" onclick="window.location.href = 'logon.php';" >Keep Shopping</button>
-        </li>
-    </ul>
+<div class = "card" id = "cartMenu" style = "position: fixed; bottom: 20; left: 30%; width: 40%;">
+	<div class = "card-header" style = "text-align: center;"><h5>Cart Status</h5></div>
+	<div class = "card-body">
+		<p style = "display: inline-block; float: left; vertical-align: center;">Order total: Price</p>
+		<button class = "btn btn-primary" style = "display: inline-block; vertical-align: center; text-align: right; float: right;">Checkout</button>
+		<button class = "btn btn-light" style = "display: flex; align-items: center; float: right;">Keep Shopping</button>
+	</div>
 </div>
-
 </body>

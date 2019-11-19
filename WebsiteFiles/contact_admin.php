@@ -44,39 +44,49 @@ else
 ?>
 
 <!DOCTYPE html>
-<html style = "height: 100%;">
+<html>
 <?php include "htmlhead.php"?>
-<body style = "height: 100%;background-image: linear-gradient(to bottom right, #071461, #0B358E);">
-  <br /><br /><br />
-<div class = "container" style = "margin: 0 auto;">
+<body style = "height: 100%;">
+ <?php include "driver_header.php"?>
+<div class = "jumbotron">
+<h1>Driver Help</h1>
+</div>
+<div class = "container-fluid" style = "margin: 0 auto;"><!--
   <div class = "row justify-content-center">
-    <div class = "col-lg-6" style = "text-align: center; color: white;">
+    <div class = "col-lg-6" style = "text-align: center;">
       <h1>
         <br /><?php echo $type ?>  Help<br/><hr/>
       </h1>
     </div>
   </div>
   <div class = "row justify-content-center" style = "margin: auto;">
-      <div class = "col-lg" style = "text-align: center; color: white;">
+      <div class = "col-lg" style = "text-align: center;">
           <p>
             <?php echo $message; ?>
             <br /><br /></p>
         </div>
-      </div>
+      </div>-->
             <div class = "row justify-content-center" style = "margin: auto;">
-              <div class = "col-lg" style = "text-align: center;">
+	      <div class = "col-lg-3">
+		<p style = "font-size: 30px"><p class = "lead">Here at What the Truck!, we believe that the driver comes first!</p> That's why we think it is very Trucking important the the drivers are always able to get in touch with our admins. Whether you are having issues with the website or you just want to chat, place your message and information in the form provided and a What the Truck representative will get back to you as soon as possible. We look forward to hearing from you! Happy Driving!</p>
+	<footer class = "blockquote-footer">Harrison Kerr, Founder of What the Truck!</footer>
+		</div>
+              <div class = "col-lg-4">
                 <form method = "post">
                   <div class = "row">
                     <div class = "col">
-                      <input type = "text" name = "FName" class = "form-control" value = <?php echo $fname ?> placeholder = "Your First Name" />
+		      <label for = "FirstName">First Name</label>
+                      <input type = "text" id = "FirstName" name = "FName" class = "form-control" value = <?php echo $fname ?> placeholder = "Your First Name" />
                       </div>
                       <div class = "col">
-                        <input type = "text" name = "LName" class = "form-control" value = <?php echo $lname ?> placeholder = "Your Last Name"/>
+			<label for = "LastName">Last Name</label>
+                        <input type = "text" id = "LastName" name = "LName" class = "form-control" value = <?php echo $lname ?> placeholder = "Your Last Name"/>
                         </div>
                     </div>
                     <div class = "row">
                       <div class = "col"><br />
-                        <input type = "text" name = "Email" class = form-control value = <?php echo $email ?> placeholder = "Your Email" />
+			<label for = "PEmail">Email</label>
+                        <input type = "text" id = "PEmail" name = "Email" class = form-control value = <?php echo $email ?> placeholder = "Your Email" />
                         </div>
                       </div>
                       <div class = row>
@@ -93,12 +103,12 @@ else
                         </div>
                         <div class = "row">
                           <div class = "col"><br />
-                            <button type = submit class = "btn btn-outline-light btn-block">Submit</button>
-              		    <a href = "logon.php" class = "form-text" style = "font-size: 12px; color: white;">Back to Home</a>
+                            <button type = submit class = "btn btn-primary btn-block">Submit</button>
+              		    <a href = "logon.php" class = "form-text" style = "font-size: 12px; text-align: center;">Back to Home</a>
                           </div>
                         </div>
                   </form>
-                <hr />
+               
               </div>
             </div>
           </div>

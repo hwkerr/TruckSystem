@@ -24,30 +24,64 @@ $did = $uid;
 <h1>Order History</h1>
 </div>
 <div class = "container">
+
 <!--Order Card-->
-<div class = "card">
-        <div class = "card-body">
+<?php
+
+$orders = ninja_orders($uid, $cid);
+
+$prev = '';
+$total = 0;
+$first = true;
+while ($row = $orders->fetch_assoc())
+{
+	$neworder = ($prev != $row['OrderID']);
+	if ($neworder && !$first)
+	{		
+           echo '     <h5>Order Summary</h5>
+		<hr/>
+			<p>Order Price: '.$total.'
+			<br/>
+			</p>
+        	</div>
+		</div><br>
+		';
+		$total = 0;
+	}
+	if ($neworder)
+	{
+	echo '
+		<div class = "card">
+	        <div class = "card-header">
 		<h3 style = "display: inline-block;">Order</h3>
-                <p style = "display: inline-block;float:right;">MM/DD/YYYY</p>
-		<br/>
-                <!--Itemcard-->
+                <p style = "display: inline-block;float:right;">'.$row['Timestamp'].'</p>
+		</div>
+		<div class = "card-body">';
+	}	
+        echo '     <!--Itemcard-->
                 <div class = "card">
                         <div class = "card-body">
-                                <p>ItemName</p>
-				<img src = "Assets/DefaultPicture.jpg" width = " 80px"/>
+                                <p>'.$row['Name'].'</p>
+				<img src = "data:image/png;base64,'.base64_encode($row['Image']).'" width = " 80px"/>
 		<!--<p style = "display: inline-block; margin: auto auto;">Orderstate</p> -->
-				<p style = "display: inline-block;float:right;">Price</p>
+				<p style = "display: inline-block;float:right;">'.$row['Price'].' points</p>
                         </div>
-                </div><br/>
-                <h5>Order Summary</h5>
+                </div><br/>';
+	$prev = $row['OrderID'];
+	$first = false;
+	$total += $row['Price'];
+}
+
+           echo '     <h5>Order Summary</h5>
 		<hr/>
-			<p>Total Balance: x
+			<p>Order Price: '.$total.'
 			<br/>
-			Order Price: y<br/>
-			New Balance: x - y
 			</p>
         </div>
-</div>
+</div><br>
+';
+
+?>
 
 <!--Make sure to add a <br> inbetween cards so they aren't mushed together-->
 <!--Point Addition Card-->
@@ -62,11 +96,13 @@ while ($row = $gains->fetch_assoc())
 	$amount = $row['Amount'];
 	echo '<br/>';
 	echo '<div class = "card">';
-	echo '<div class = "card-body">';
+	echo '<div class = "card-header">';
 	echo '<h4 style = "display: inline-block;">';
 	echo 'Point Addition - '.$time;
 	echo '</h4>';
-	echo '<h4 style = "display: inline-block; color: green;float:right;">';
+	echo '</div>';
+	echo '<div class = "card-body">';
+	echo '<h4 style = "color: green;">';
 	echo '+ '.$amount.' Points';
 	echo '</h4>';
 	echo '</div>';

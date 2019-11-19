@@ -36,7 +36,7 @@
 				$CustomImg = $row['CustomImg'];
 				echo '<div class = "col">
 					<div class="card" style="width: 18rem;">
-						<img class="card-img-top" src="data:image/png;base64,'. base64_encode($CustomImg) . '">
+						<img class="card-img-top" style = "width: 100%;" src="data:image/png;base64,'. base64_encode($CustomImg) . '">
 							<div class="card-body">
 								<h5 class="card-title">'. $Name .'</h5>
 								<p class="card-text">Points: ' . $PointPrice .'</p>
@@ -51,20 +51,29 @@
 <?php include "htmlhead.php"?>
 <body>
 <?php include "driver_header.php"; ?>
-<br />
-      <div class = "container-fluid" id = "Catalog">
+
+      <div class = "jumbotron">
+	<h1>Driver Store</h1>
+	</div>
+      <div class = "container-fluid" style = "width: 80%;" id = "Catalog">
             <br />
 
-		<div id = "sortSelect">
-			<form class="form-inline">
-				<select class="custom-select my-1 mr-sm-2 " style = "width: 20%; float:right;" id="inlineFormCustomSelectPref">
+		<div class = "card" id = "sortSelect" style = "position:fixed; bottom: 20; left: 20; z-index:1;">
+			<div class = "card-header">
+				Sort
+			</div>
+			<div class = "card-body">
+			<div class= "input-group">
+				<select class="custom-select" id="inlineFormCustomSelectPref">
+					<option selected>Select sort</option>
 					<option value = "1">Alphabetical Sort(A-Z)</option>
 					<option value = "2">Alphabetical Sort(Z-A)</option>
 					<option value = "3">Price Sort(Low-High)</option>
 					<option value = "4">Price Sort(High-Low</option>
 				</select>
 				<button class = "btn btn-primary">Sort</button>
-			</form>
+			</div>
+			</div>
 		</div>
 
 	<?php
@@ -78,18 +87,19 @@
 			$iimg = $row['Image'];
 			if ($rank % 4 == 0)
               		echo '<div class = "row">';
-			echo '<div class = "col-sm-4">';
+			echo '<div class = "card-deck">';
               		echo 	'<div class="card" style="width: 18rem;">';
-              		echo     '<img class="card-img-top" src="data:image/png;base64,'.base64_encode($iimg).'">';
+              		echo     '<img "card-img-top" style = "width: 100%;" src="data:image/png;base64,'.base64_encode($iimg).'">';
               		echo       '<div class="card-body">';
               		echo         '<a href = "driver_item_view.php?ItemID='.$iid.'&CatalogID='.$catid.'"><h5 class="card-title">'.$name.'</h5></a>';
               		echo         '<p class="card-text">Points: 100</p>';
               		echo       '</div>';
               		echo     '</div>';
-			echo   '</div>';
-			if ($rank+1 % 4 == 0)
+			if ($rank+1 % 4 == 0){
               			echo   '</div>';
 
+			echo   '</div>';
+			}
 			$rank++;
 		}
 		if ($rank % 4 != 0)

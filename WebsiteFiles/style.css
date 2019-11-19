@@ -8,9 +8,11 @@
 }
 
 #sortSelect{
-  /* display: inline-block;
-   float: right;
-   text-align:right;*/
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1;
+  display: inline-block;
 }
 
 #logonContainer{
@@ -109,8 +111,8 @@
 
 #buttonContainer{
   z-index: 1;
-  bottom: 20;
-  right: 20;
+  bottom: 20px;
+  right: 20px;
   position: fixed;
   background-size: auto;
   text-align: center;
@@ -119,9 +121,8 @@
   margin-top: 5px;
   width: 70px;
   height: 70px;
-  padding: 12px 25px;
   border-radius: 45px;
-  font-size: 2px;
+  font-size: 25px;
   text-align: center;
   box-shadow: 1px 1px 5px grey;
 }
