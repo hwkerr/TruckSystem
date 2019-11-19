@@ -18,6 +18,7 @@ $catid = $_GET['CatalogID'];
 $price = ninja_item_price($iid, $catid);
 $name = ninja_item_name($iid, $catid);
 $desc = ninja_item_description($iid, $catid);
+$iimg = ninja_item_image($iid, $catid);
 
 ?>
 
@@ -36,7 +37,7 @@ $desc = ninja_item_description($iid, $catid);
   </div>
   <div class = "row">
     <div class = "col-md-5" style = "text-align:center;">
-      <img src = "Assets/DefaultPicture.jpg"/>
+      <img src = "data:image/png;base64,<?php echo base64_encode($iimg); ?>"/>
     </div>
     <div class = "col-lg-3 justify-content-center">
       <ul class = "list-group">

@@ -80,6 +80,7 @@ $items = ninja_browse_base_items($cid);
 
 
 		<div class = "modal-content">
+		<div class = "modal-dialog modal-dialog-centered">
 			<div class = "modal-header">
 				Add Item
 			</div>
@@ -108,7 +109,7 @@ $items = ninja_browse_base_items($cid);
 				<button type = "submit" class = "btn btn-primary">Add Item</button>
 			</div>
 				</form>
-
+		</div>
 		</div>
 		</div>
 		';

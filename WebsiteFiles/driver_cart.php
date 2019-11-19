@@ -34,9 +34,10 @@ $fname = ninja_fname($uid);
 			$catid = $item['CatalogID'];
 			$price = $item['Price'];
 			$iname = ninja_item_name($iid, $catid);
+			$iimg = ninja_item_image($iid, $catid);
       			echo '<div class = "row">';
         		echo '<div class = "col-md-3">';
-        	  	echo '<img width = "100px " src = "Assets/DefaultPicture.jpg" />';
+        	  	echo '<img width = "100px " src = "data:image/png;base64,'.base64_encode($iimg).'" />';
         	  	echo '</div>';
         	  	echo '<div class = "col-md-6" style = "vertical-align: middle;">';
         	    	echo '<p style = "top: 50%;">';
@@ -75,8 +76,8 @@ $fname = ninja_fname($uid);
 	<div class = "card-header" style = "text-align: center;"><h5>Cart Status</h5></div>
 	<div class = "card-body">
 		<p style = "display: inline-block; float: left; vertical-align: center;">Order total: Price</p>
-		<button class = "btn btn-primary" style = "display: inline-block; vertical-align: center; text-align: right; float: right;">Checkout</button>
-		<button class = "btn btn-light" style = "display: flex; align-items: center; float: right;">Keep Shopping</button>
+		<button class = "btn btn-primary" style = "display: inline-block; vertical-align: center; text-align: right; float: right;" onclick = "window.location.href = 'place_order.php';">Checkout</button>
+		<button class = "btn btn-light" style = "display: flex; align-items: center; float: right;" onclick="window.location.href = 'logon.php';">Keep Shopping</button>
 	</div>
 </div>
 </body>

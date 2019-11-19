@@ -92,7 +92,7 @@
               		echo     '<img "card-img-top" style = "width: 100%;" src="data:image/png;base64,'.base64_encode($iimg).'">';
               		echo       '<div class="card-body">';
               		echo         '<a href = "driver_item_view.php?ItemID='.$iid.'&CatalogID='.$catid.'"><h5 class="card-title">'.$name.'</h5></a>';
-              		echo         '<p class="card-text">Points: 100</p>';
+              		echo         '<p class="card-text">'.$row['Price'].' points</p>';
               		echo       '</div>';
               		echo     '</div>';
 			if ($rank+1 % 4 == 0){
