@@ -27,6 +27,16 @@ if ($_SESSION['UserType'] === 'Sponsor')  // check if sponsor belongs to same co
 $items = ninja_catalog_items($cid);
 $catname = ninja_catalog_name($cid);
 
+$visible = ninja_catalog_visible($cid);
+if ($_SERVER["REQUEST_METHOD"] == "POST")  // toggle visibility
+{
+	if ($_POST['Visible'] == 'on')
+		$visible = 1;
+	else
+		$visible = 0;
+	ninja_set_catalog_visible($cid, $visible);
+}
+
 ?>
 
 <html>
@@ -73,5 +83,9 @@ while ($row = $items->fetch_assoc())
 			<input type = "hidden" name = "CatalogID" value = "<?php echo $cid; ?>">
 			<input type = "submit" value = "Rename Catalog">
 			</form>
+	<form method = "post">
+	<input type = "checkbox" name = "Visible" id = "Visible" onchange = "this.form.submit()" <?php if ($visible) echo 'checked'; ?>>
+	<label class = "form-check-label" for = "Visible">Visible to Drivers</label>
+	</form>
 </body>
 </html>

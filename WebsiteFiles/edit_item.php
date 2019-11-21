@@ -13,6 +13,19 @@ $iid = $_GET['ItemID'];
 $catid = $_GET['CatalogID'];
 $catalog = ninja_catalog_name($catid);
 
+if ($_SESSION['UserType'] === 'Sponsor')  // check if sponsor belongs to same company as catalog
+{
+	$ccid = ninja_catalog_company_id($catid);
+	$uid = $_SESSION['UserID'];
+	$scid = ninja_sponsor_company_id($uid);
+	if ($ccid != $scid)
+	{
+		header("location: logon.php");
+		exit;
+	}
+}
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST")  // write changes
 {
 	$iname = $_POST['Name'];

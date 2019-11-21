@@ -37,7 +37,7 @@ $iimg = ninja_item_image($iid, $catid);
   </div>
   <div class = "row">
     <div class = "col-md-5" style = "text-align:center;">
-      <img src = "data:image/png;base64,<?php echo base64_encode($iimg); ?>"/>
+      <img width = "350px" src = "data:image/png;base64,<?php echo base64_encode($iimg); ?>"/>
     </div>
     <div class = "col-lg-3 justify-content-center">
       <ul class = "list-group">

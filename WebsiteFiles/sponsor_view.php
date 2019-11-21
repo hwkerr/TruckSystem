@@ -95,7 +95,9 @@
             <th>#</th>
             <th>Catalog Name</th>
             <th>Number of Items</th>
+	    <th>Visible to Drivers?</th>
 	    <th>View Catalog</th>
+	    <th>Delete</th>
           </tr>
         </thead>
 	<?php
@@ -115,7 +117,16 @@
 		echo ninja_catalog_item_count($row['CatalogID']);
 		echo '</td>';
 		echo '<td>';
+		if (ninja_catalog_visible($row['CatalogID']))
+			echo 'Visible';
+		else
+			echo 'Not Visible';
+		echo '</td>';
+		echo '<td>';
 		echo '<a href = "catalog_view.php?CatalogID='.$row['CatalogID'].'">View Catalog</a>';
+		echo '</td>';
+		echo '<td>';
+		echo '<a href = "delete_catalog.php?CID='.$row['CatalogID'].'">Delete Catalog</a>';
 		echo '</td>';
 		echo '</tr>';
 
@@ -218,8 +229,16 @@
         <h1><?php echo $cname; ?></h1>
       </div>
         <div class = "container">
+	  <div class = "row">
+		<div class = "col-md-6">
+			<ul>
+				<li>Total Points Held by Drivers: <?php echo number_format(ninja_company_points_held($cid)); ?></li>
+				<li>Total Points Spent by Drivers: <?php echo number_format(ninja_company_points_spent($cid)); ?></li>
+				<li>Total Points Earned by Drivers: <?php echo number_format(ninja_company_points_added($cid)); ?></li>
+			</ul>
+		</div>
+	  </div>
           <div class = "row">
-            <div class = "col-sm-2"></div>
             <div class = "col-md-6">
 	     <h2>Company Description</h2>
 	     <div class = "card">

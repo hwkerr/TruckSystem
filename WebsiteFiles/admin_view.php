@@ -153,31 +153,48 @@
       </div><br /><br />
 			<div class = "container">
 				<h2>Enter new account info</h2>
-				<form>
+				<form action = "create_account.php" method = "post">
 					<div class = "row">
 						<div class = "col">
 							<label for="fName">First Name</label>
-							<input type = "text" class = "form-control" id = "fName" placeholder = "First name"/>
+							<input type = "text" class = "form-control" id = "FName" placeholder = "First name" name = "FName"/>
 							</div>
 							<div class = "col">
 								<label for="lName">Last Name</label>
-								<input type = "text" class = "form-control" id = "lName" placeholder = "Last name"/>
+								<input type = "text" class = "form-control" id = "LName" placeholder = "Last name" name = "LName"/>
 								</div>
 						</div>
 						<div class = "row">
 							<div class = "col">
 								<label for="newEmail">Email</label>
-								<input type = "email" class = "form-control" id = "newEmail" / placeholder = "Enter email">
+								<input type = "email" class = "form-control" id = "Email" placeholder = "Enter email" name = "Email"/>
 								</div>
 								<div class = "col">
 									<label for = "accountType">Account Type</label>
-									<select id = "accountType" class = "form-control">
+									<select id = "accountType" class = "form-control" name = "UserType">
 										<option selected>Driver</option>
 										<option>Sponsor</option>
 									</select>
+									<label for = "company">Company (for sponsor accounts only)</label>
+									<select id = "company" class = "form-control" name = "CompanyID">
+									<?php
+										$companies = ninja_companies();
+										$first = true;
+										while ($row = $companies->fetch_assoc())
+										{
+											echo '<option value = "'.$row['CompanyID'].'"';
+											if ($first)
+												echo ' selected = "selected" ';
+											echo '>';
+											echo $row['Name'].' ('.$row['CompanyID'].')';
+											echo '</option>';
+											$first = false;
+										}
+									?>
+									</select>
 								</div>
 							</div><br />
-							<button class = "btn btn-primary">Create Account</button>
+							<button class = "btn btn-primary" action = "submit">Create Account</button>
 					</form>
 				</div>
     </div>
@@ -195,6 +212,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
+	    <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -211,6 +229,7 @@
 			echo '<td>'.$row['FName'].'</td>';
 			echo '<td>'.$row['LName'].'</td>';
 			echo '<td>'.$row['Email'].'</td>';
+			echo '<td><a href="delete_account.php?UID='.$row['UserID'].'">Delete Account</a></td>';
 			echo '</tr>';
 			$entry = $entry + 1;
 		}
@@ -225,6 +244,7 @@
 			echo '<td>'.$row['FName'].'</td>';
 			echo '<td>'.$row['LName'].'</td>';
 			echo '<td>'.$row['Email'].'</td>';
+			echo '<td><a href="delete_account.php?UID='.$row['UserID'].'">Delete Account</a></td>';
 			echo '</tr>';
 			$entry = $entry + 1;
 		}
@@ -246,6 +266,7 @@
             <th>Company Name</th>
             <th>Sponsors</th>
             <th>Drivers</th>
+	    <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -261,6 +282,7 @@
 			echo '<td>'.ninja_company_name($cid).'</td>';
 			echo '<td>'.ninja_company_sponsor_count($cid).'</td>';
 			echo '<td>'.ninja_company_driver_count($cid).'</td>';
+			echo '<td><a href="delete_company.php?CID='.$cid.'">Delete Company</a></td>';
 			echo '</tr>';
 			$entry = $entry + 1;
 		}

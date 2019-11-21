@@ -4,12 +4,23 @@ include "db_ninja.php";
 include "mailer.php";
 
 session_start();
+if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] !== 'Admin')
+{
+	header("location: logon.php");
+	exit;
+}
 
 $fname = $_GET['FName'];
 $lname = $_GET['LName'];
 $email = $_GET['Email'];
 
 $tpass = ninja_new_driver($fname, $lname, $email);
+if (!$tpass)
+{
+	header("location: logon.php");
+	exit;
+}
+
 ninja_mark_email_application_processed($email);
 
 $mail->AddAddress($email, ''.$fname.' '.$lname);

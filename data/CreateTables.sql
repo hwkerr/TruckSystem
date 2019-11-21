@@ -93,6 +93,7 @@ CREATE TABLE Catalog
     Name            VARCHAR(20)            NOT NULL,
     Visible            BOOLEAN            NOT NULL,
     CompanyID        VARCHAR(16)            NOT NULL,
+    Deleted	BOOLEAN	NOT NULL,
     PRIMARY KEY (CatalogID),
     FOREIGN KEY (CompanyID) REFERENCES Company (CompanyID)
 );

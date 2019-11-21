@@ -76,42 +76,40 @@ $items = ninja_browse_base_items($cid);
 				
 			</div>
 		</div>
-		<div class = "modal fade" id = "modalName'.$num.'">
-
-
+	<div class = "modal fade" id = "modalName'.$num.'">
+			<div class = "modal-dialog modal-dialog-centered" role = "document">
 		<div class = "modal-content">
-		<div class = "modal-dialog modal-dialog-centered">
-			<div class = "modal-header">
-				Add Item
+				<div class = "modal-header">
+					Add Item
+				</div>	
+				<div class = "modal-body">
+					<form method = "post" enctype = "multipart/form-data">
+						<div class = "form-inline">
+							<!--<label for = "ItemName">Item Name</label><br>-->
+							<input name = "ItemName" class = "form-control" type = "text" id = "ItemName" placeholder = "Item Name">
+							<input name = "ItemID" class = "form-control" type = "hidden" id = "ItemID" placeholder = "Item ID" value = "'.$row['ItemID'].'">
+						</div>
+						<div class = "form-inline">
+							<!--<label for = "Price">Price</label><br>-->
+							<input name = "Price" class = "form-control" type = "text" id = "Price" placeholder = "Price">
+						</div>
+						<div class = "form-inline">
+							<!--<label for = "Description">Description</label><br>-->
+							<input name = "Description" class = "form-control" type = "text" id = "Description" placeholder = "Description">
+						</div>
+						<div class = "form-inline">
+							<!--<label for = "ImageSelect">Select an image</label>-->
+							<input name = "Image'.$row['ItemID'].'" type = "file" id = "ImageSelect" class = "form-control-file">
+						</div>
+				</div>
+				<div class = "modal-footer">
+					<button type = "button" class = "btn btn-seconday" data-dismiss = "modal">Close</button>
+					<button type = "submit" class = "btn btn-primary">Add Item</button>
+				</div>
+					</form>
 			</div>
-				<form method = "post" enctype = "multipart/form-data">
-			<div class = "modal-body">
-				<div class = "form-inline">
-					<input name = "ItemName" class = "form-control" type = "text" id = "ItemName" placeholder = "Item Name">
-					<input name = "ItemID" class = "form-control" type = "hidden" id = "ItemID" placeholder = "Item ID" value = "'.$row['ItemID'].'">
-					<label for = "ItemName">Item Name</label>
-				</div>
-				<div class = "form-inline">
-					<input name = "Price" class = "form-control" type = "text" id = "Price" placeholder = "Price">
-					<label for = "Price">Price</label>
-				</div>
-				<div class = "form-inline">
-					<input name = "Description" class = "form-control" type = "text" id = "Description" placeholder = "Description">
-				</div>
-
-				<div class = "form-inline">
-					<input name = "Image'.$row['ItemID'].'" type = "file" class = "form-control-file">
-
-				</div>
-			</div>
-			<div class = "modal-footer">
-				<button type = "button" class = "btn btn-seconday" data-dismiss = "modal">Close</button>
-				<button type = "submit" class = "btn btn-primary">Add Item</button>
-			</div>
-				</form>
 		</div>
-		</div>
-		</div>
+	</div>
 		';
 	}
 ?>

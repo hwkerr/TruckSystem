@@ -74,7 +74,7 @@ $(function () {
 })
 </script>
 <div id = "buttonContainer">
-<button class = "btn btn-success" onclick = "window.open('Assets/wtt.apk')" data-toggle="tooltip" data-placement="left" title="Download App" id = "circular"><span class = "oi oi-data-transfer-download"></span></button><br>
+<button class = "btn btn-success" onclick = "window.open('Assets/wtt-alpha-s8.apk')" data-toggle="tooltip" data-placement="left" title="Download App" id = "circular"><span class = "oi oi-data-transfer-download"></span></button><br>
 <button class = "btn btn-warning" onclick = "location.href = 'driver_cart.php'"data-toggle="tooltip" data-placement="left" title="View Cart" id = "circular"><span style = "color:white;"class = "oi oi-cart"></span></button><br>
 <button class = "btn btn-danger" onclick = "location.href = 'logout.php'" data-toggle="tooltip" data-placement="left" title="Log Off" id = "circular"><span class = "oi oi-account-logout"></span></button>
 </div>

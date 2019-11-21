@@ -10,7 +10,7 @@ function ninja_login($email, $pword)
 {
 	$db = dojo_connect();
 	$pst = $db->prepare("SELECT PassHash, TempPass, UserID, FName, LName FROM
-			     Account WHERE Email = ?");
+			     Account WHERE Email = ? AND Deleted = 0");
 	$pst->bind_param("s", $email);
 	$pst->execute();
 	$res =  $pst->get_result();
@@ -114,7 +114,7 @@ function ninja_points($uid, $cid)
 		$total += $row['Total'];
 	}
 
-	$pst = $db->prepare("SELECT SUM(ItemOrderCatalogItem.PointPrice) AS Total FROM (((ItemOrderCatalogItem INNER JOIN ItemOrder ON ItemOrderCatalogItem.OrderID = ItemOrder.OrderID) INNER JOIN CatalogItem ON CatalogItem.ItemID = ItemOrderCatalogItem.ItemID) INNER JOIN CatalogCatalogItem ON CatalogItem.ItemID = CatalogCatalogItem.ItemID) INNER JOIN Catalog ON CatalogCatalogItem.CatalogID = Catalog.CatalogID WHERE ItemOrder.DriverID = ? AND Catalog.CompanyID = ?");
+	$pst = $db->prepare("SELECT SUM(ItemOrderCatalogItem.PointPrice) AS Total FROM ItemOrderCatalogItem WHERE ItemOrderCatalogItem.Cancelled = 0 AND ItemOrderCatalogItem.OrderID IN (SELECT OrderID FROM ItemOrder WHERE ItemOrder.DriverID = ?) AND ItemOrderCatalogItem.CatalogID IN (SELECT CatalogID FROM Catalog WHERE Catalog.CompanyID = ?)");
 	$pst->bind_param("ss", $uid, $cid);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -232,6 +232,9 @@ function dojo_new_generic_account($fname, $lname, $email, $pword)
 {
 	$db = dojo_connect();
 	
+	if (ninja_check_email_taken($email))
+		return false;
+	
 	// generate new id
 	$pst = $db->prepare("SELECT UserID FROM Account");
 	$pst->execute();
@@ -267,6 +270,8 @@ function ninja_new_driver($fname, $lname, $email)
 
 	// create account
 	$uid = dojo_new_generic_account($fname, $lname, $email, $tpass);
+	if (!$uid)
+		return false;
 
 	// create driver
 	$pst = $db->prepare("INSERT INTO Driver VALUES (?, '', '', '', '', '')");
@@ -284,6 +289,8 @@ function ninja_new_sponsor($fname, $lname, $email, $cid)
 	
 	// create account
 	$uid = dojo_new_generic_account($fname, $lname, $email, $tpass);
+	if (!$uid)
+		return false;
 
 	// create sponsor
 	$pst = $db->prepare("INSERT INTO Sponsor VALUES (?, ?)");
@@ -442,7 +449,7 @@ function ninja_sponsor_company_id($uid)
 function ninja_company_driver_list($cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT UserID, FName, LName, Email FROM Account INNER JOIN DriverCompany ON UserID = DriverID WHERE CompanyID = ? AND Accepted = 1");
+	$pst = $db->prepare("SELECT UserID, FName, LName, Email FROM Account INNER JOIN DriverCompany ON UserID = DriverID WHERE CompanyID = ? AND Accepted = 1 AND Account.Deleted = 0");
 	$pst->bind_param("s", $cid);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -795,7 +802,7 @@ function ninja_company_decline_driver($cid, $uid)
 function ninja_company_driver_applications($cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT UserID, FName, LName, Email FROM Account INNER JOIN DriverCompany ON UserID = DriverID WHERE DriverCompany.Accepted = 0 AND DriverCompany.CompanyID = ?");
+	$pst = $db->prepare("SELECT UserID, FName, LName, Email FROM Account INNER JOIN DriverCompany ON UserID = DriverID WHERE DriverCompany.Accepted = 0 AND DriverCompany.CompanyID = ? AND Account.Deleted = 0");
 	$pst->bind_param("s", $cid);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -1028,7 +1035,7 @@ function ninja_new_catalog($cid, $name)
 function ninja_browse_catalog_items($cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT Name, Image, PointPrice AS Price, CustomImg, CatalogCatalogItem.ItemID AS ItemID, CatalogCatalogItem.CatalogID AS CatalogID, WebSource, LinkInfo FROM CatalogCatalogItem INNER JOIN CatalogItem ON CatalogCatalogItem.ItemID = CatalogItem.ItemID WHERE CatalogCatalogItem.ItemID IN (SELECT ItemID FROM CatalogCatalogItem INNER JOIN Catalog ON Catalog.CatalogID = CatalogCatalogItem.CatalogID WHERE Catalog.CompanyID = ?)");
+	$pst = $db->prepare("SELECT Name, Image, PointPrice AS Price, CustomImg, CatalogCatalogItem.ItemID AS ItemID, CatalogCatalogItem.CatalogID AS CatalogID, WebSource, LinkInfo FROM CatalogCatalogItem INNER JOIN CatalogItem ON CatalogCatalogItem.ItemID = CatalogItem.ItemID WHERE CatalogCatalogItem.CatalogID IN (SELECT CatalogID FROM Catalog WHERE Catalog.CompanyID = ? AND Catalog.Deleted = 0 AND Catalog.Visible = 1)");
 	$pst->bind_param("s", $cid);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -1055,6 +1062,7 @@ function ninja_place_order($uid, $items)
 				$unique = false;
 	}
 
+
 	// create new order
 	$pst = $db->prepare("INSERT INTO ItemOrder VALUES(?, NOW(), 0, ?)");
 	$pst->bind_param("ss", $newid, $uid); 
@@ -1064,7 +1072,7 @@ function ninja_place_order($uid, $items)
 	$position = 1;
 	foreach ($items as $item)
 	{
-		$pst = $db->prepare("INSERT INTO ItemOrderCatalogItem VALUES(?, ?, ?, ?, 0, 0, ?)");
+		$pst = $db->prepare("INSERT INTO ItemOrderCatalogItem VALUES(?, ?, ?, ?, 0, 0, ?, 1.1)");  // TODO 
 		$iid = $item['ItemID'];
 		$price = $item['Price'];
 		$cid = $item['CatalogID'];
@@ -1139,7 +1147,7 @@ function ninja_item_image($iid, $cid)
 function ninja_catalogs($cid)
 {
 	$db = dojo_connect();
-	$pst = $db->prepare("SELECT Name, CatalogID FROM Catalog WHERE CompanyID = ?");
+	$pst = $db->prepare("SELECT Name, CatalogID FROM Catalog WHERE CompanyID = ? AND Deleted = 0");
 	$pst->bind_param("s", $cid);
 	$pst->execute();
 	$res = $pst->get_result();
@@ -1245,6 +1253,112 @@ function ninja_add_catalog_item($iid, $cid, $name, $price, $desc, $image)
 	$db = dojo_connect();
 	$pst = $db->prepare("INSERT INTO CatalogCatalogItem VALUES(?, ?, ?, ?, 0.0, 1, ?, 1, '$image')");
 	$pst->bind_param("sssis", $cid, $iid, $name, $price, $desc);
+	$pst->execute();
+}
+
+function ninja_set_driver_current_company($did, $cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Driver SET CurrComp = ? WHERE UserID = ?");
+	$pst->bind_param("ss", $cid, $did);
+	$pst->execute();
+}
+
+function ninja_company_points_added($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT SUM(PointAddition.Amount) AS Points FROM PointAddition INNER JOIN Sponsor ON PointAddition.SponsorID = Sponsor.UserID WHERE Sponsor.CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$points = 0;
+	if ($row = $res->fetch_assoc())
+	{
+		$points = $row['Points'];
+	}
+	return $points;
+}
+
+function ninja_company_points_spent($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT SUM(ItemOrderCatalogItem.PointPrice) AS Points FROM ItemOrderCatalogItem INNER JOIN Catalog ON ItemOrderCatalogItem.CatalogID = Catalog.CatalogID WHERE Catalog.CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$points = 0;
+	if ($row = $res->fetch_assoc())
+	{
+		$points = $row['Points'];
+	}
+	return $points;
+}
+
+function ninja_company_points_held($cid)
+{
+	$added = ninja_company_points_added($cid);
+	$spent = ninja_company_points_spent($cid);
+	$held = $added - $spent;
+	return $held;
+}
+
+function ninja_delete_account($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Account SET Deleted = 1 WHERE UserID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+}
+
+function ninja_delete_company($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Company SET Deleted = 1 WHERE CompanyID = ?");
+	$pst->bind_param("s", $cid);
+	$pst2 = $db->prepare("UPDATE Account SET Deleted = 1 WHERE UserID IN (SELECT UserID FROM Sponsor WHERE CompanyID = ?)");
+	$pst2->bind_param("s", $cid);
+	$pst2->execute();
+	$pst->execute();
+}
+
+function ninja_sponsor_company_list($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Account.UserID AS UserID, FName, LName, Email FROM Account INNER JOIN Sponsor ON Account.UserID = Sponsor.UserID WHERE Sponsor.CompanyID = ? AND Account.Deleted = 0");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
+}
+
+function ninja_delete_catalog($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Catalog SET Deleted = 1 WHERE CatalogID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+}
+
+function ninja_catalog_visible($cid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Visible FROM Catalog WHERE CatalogID = ?");
+	$pst->bind_param("s", $cid);
+	$pst->execute();
+	$res = $pst->get_result();	
+	$visible = false;
+	if ($row = $res->fetch_assoc())
+	{
+		$visible = $row['Visible'];
+	}
+	return $visible;
+}
+
+function ninja_set_catalog_visible($cid, $visible)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("UPDATE Catalog SET Visible = ? WHERE CatalogID = ?");
+	$pst->bind_param("is", $visible, $cid);
 	$pst->execute();
 }
 

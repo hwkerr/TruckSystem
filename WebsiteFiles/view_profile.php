@@ -15,18 +15,17 @@ $pfp = ninja_pfp($uid);
 if ($_SESSION['UserType'] === "Driver")
 {
 	$cid = ninja_current_driver_company($uid);
+	if ($_SERVER["REQUEST_METHOD"] == "POST")
+	{
+		$cid = $_POST['DriverSponsor'];
+		ninja_set_driver_current_company($uid, $cid);
+	}
 	$phone = ninja_phone_dashes($uid);
 	$company = ninja_company_name($cid);
 	$spent = ninja_point_subtractions($uid, $cid);
 	$earned = ninja_point_additions($uid, $cid);
 	$address = ninja_address_oneline($uid);
 	$companies = ninja_driver_company_list($uid);
-	if ($_SERVER["REQUEST_METHOD"] == "POST")
-	{
-		// TODO change company
-		header("location: logon.php");
-		exit;
-	}
 }
 
 ?>
@@ -72,16 +71,21 @@ if ($_SESSION['UserType'] === "Driver")
 				echo '<div class = row>';
                         	echo '<div class = "col">';
                        		echo '<div class = "form-group">';
+				echo '<form method = "post">';
                        		echo  '<label for = "DriverorSponsor"></label>';
-                	        echo  '<select name = "DriverSponsor" class = "form-control" id = "DriverorSponsor" selected = "'.$company.'">';
+                	        echo  '<select name = "DriverSponsor" class = "form-control" id = "DriverorSponsor" selected = "'.$company.'" onchange = "this.form.submit()">';
 				$companies->data_seek(0);
 				while ($row = $companies->fetch_assoc())
 				{
-					echo '<option value = "'.$row['CID'].'">';
+					echo '<option value = "'.$row['CID'].'"';
+					if ($cid == $row['CID'])
+						echo 'selected="selected"';
+					echo '>';
 					echo $row['CName'];
 					echo '</option>';
 				}
                 	        echo  '</select>';
+				echo '</form>';
 				echo '</div>';
 				echo '</div>';
 				echo '</div>';
