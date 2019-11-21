@@ -8,14 +8,10 @@ $catid = $_GET['catid'] ?? '';
 $name = ninja_item_name($itemid, $catid);
 $price = ninja_item_price($itemid, $catid);
 $desc = ninja_item_description($itemid, $catid);
-$img = ninja_item_image($itemid, $catid);
 
-$attributes = array("Name"=>$name,"Price"=>$price,"Desc"=>$desc,"Image"=>$img);
+$attributes = array("Name"=>$name,"Price"=>$price,"Desc"=>$desc);
 
 echo safe_json_encode($attributes);
-
-echo json_last_error_msg(); // Print out the error if any
-die(); // halt the script
 
 
 
