@@ -65,6 +65,7 @@ $address = ninja_address_oneline($uid);
 			echo "<p id = 'SpentPoints'>";
 			echo "Total Points Spent: ".$spent;
 			echo "</p>";
+			echo '<button onclick = "window.location.href = \'sponsor_driver_orders.php?DriverID='.$did.'\';">View Orders</button>';
 			echo "<p id = 'EarnedPoints'>";
 			echo "Total Points Earned: ".$earned;
 			echo "</p>";

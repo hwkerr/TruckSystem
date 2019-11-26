@@ -62,6 +62,13 @@
             class = "btn btn-outline-light ">
              View Company
             </button>
+            <br /><br />
+          </li>
+          <li class = "nav-item">
+            <button type = "button" onclick = "showSponsor()"
+            class = "btn btn-outline-light ">
+             Create new Sponsor
+            </button>
           </li>
         </ul>
     </nav>
@@ -224,6 +231,7 @@
       </table>
     </div>
     </div>
+
     <div class = "CompanyContent" id = "CompanyInfo" style = "display: none;">
       <div class = "jumbotron">
         <h1><?php echo $cname; ?></h1>
@@ -260,6 +268,42 @@
           </div>
         </div>
     </div>
+
+
+    <div class = "SponsorContent" id = "NewSponsor" style = "display: none;">
+      <div class = "jumbotron">
+        <h1><?php echo $cname; ?></h1>
+      </div>
+
+        <div class = "container">
+      <form action="create_sponsor.php" class = "needs-validation" method="ge" novalidate>
+					<div class="row">
+						<div class="col-md-4">
+							<label for="fName">First Name</label>
+							<input type="text" class="form-control" id="FName" placeholder="First name" name="FName" required>
+							<div class = "invalid-feedback">Enter a valid first name</div>
+						</div>
+    				        </div>
+  				        <div class = "row">
+                				<div class="col-md-4">
+  							<label for="lName">Last Name</label>
+  							<input type="text" class="form-control" id="LName" placeholder="Last name" name="LName" required>
+							<div class = "invalid-feedback">Enter a valid last name</div>
+  						</div>
+              				</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label for="newEmail">Email</label>
+							<input type="email" class="form-control" id="Email" placeholder="Enter email" name="Email" required>
+							<div class = "invalid-feedback">Enter a valid email</div>
+						</div>
+			                </div>
+					<br>
+					<button class="btn btn-primary" action="submit">Create Account</button>
+	</form>
+        </div>
+    </div>
+
   </div>
 </div>
 <br />
@@ -271,39 +315,59 @@ function showCatalogue(){
   var driver = document.getElementById("DriverContent");
   var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
+  var sponsor = document.getElementById("NewSponsor");
   catalog.style.display = "block";
   driver.style.display = "none";
   application.style.display = "none";
   company.style.display = "none";
+  sponsor.style.display = "none";
 }
 function showDriver(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
   var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
+  var sponsor = document.getElementById("NewSponsor");
   catalog.style.display = "none";
   driver.style.display = "block";
   application.style.display = "none";
   company.style.display = "none";
+  sponsor.style.display = "none";
 }
 function showApplication(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
   var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
+  var sponsor = document.getElementById("NewSponsor");
   catalog.style.display = "none";
   driver.style.display = "none";
   application.style.display = "block";
   company.style.display = "none";
+  sponsor.style.display = "none";
 }
 function showCompany(){
   var catalog = document.getElementById("CatalogInfo");
   var driver = document.getElementById("DriverContent");
   var application = document.getElementById("ApplicationContent");
   var company = document.getElementById("CompanyInfo");
+  var sponsor = document.getElementById("NewSponsor");
   catalog.style.display = "none";
   driver.style.display = "none";
   application.style.display = "none";
   company.style.display = "block";
+  sponsor.style.display = "none";
+}
+function showSponsor(){
+  var catalog = document.getElementById("CatalogInfo");
+  var driver = document.getElementById("DriverContent");
+  var application = document.getElementById("ApplicationContent");
+  var company = document.getElementById("CompanyInfo");
+  var sponsor = document.getElementById("NewSponsor");
+  catalog.style.display = "none";
+  driver.style.display = "none";
+  application.style.display = "none";
+  company.style.display = "none";
+  sponsor.style.display = "block";
 }
 </script>

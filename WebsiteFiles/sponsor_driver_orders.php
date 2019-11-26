@@ -14,6 +14,8 @@ $uid = $_SESSION['UserID'];
 $cid = ninja_sponsor_company_id($uid);
 $did = $_GET['DriverID'];
 
+$cards = array();
+
 ?>
 
 <html>
@@ -24,31 +26,83 @@ $did = $_GET['DriverID'];
 </div>
 <div class = "container">
 
-<!--Make sure to add a <br> inbetween cards so they aren't mushed together-->
-<!--Point Addition Card-->
 <?php
 
-$gains = ninja_point_gains($did, $cid);
-$num = 0;
-while ($row = $gains->fetch_assoc())
+$orders = ninja_orders($did, $cid);
+
+$prev = '';
+$total = 0;
+$first = true;
+$new = true;
+$card = '';
+$timestamp = '';
+while ($row = $orders->fetch_assoc())
 {
-	$num = $num + 1;
-	$time = $row['Timestamp'];
-	$amount = $row['Amount'];
-	echo '<br/>';
-	echo '<div class = "card">';
-	echo '<div class = "card-body">';
-	echo '<h4 style = "display: inline-block;">';
-	echo 'Point Addition - '.$time;
-	echo '</h4>';
-	echo '<h4 style = "display: inline-block; color: green;float:right;">';
-	echo '+ '.$amount.' Points';
-	echo '</h4>';
-	echo '</div>';
-	echo '</div>';
+	if ($first || $prev != $row['OrderID'])  // decide if this goes on a new order
+	{
+		$new = true;
+	}
+	
+	if ($new && !$first)  // end the previous order
+	{
+           	$card = $card.'     <h5>Order Summary</h5>
+		<hr/>
+			<p>Order Price: '.$total.'
+			<br/>
+			</p>
+        	</div>
+		</div><br>';
+		$cards[$timestamp] = $card;
+	}
+	
+	if ($new)  // start a new order
+	{
+		$card = '<div class = "card">
+	        <div class = "card-header">
+		<h3 style = "display: inline-block;">Order</h3>
+                <p style = "display: inline-block;float:right;">'.$row['Timestamp'].'</p>
+		</div>
+		<div class = "card-body">';
+		$timestamp = $row['Timestamp'];
+		$new = false;
+		$total = 0;
+	}
+
+        $card = $card.'     <!--Itemcard-->
+                <div class = "card">
+                        <div class = "card-body">
+                                <p>'.$row['Name'].'</p>
+				<img src = "data:image/png;base64,'.base64_encode($row['Image']).'" width = " 80px"/>
+		<!--<p style = "display: inline-block; margin: auto auto;">Orderstate</p> -->
+				<p style = "display: inline-block;float:right;">'.$row['Price'].' points</p>
+                        </div>
+                </div><br/>';
+	$prev = $row['OrderID'];
+	$first = false;
+	$total += $row['Price'];
+}
+
+if (!$first)  // end the last order, if there was one
+{
+       	$card = $card.'     <h5>Order Summary</h5>
+	<hr/>
+		<p>Order Price: '.$total.'
+		<br/>
+		</p>
+       	</div>
+	</div><br>';
+	$cards[$timestamp] = $card;
 }
 
 ?>
+<?php
+
+krsort($cards);
+foreach ($cards as $onecard)
+	echo $onecard;
+
+?>
+
 </div>
 </body>
 </html>

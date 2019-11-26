@@ -60,7 +60,7 @@
       <a class = "nav-link" id = "driver-tab" data-toggle = "pill" href = "#driverTab" aria-selected = "false">View Drivers</a>
     </li>
     <li class = "nav-item">
-      <a class = "nav-link" id = "sponsor-tab" data-toggle = "pill" href = "#sponsorTab" aria-selected = "false">View Sponsors</a>
+      <a class = "nav-link" id = "sponsor-tab" data-toggle = "pill" href = "#asponsorTab" aria-selected = "false">View Sponsors</a>
     </li>
     <li class = "nav-item">
       <a class = "nav-link" id = "companies-tab" data-toggle = "pill" href = "#companiesTab" aria-selected = "false">View Companies</a>
@@ -73,12 +73,10 @@
 <div class = "tab-content">
   <!--View Applications-->
 
-
-
   <div class = "tab-pane fade-show active" id = "applicationtab" role = "tabpanel">
-    <div class="table-responsive-lg" style="overflow-x:auto;">
+ <div class="table-responsive-lg" style="overflow-x:auto;">
       <table class="table table-hover">
-        <thead  >
+        <thead>
           <tr>
             <th>#</th>
             <th>First Name</th>
@@ -97,12 +95,12 @@
                 {
                         echo '<tr>';
                         echo '<th>'.$entry.'</th>';
-                        echo '<td><a href="approve_driver.php?FName='.$row['FName'].'&LName='.$row['LName'].'&Email='.$row['Email'].'">Approve</a></td>';
-                        echo '<td>Driver</td>';
                         echo '<td>'.$row['FName'].'</td>';
                         echo '<td>'.$row['LName'].'</td>';
                         echo '<td>'.$row['Email'].'</td>';
                         echo '<td>'.$row['Info'].'</td>';
+                        echo '<td><a href="approve_driver.php?FName='.$row['FName'].'&LName='.$row['LName'].'&Email='.$row['Email'].'">Approve</a></td>';
+                        echo '<td>Decline Application :(</td>';
                         echo '</tr>';
                         $entry = $entry + 1;
                 }
@@ -122,7 +120,6 @@
                 }
           ?>
 
-		}
           </tbody>
       </table>
     </div>
@@ -131,29 +128,32 @@
   <!--Manage Accounts-->
   <div class = "tab-pane fade" id = "manageAccountTab" role = "tabpanel">
     <div class = "container-fluid">
-      <form action="create_account.php" method="post">
+      <form action="create_account.php" class = "needs-validation" method="post" novalidate>
 					<div class="row">
 						<div class="col-md-4">
 							<label for="fName">First Name</label>
-							<input type="text" class="form-control" id="FName" placeholder="First name" name="FName">
+							<input type="text" class="form-control" id="FName" placeholder="First name" name="FName" required>
+							<div class = "invalid-feedback">Enter a valid first name</div>
 						</div>
     				        </div>
   				        <div class = "row">
                 				<div class="col-md-4">
   							<label for="lName">Last Name</label>
-  							<input type="text" class="form-control" id="LName" placeholder="Last name" name="LName">
+  							<input type="text" class="form-control" id="LName" placeholder="Last name" name="LName" required>
+							<div class = "invalid-feedback">Enter a valid last name</div>
   						</div>
               				</div>
 					<div class="row">
 						<div class="col-md-4">
 							<label for="newEmail">Email</label>
-							<input type="email" class="form-control" id="Email" placeholder="Enter email" name="Email">
+							<input type="email" class="form-control" id="Email" placeholder="Enter email" name="Email" required>
+							<div class = "invalid-feedback">Enter a valid email</div>
 						</div>
 			                </div>
               				<div class = "row">
   						 <div class="col-md-4">
 							<label for="accountType">Account Type</label>
-							<select id="accountType" class="form-control" name="UserType">
+							<select id="accountType" class="form-control" name="UserType" required>
 								<option selected="">Driver</option>
 								<option>Sponsor</option>
 							</select>
@@ -199,6 +199,7 @@
             <th>Last Name</th>
             <th>Company</th>
             <th>Email</th>
+	    <th>Modify Account</th>
             <th>Delete Account</th>
           </tr>
 	</thead>
@@ -210,12 +211,12 @@
                 {
                         echo '<tr>';
                         echo '<th>'.$entry.'</th>';
-                        echo '<td>Driver</td>';
-                        $cid = $row['CompanyID'];
-                        echo '<td>'.ninja_company_name($cid).'</td>';
                         echo '<td>'.$row['FName'].'</td>';
                         echo '<td>'.$row['LName'].'</td>';
+                        echo '<td>'.ninja_company_name($cid).'</td>';
                         echo '<td>'.$row['Email'].'</td>';
+                        echo '<td>Edit Account?</td>';
+                        $cid = $row['CompanyID'];
                         echo '<td><a href="delete_account.php?UID='.$row['UserID'].'">Delete Account</a></td>';
                         echo '</tr>';
                         $entry = $entry + 1;
@@ -229,7 +230,7 @@
 
 
   <!--View Sponsors-->
-  <div class = "tab-pane fade" id = "sponsorTab" role = "tabpanel">
+  <div class = "tab-pane fade" id = "asponsorTab" role = "tabpanel">
     <div class = "table-responsive-lg" style = "overflow-x:auto;">
       <table class = "table table-hover">
         <thead>
@@ -239,6 +240,7 @@
             <th>Last Name</th>
             <th>Company</th>
             <th>Email</th>
+	    <th>Modify Account</th>
             <th>Delete Account</th>
           </tr>
 	</thead>
@@ -250,13 +252,19 @@
                 {
                         echo '<tr>';
                         echo '<th>'.$entry.'</th>';
-                        echo '<td>Sponsor</td>';
                         $cid = $row['CompanyID'];
+			if(strlen($row['FName']) != 0)
+				echo'<td>'.$row['FName'] . '</td>';
+			else
+				echo '<td>N/A</td>';
+			if(strlen($row['LName']) != 0)
+                        	echo '<td>'.$row['LName'].'</td>';
+			else
+				echo '<td>N/A</td>';
                         echo '<td>'.ninja_company_name($cid).'</td>';
-                        echo '<td>'.$row['FName'].'</td>';
-                        echo '<td>'.$row['LName'].'</td>';
                         echo '<td>'.$row['Email'].'</td>';
-                        echo '<td><a href="delete_account.php?UID='.$row['UserID'].'">Delete Account</a></td>';
+                        echo '<td>Modify Acount</td>';
+			echo '<td><a href="delete_account.php?UID='.$row['UserID'].'">Delete Account</a></td>';
                         echo '</tr>';
                         $entry = $entry + 1;
                 }
@@ -337,3 +345,22 @@
 </div>
 </body>
 </html>
+
+
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>

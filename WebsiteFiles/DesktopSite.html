@@ -9,31 +9,46 @@
 </head>
 <body style = "background-color:transparent;">
   <title>What the Truck</title>
-<br /><br /><br /><br /><br /><br /><br /><br /><br />
-<div class = "container">
-  <div class = "row" style = "margin:auto;">
-      <div class = "col-md-12" style = "text-align:center;">
-        <h3 style = "font-size: 80px; color: white;text-align: center; margin:auto;">What the Truck!</h3>
-        <h1 style = "font-size: 20px; color: white; padding-left: 20px;">The Best Truckin' Experience of your Life</h1>
-        <hr />
-        <br /><br />
-      </div>
-    </div>
-    <div class = "row justify-content-center">
-      <div class = "col-md-6" style = "text-align: center; font-size: 40px;">
-            <button type = "button" onclick = "location.href = 'logon.php'" class = "btn btn-outline-light btn-block">Log In</button>
-          </div>
-        </div>
-        <br />
-        <div class = "row justify-content-center">
-          <div class = "col-md-6">
-            <button type = "button" onclick = "location.href = 'application.php'" class = "btn btn-outline-light btn-block">Apply to Join</button>
-          </div>
-        </div>
-          </div>
-        </div>
-        </div>
-      </div>
+	<div class = "container-fluid">
+  <nav class = "navbar navbar-expand-lg" style = "z-index:2000;">
+<a class = "navbar-brand text-light" >What the Truck!</a>
+  <ul class = "nav navbar-nav ml-auto">
+	<li class = "nav-item">
+		<a class = "nav-link text-light" onclick = "location.href = 'application.php'">Apply to Join</a>
+	</li>
+	<li class = "nav-item dropdown">
+		<a class = "nav-link dropdown-toggle text-light" data-toggle = "dropdown">Log In</a>
+        	<div class = "dropdown-menu dropdown-menu-right px-4">
+                	<form>
+				<div class = "form-group">
+					<label for = "eMail">Email</label>
+					<input type = "email" class = "form-control" id = "eMail" placeholder = "Email">
+				</div>
+				<div class = "form-group">
+					<label for = "password">Password</label>
+					<input type = "text" class = "form-control" id = "password" placeholder = "Password">
+				</div>
+				<button class = "btn btn-secondary">Forgot Password</button>
+				<button class = "btn btn-primary" onclick = "location.href = 'logon.php'">Logon</button>
+               		</form>
+       		 </div>
+	</li>
+  </ul>
+	</nav>
+</div>
+<div class = "container-fluid" style = "z-index:1900;position:relative;">
+  <div class = "row justify-content-center" style = "margin-top:100px;">
+	<div class = "col-md-6">
+  		<div id = "title" style = "vertical-align:middle; text-align:center;"class = "align-middle my-auto text-light">
+			<h1 class = "display-1">What the Truck!</h1>
+			<hr style = "border-top: 1px solid rgba(255,255,255,.5); width:50%;"/>
+			<p class = "lead" style = "z-index:2000; font-size: 30px;">The Best Truckin Experience of Your Life!</p>
+ 		 </div> 
+	</div>
+  </div>
+</div>
+</div>
+<div class = "modal-backdrop fade-show" style = "opacity: .3;"></div>
 </body>
 
 </html>
@@ -46,4 +61,5 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
+
 </style>
