@@ -1,12 +1,50 @@
+<?php include "db_ninja.php";?>
+<?php
+	session_start();
+
+	if (isset($_SESSION['Logged']) && $_SESSION['Logged'] === true)
+	{
+		if ($_SESSION['UserType'] === "Driver")
+		{
+			header("location: driver_view.php");
+		}
+		else if ($_SESSION['UserType'] === "Sponsor")
+		{
+			header("location: sponsor_view.php");
+		}
+		else if ($_SESSION['UserType'] === "Admin")
+		{
+			header("location: admin_view.php");
+		}
+		exit;
+	}
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST")
+	{
+		$email = htmlspecialchars($_POST['ID']);
+		$pword = htmlspecialchars($_POST['Password']);
+		$status = ninja_login($email, $pword);
+		if ($status == 0)
+		{
+			header("location: change_password.php");
+		}
+		else if ($status == 1)
+		{
+			header("location: driver_view.php");
+		}
+		else if ($status == 2)
+		{
+			header("location: sponsor_view.php");
+		}
+		else if ($status == 3)
+		{
+			header("location: admin_view.php");
+		}
+	}
+?>
 <!DOCTYPE html>
 <html style = "height: 100%;">
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-</head>
+<?php include "htmlhead.php";?>
 <body style = "background-color:transparent;">
   <title>What the Truck</title>
 	<div class = "container-fluid">
@@ -14,30 +52,29 @@
 <a class = "navbar-brand text-light" >What the Truck!</a>
   <ul class = "nav navbar-nav ml-auto">
 	<li class = "nav-item">
-		<a class = "nav-link text-light" data-toggle="modal" data-target = "#ApplicationModal">Apply to Join</a>
+	<!--	<a class = "nav-link text-light" data-toggle="modal" data-target = "#ApplicationModal">Apply to Join</a>-->
+		<a class = "nav-link text-light" href = "application.php">Apply to Join</a>
 	</li>
 	<li class = "nav-item dropdown">
 		<a class = "nav-link dropdown-toggle text-light" data-toggle = "dropdown">Log In</a>
-       <!-- 	<div class = "dropdown-menu dropdown-menu-right px-auto"> -->
-                	<form class = "dropdown-menu dropdown-menu-right p-4" style = "min-width: 30rem;">
+                	<form method = "post" class = "dropdown-menu dropdown-menu-right p-4" style = "min-width: 30rem;">
 				<div class = "form-group">
 						<label for = "eMail">Email</label>
-						<input type = "email" class = "form-control input-lg" id = "eMail" placeholder = "Email">
+						<input type = "email" name = "ID"class = "form-control input-lg" id = "eMail" placeholder = "Email">
 				</div>
 				<div class = "form-group">
 					<label for = "password">Password</label>
-					<input type = "text" class = "form-control input-lg" id = "password" placeholder = "Password">
+					<input type = "password" name = "Password" class = "form-control input-lg" id = "password" placeholder = "Password">
 				</div>
 				<div class = "row">
 					<div class = "col-md-4">
-						<button class = "btn btn-secondary">Forgot Password</button>
+						<button class = "btn btn-secondary"><a href = "forgot_password.php" class = "text-light">Forgot Password</a></button>
 					</div>
 					<div class = "col-md-4">
-						<button class = "btn btn-primary btn-block" onclick = "location.href = 'logon.php'">Logon</button>
+						<button type = "submit" class = "btn btn-primary btn-block" onclick = "location.href = 'logon.php'">Logon</button>
 					</div>
 				</div>
                		</form>
-    <!--   		 </div> -->
 	</li>
   </ul>
 	</nav>
@@ -90,6 +127,11 @@
 								<option>Driver</option>
 								<option>Sponsor</option>
 							</select>
+						</div>
+					</div><br>
+					<div class = "row">
+						<div class = "col">
+							<textarea name = "Info" class = "form-control" placeholder = "Tell us anything about yourself that we should know!"></textarea>
 						</div>
 					</div>
 					<br><br>

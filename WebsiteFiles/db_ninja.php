@@ -1025,7 +1025,7 @@ function ninja_new_catalog($cid, $name)
 	}
 
 	// insert catalog
-	$pst = $db->prepare("INSERT INTO Catalog VALUES(?, ?, 0, ?)");
+	$pst = $db->prepare("INSERT INTO Catalog VALUES(?, ?, 0, ?, 0)");
 	$pst->bind_param("sss", $newid, $name, $cid);
 	$pst->execute();
 
@@ -1040,6 +1040,98 @@ function ninja_browse_catalog_items($cid)
 	$pst->execute();
 	$res = $pst->get_result();
 	return $res;
+}
+
+function ninja_browse_catalog_items_asc_name($cid)
+{
+        $db = dojo_connect();
+        $pst = $db->prepare("SELECT Name, Image, PointPrice AS Price, CustomImg, CatalogCatalogItem.ItemID AS ItemID, CatalogCatalogItem.CatalogID AS CatalogID, WebSource, LinkInfo 
+				FROM CatalogCatalogItem 
+				INNER JOIN CatalogItem ON CatalogCatalogItem.ItemID = CatalogItem.ItemID 
+				WHERE CatalogCatalogItem.CatalogID IN (SELECT CatalogID FROM Catalog WHERE Catalog.CompanyID = ? AND Catalog.Deleted = 0 AND Catalog.Visible = 1)
+				ORDER BY Name");
+        $pst->bind_param("s", $cid);
+        $pst->execute();
+        $res = $pst->get_result();
+        return $res;
+}
+
+function ninja_browse_catalog_items_desc_name($cid)
+{
+        $db = dojo_connect();
+        $pst = $db->prepare("SELECT Name, Image, PointPrice AS Price, CustomImg, CatalogCatalogItem.ItemID AS ItemID, CatalogCatalogItem.CatalogID AS CatalogID, WebSource, LinkInfo 
+				FROM CatalogCatalogItem
+				INNER JOIN CatalogItem ON CatalogCatalogItem.ItemID = CatalogItem.ItemID 
+				WHERE CatalogCatalogItem.CatalogID IN (SELECT CatalogID FROM Catalog WHERE Catalog.CompanyID = ? AND Catalog.Deleted = 0 AND Catalog.Visible = 1)
+				ORDER BY Name Desc");
+        $pst->bind_param("s", $cid);
+        $pst->execute();
+        $res = $pst->get_result();
+        return $res;
+}
+
+function ninja_browse_catalog_items_asc_price($cid)
+{
+        $db = dojo_connect();
+        $pst = $db->prepare("SELECT Name, Image, PointPrice AS Price, CustomImg, CatalogCatalogItem.ItemID AS ItemID, CatalogCatalogItem.CatalogID AS CatalogID, WebSource, LinkInfo 
+				FROM CatalogCatalogItem 
+				INNER JOIN CatalogItem ON CatalogCatalogItem.ItemID = CatalogItem.ItemID 
+				WHERE CatalogCatalogItem.CatalogID IN (SELECT CatalogID FROM Catalog WHERE Catalog.CompanyID = ? AND Catalog.Deleted = 0 AND Catalog.Visible = 1)
+				ORDER BY Price");
+        $pst->bind_param("s", $cid);
+        $pst->execute();
+        $res = $pst->get_result();
+        return $res;
+}
+
+function ninja_browse_catalog_items_desc_price($cid)
+{
+        $db = dojo_connect();
+        $pst = $db->prepare("SELECT Name, Image, PointPrice AS Price, CustomImg, CatalogCatalogItem.ItemID AS ItemID, CatalogCatalogItem.CatalogID AS CatalogID, WebSource, LinkInfo 
+				FROM CatalogCatalogItem 
+				INNER JOIN CatalogItem ON CatalogCatalogItem.ItemID = CatalogItem.ItemID 
+				WHERE CatalogCatalogItem.CatalogID IN (SELECT CatalogID FROM Catalog WHERE Catalog.CompanyID = ? AND Catalog.Deleted = 0 AND Catalog.Visible = 1)
+				ORDER BY Price Desc");
+        $pst->bind_param("s", $cid);
+        $pst->execute();
+        $res = $pst->get_result();
+        return $res;
+}
+
+function dojo_get_string_between($string, $start, $end)
+{
+    $string = ' ' . $string;
+    $ini = strpos($string, $start);
+    if ($ini == 0) return '';
+    $ini += strlen($start);
+    $len = strpos($string, $end, $ini) - $ini;
+    return substr($string, $ini, $len);
+}
+
+function dojo_base_item_price($iid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT WebSource, LinkInfo FROM CatalogItem WHERE ItemID = ?");
+	$pst->bind_param("s", $iid);
+	$pst->execute();
+	$res = $pst->get_result();
+	if ($row = $res->fetch_assoc())
+	{
+		$site = $row['WebSource'];
+		$link = $row['LinkInfo'];
+		if ($site == 'Ebay')
+		{
+			$html = file_get_contents($link);
+			if ($html)
+			{
+				$price = dojo_get_string_between($html, 'US $', '<');
+				return floatval($price);
+			}
+			else return 0.0;
+		}
+		else return 0.0;  // TODO other websites
+	}
+	else return 0.0;
 }
 
 function ninja_place_order($uid, $items)
@@ -1070,15 +1162,61 @@ function ninja_place_order($uid, $items)
 
 	// add items to order
 	$position = 1;
+	$adminprofit = 0.0;
 	foreach ($items as $item)
 	{
-		$pst = $db->prepare("INSERT INTO ItemOrderCatalogItem VALUES(?, ?, ?, ?, 0, 0, ?, 1.1)");  // TODO 
+		$pst = $db->prepare("INSERT INTO ItemOrderCatalogItem VALUES(?, ?, ?, ?, 0, 0, ?, ?)");  // TODO 
 		$iid = $item['ItemID'];
 		$price = $item['Price'];
 		$cid = $item['CatalogID'];
-		$pst->bind_param("ssiis", $newid, $iid, $price, $position, $cid);
+		$moneyprice = dojo_base_item_price($iid);
+		$admintax = $moneyprice * 0.01;
+		$adminprofit += $admintax;
+		$moneyprice += $admintax;
+		$pst->bind_param("ssiisd", $newid, $iid, $price, $position, $cid, $moneyprice);
 		$pst->execute();
 		$position++;
+	}
+
+	// process admin payments
+	$pst = $db->prepare("SELECT UserID FROM Admin");
+	$pst->execute();
+	$res = $pst->get_result();
+	$admincount = 0.0;
+	while ($row = $res->fetch_assoc())
+	{
+		$admincount += 1.0;
+	}
+	if ($admincount > 0)  // money just vanishes without any admins, prolly not good
+	{
+		$psta = $db->prepare("SELECT UserID FROM Admin");
+		$psta->execute();
+		$resa = $psta->get_result();
+		while ($row2 = $resa->fetch_assoc())
+		{
+			// generate new payment id
+			$pst = $db->prepare("SELECT PaymentID FROM Payment");
+			$pst->execute();
+			$res = $pst->get_result();
+			$newpid = "";
+			$unique = false;
+			while (!$unique)
+			{
+				$newpid = substr(md5(rand()), 0, 16);
+				$unique = true;
+				$res->data_seek(0);
+				while ($row = $res->fetch_assoc())
+					if ($row['PaymentID'] === $newpid)
+						$unique = false;
+			}
+			
+			// insert new payment
+			$aid = $row2['UserID'];
+			$dividedprofit = $adminprofit/$admincount;
+			$pst2 = $db->prepare("INSERT INTO Payment VALUES (?, ?, ?, 1, NOW())");
+			$pst2->bind_param("ssd", $newpid, $aid, $dividedprofit);
+			$pst2->execute();
+		}
 	}
 
 	return $newid;
@@ -1321,7 +1459,7 @@ function ninja_delete_company($cid)
 	$pst->execute();
 }
 
-function ninja_sponsor_company_list($cid)
+function ninja_company_sponsor_list($cid)
 {
 	$db = dojo_connect();
 	$pst = $db->prepare("SELECT Account.UserID AS UserID, FName, LName, Email FROM Account INNER JOIN Sponsor ON Account.UserID = Sponsor.UserID WHERE Sponsor.CompanyID = ? AND Account.Deleted = 0");
@@ -1360,6 +1498,70 @@ function ninja_set_catalog_visible($cid, $visible)
 	$pst = $db->prepare("UPDATE Catalog SET Visible = ? WHERE CatalogID = ?");
 	$pst->bind_param("is", $visible, $cid);
 	$pst->execute();
+}
+
+function ninja_sponsor_points_added($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT SUM(Amount) AS Points FROM PointAddition WHERE SponsorID = ?");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$points = 0;
+	if ($res && $row = $res->fetch_assoc())
+	{
+		$points += $row['Points'];
+	}
+	return $points;
+}
+
+function ninja_create_empty_company($name)
+{
+	$db = dojo_connect();
+
+	// generate new id
+	$pst = $db->prepare("SELECT CompanyID FROM Company");
+	$pst->execute();
+	$res = $pst->get_result();
+	$newid = "";
+	$unique = false;
+	while (!$unique)
+	{
+		$newid = substr(md5(rand()), 0, 16);
+		$unique = true;
+		while ($row = $res->fetch_assoc())
+			if ($row['CompanyID'] === $newid)
+				$unique = false;
+	}
+	
+	$pst = $db->prepare("INSERT INTO Company VALUES(?, ?, '', 0, '', '')");
+	$pst->bind_param("ss", $newid, $name);
+	$pst->execute();
+
+	return $newid;
+}
+
+function ninja_reject_email_application($email)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("DELETE FROM Application WHERE Email = ?");
+	$pst->bind_param("s", $email);
+	$pst->execute();
+}
+
+function ninja_money_earned($uid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT SUM(Amount) AS Money FROM Payment WHERE AdminID = ? AND Processed = 1");
+	$pst->bind_param("s", $uid);
+	$pst->execute();
+	$res = $pst->get_result();
+	$money = 0.0;
+	if ($row = $res->fetch_assoc())
+	{
+		$money = $row['Money'];
+	}
+	return $money;
 }
 
 ?>

@@ -20,79 +20,28 @@
 <html style = "height: 100%;">
 <?php include "htmlhead.php"?>
 <body style = "height: 100%;">
+<?php include "sponsor_header.php"?>
   <title>What the Truck!</title>
-<div id = "homeBody">
-    <!--SideNav-->
-    <nav class = "justify-content-center" id = "sideNav">
-      <div id = "AccountProfile">
-        <button type = "button" style = "border-radius: 0rem; color:white;"class = "btn btn-link btn-block" onclick = "location.href = 'view_profile.php'">
-          <div class = "ProfileName" >
-          <span id = "Accountpicture"><img width = "60px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
-            <p id = "AccountText">
-              <?php echo $fullname; ?><br />
-            </p>
-          </div>
-        </button>
-        <hr style = "border-top: 1px solid white;"/>
-      </div>
-        <ul class = "navbar-nav" id = "buttonList">
-          <li class = "nav-item">
-            <button type = "button" onclick = "showCatalogue()"
-            class = "btn btn-outline-light">
-              View Catalogues
-            </button>
-            <br /><br />
-          </li>
-          <li class = "nav-item">
-            <button type = "button" onclick = "showDriver()"
-            class = "btn btn-outline-light ">
-              Manage Drivers
-            </button>
-            <br /><br />
-          </li>
-          <li class = "nav-item">
-            <button type = "button" onclick = "showApplication()"
-            class = "btn btn-outline-light ">
-              Applications
-            </button>
-            <br /><br />
-          </li>
-          <li class = "nav-item">
-            <button type = "button" onclick = "showCompany()"
-            class = "btn btn-outline-light ">
-             View Company
-            </button>
-            <br /><br />
-          </li>
-          <li class = "nav-item">
-            <button type = "button" onclick = "showSponsor()"
-            class = "btn btn-outline-light ">
-             Create new Sponsor
-            </button>
-          </li>
-        </ul>
-    </nav>
-
-    <!--Main Body-->
-  <div id = "mainContent">
-    <nav class = "navbar navbar-expand-md bg-light">
-      <form class = "form-inline mt-2 mt-md-0" id = "searchBar" style = " width:auto;">
-        <input class = "form-control" type = "text" placeholder="Search" />
-        <button class = "btn btn-primary">Search</button>
-      </form>
-      <div class = "d-flex justify-content-end" style = "float:right;">
-        <ul class = "navbar-nav mr-auto">
-          <li class = "nav-item">
-            <a class = "nav-link" href = "contact_admin.php">Contact Us</a>
-          </li>
-          <li class = "nav-item" >
-            <a class = "nav-link" href = "logout.php">Log Off</a>
-          </li>
-        </ul>
-      </div>
-
-    </nav>
-    <div class = "CatalogContent" id = "CatalogInfo" style = "display: none;">
+<nav class = "navbar navbar-expand-lg navbar-light bg-light">
+	<ul class = "nav nav-pills" id = "tabs">
+		<li class = "nav-item">
+			<a class = "nav-link active" data-toggle = "pill" href = "#Company-Tab" aria-selected = "true">Dashboard</a>
+		</li>
+		<li class = "nav-item">
+			<a class = "nav-link" data-toggle = "pill" href = "#Application-Tab" aria-selected = "false">View Applications</a>
+		</li>
+		<li class = "nav-item">
+			<a class = "nav-link" data-toggle = "pill" href = "#Catalog-Tab" aria-selected = "false">View Catalogs</a>
+		</li>
+		<li class = "nav-item">
+			<a class = "nav-link" data-toggle = "pill" href = "#Sponsor-Tab" aria-selected = "false">View Sponsors</a>
+		</li>
+		<li class = "nav-item">
+			<a class = "nav-link" data-toggle = "pill" href = "#Driver-Tab" aria-selected = "false">View Drivers</a>
+		</li>
+</nav>
+<div class = "tab-content">
+<div class = "tab-pane fade-show" id = "Catalog-Tab" role = "tabpanel">
       <div class = "jumbotron" style = "margin-bottom: 0px;">
         <h1>Catalog info</h1>
       </div>
@@ -142,18 +91,31 @@
 
 	?>
       </table>
-	<div>
+	<div id = "newCatalog" style = "margin: auto;">
+	<div class = "card" style = "max-width: 600px; margin-left: 20px;">
+	<div class = "card-header">
+		<h2 class = "lead">New Empty Catalog</h2>
+	</div>
+	<div class = "card-body">
         <form action = "create_catalog.php" method = "post">
-          <input type = "text" name="NewCatalogName" placeholder = "New Catalog Name">
-	  <input type = "hidden" name = "CID" value = "<?php echo $cid; ?>">
-          <button type = "submit" value="Create New Catalog">
+	  <div class = "form-row">
+		<div class = "col-md-8">
+        	  	<input class = "form-control" type = "text" name="NewCatalogName" placeholder = "New Catalog Name" required>
+	  		<input type = "hidden" name = "CID" value = "<?php echo $cid; ?>">
+		</div>
+		<div class = "col-md-3">
+        	  	<button class = "btn btn-primary" type = "submit" value="Create New Catalog">Create New Catalog</button>
+		</div>
+	</div>
         </form>
+	</div>
+	</div>
 	</div>
     </div>
 
-    <div id = "DriverContent" style = "display: block;">
+    <div class = "tab-pane fade-show" id = "Driver-Tab" role = "tabpanel">
       <div class = "jumbotron" style = "margin-bottom: 0;">
-        <h1>Drivers</h1>
+        <h1><?php echo $cname;?> Drivers</h1>
       </div>
       <div class = "table-responsive-lg" style="overflow-x:auto;">
       <table class = "table table-hover">
@@ -163,9 +125,9 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
+	    <th>Profile</th>
             <th>Points</th>
-	    <th>Add</th>
-            <th>Profile</th>
+	    <th>Add Points</th>
           </tr>
         </thead>
 	  <?php
@@ -178,15 +140,17 @@
 			echo '<td>'.$row['FName'].'</td>';
 			echo '<td>'.$row['LName'].'</td>';
 			echo '<td>'.$row['Email'].'</td>';
+			echo '<td><a href="sponsor_driver_profile.php?DID='.$row['UserID'].'">View Profile</a></td>';
 			echo '<td>'.ninja_points($row['UserID'], $cid).'</td>';
 			echo '<td>';
 			echo '<form action = "add_points.php">';
-			echo '<input type = "text" name = "PointAdd">';
-			echo '<input type = "hidden" name = "DID" value = "'.$row['UserID'].'">';
-			echo '<input type = "submit" value = "Add Points">';
+			echo '<div class = "form-row">';
+			echo '<div class = "col-sm-6"><input class = "form-control" type = "text" name = "PointAdd" placeholder = "Add Points">';
+			echo '<input type = "hidden" name = "DID" value = "'.$row['UserID'].'"></div>';
+			echo '<div class = "col-sm-3"><input class = "btn btn-primary" type = "submit" value = "Add Points"></div>';
+			echo '</div>';
 			echo '</form>';
 			echo '</td>';
-			echo '<td><a href="sponsor_driver_profile.php?DID='.$row['UserID'].'">View Profile</a></td>';
 			echo '</tr>';
 			$entry = $entry + 1;
 		}
@@ -195,7 +159,7 @@
       </table>
     </div>
     </div>
-    <div id = "ApplicationContent" style = "display: none;">
+    <div class = "tab-pane fade-show" id = "Application-Tab">
       <div class = "jumbotron" style = "margin-bottom: 0;">
         <h1>Driver Applications</h1>
       </div>
@@ -232,142 +196,120 @@
     </div>
     </div>
 
-    <div class = "CompanyContent" id = "CompanyInfo" style = "display: none;">
+    <div class = "tab-pane fade-show active" id = "Company-Tab">
       <div class = "jumbotron">
-        <h1><?php echo $cname; ?></h1>
+        <h1><?php echo $cname;?> Dashboard</h1>
       </div>
-        <div class = "container">
+        <div class = "container-fluid">
 	  <div class = "row">
-		<div class = "col-md-6">
-			<ul>
-				<li>Total Points Held by Drivers: <?php echo number_format(ninja_company_points_held($cid)); ?></li>
-				<li>Total Points Spent by Drivers: <?php echo number_format(ninja_company_points_spent($cid)); ?></li>
-				<li>Total Points Earned by Drivers: <?php echo number_format(ninja_company_points_added($cid)); ?></li>
-			</ul>
+		<div class = "col-lg-4">
+		   <div class = "card">
+			<div class = "card-header">
+			<p class = "lead">Create New Sponsor Account</p>
+			</div>
+			<div class = "card-body">
+
+				<form action="create_sponsor.php" class = "needs-validation" method="ge" novalidate>
+                                        <div class="row">
+                                                <div class="col-lg-6">
+                                                        <label for="fName">First Name</label>
+                                                        <input type="text" class="form-control" id="FName" placeholder="First name" name="FName" required>
+                                                        <div class = "invalid-feedback">Enter a valid first name</div>
+                                                </div>
+                                        </div>
+                                        <div class = "row">
+                                                <div class="col-lg-6">
+                                                        <label for="lName">Last Name</label>
+                                                        <input type="text" class="form-control" id="LName" placeholder="Last name" name="LName" required>
+                                                        <div class = "invalid-feedback">Enter a valid last name</div>
+                                                </div>
+                                        </div>
+                                        <div class="row">
+                                                <div class="col-lg-6">
+                                                        <label for="newEmail">Email</label>
+                                                        <input type="email" class="form-control" id="Email" placeholder="Enter email" name="Email" required>
+                                                        <div class = "invalid-feedback">Enter a valid email</div>
+                                                </div>
+                                        </div>
+                                        <br>
+                                        <button class="btn btn-primary" action="submit">Create Account</button>
+        			</form>
+
+
+			</div>
+		   </div>
 		</div>
+		<div class = "col-lg-4">
+		   <div class = "card">
+			<div class = "card-header">
+				<p class = "lead">Company Statistics</p>
+			</div>
+			<div class = "card-body">
+			<ul class = "list-group-flush">
+				<li class = "list-group-item">Total Points Held by Drivers: <?php echo number_format(ninja_company_points_held($cid)); ?></li>
+				<li class = "list-group-item">Total Points Spent by Drivers: <?php echo number_format(ninja_company_points_spent($cid)); ?></li>
+				<li class = "list-group-item">Total Points Earned by Drivers: <?php echo number_format(ninja_company_points_added($cid)); ?></li>
+			</ul>
+			</div>
+		   </div>
 	  </div>
-          <div class = "row">
-            <div class = "col-md-6">
-	     <h2>Company Description</h2>
+         
+            <div class = "col-lg-4">
 	     <div class = "card">
+		<div class = "card-header">
+			<p class = "lead">Company Description</p>
+			<p class = "subtext">How Your Company Appears to Drivers</p>
+		</div>
               <div class = "card-body">
-		<?php
-			echo $cinfo;
-		?>
-              </div>
-	     </div>
-            </div>
-            <div class = "col-md-3">
-              <img width = "200px" src = <?php echo '"data:image/png;base64,'.base64_encode($cimage).'"';?> class = "img-rounded "></img>
+		<ul class = "list-group-flush">
+			<li class = "list-group-item">Company Name: <?php echo $cname;?></li>
+			<li class = "list-group-item">Company Description: <?php echo $cinfo;?></li>
+			<li class = "list-group-item">Company Picture:</br> 
+              <img width = "200px" src = <?php echo '"data:image/png;base64,'.base64_encode($cimage).'"';?> class = "img-rounded "></img></li></ul><br>
+		<button class = "btn btn-primary" onclick = "window.location.href = 'edit_company.php';">Edit Information</button>
             </div>
           </div>
-          <div class = "row justify-content-center">
-            <div class = "col-sm-3"><br>
-              <button class = "btn btn-primary" onclick = "window.location.href = 'edit_company.php';">Edit Information</button>
-            </div>
-          </div>
+	</div>
+	</div>
         </div>
     </div>
 
 
-    <div class = "SponsorContent" id = "NewSponsor" style = "display: none;">
-      <div class = "jumbotron">
-        <h1><?php echo $cname; ?></h1>
+    <div class = "tab-pane fade-show" id = "Sponsor-Tab">
+      <div class = "jumbotron" style = "margin-bottom: 0;">
+        <h1><?php echo $cname; ?> Employees</h1>
       </div>
-
-        <div class = "container">
-      <form action="create_sponsor.php" class = "needs-validation" method="ge" novalidate>
-					<div class="row">
-						<div class="col-md-4">
-							<label for="fName">First Name</label>
-							<input type="text" class="form-control" id="FName" placeholder="First name" name="FName" required>
-							<div class = "invalid-feedback">Enter a valid first name</div>
-						</div>
-    				        </div>
-  				        <div class = "row">
-                				<div class="col-md-4">
-  							<label for="lName">Last Name</label>
-  							<input type="text" class="form-control" id="LName" placeholder="Last name" name="LName" required>
-							<div class = "invalid-feedback">Enter a valid last name</div>
-  						</div>
-              				</div>
-					<div class="row">
-						<div class="col-md-4">
-							<label for="newEmail">Email</label>
-							<input type="email" class="form-control" id="Email" placeholder="Enter email" name="Email" required>
-							<div class = "invalid-feedback">Enter a valid email</div>
-						</div>
-			                </div>
-					<br>
-					<button class="btn btn-primary" action="submit">Create Account</button>
-	</form>
-        </div>
+      <div class = "table-responsive-lg" style="overflow-x:auto;">
+      <table class = "table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Total Points Added</th>
+          </tr>
+        </thead>
+	  <?php
+		$entry = 1;
+		$res = ninja_company_sponsor_list($cid);
+		while ($row = $res->fetch_assoc())
+		{
+			echo '<tr>';
+			echo '<th>'.$entry.'</th>';
+			echo '<td>'.$row['FName'].'</td>';
+			echo '<td>'.$row['LName'].'</td>';
+			echo '<td>'.$row['Email'].'</td>';
+			echo '<td>'.ninja_sponsor_points_added($row['UserID'], $cid).'</td>';
+			echo '</tr>';
+			$entry = $entry + 1;
+		}
+	  ?>
+        </tbody>
+      </table>
+    </div>
     </div>
 
   </div>
-</div>
 <br />
 </body>
-
-<script>
-function showCatalogue(){
-  var catalog = document.getElementById("CatalogInfo");
-  var driver = document.getElementById("DriverContent");
-  var application = document.getElementById("ApplicationContent");
-  var company = document.getElementById("CompanyInfo");
-  var sponsor = document.getElementById("NewSponsor");
-  catalog.style.display = "block";
-  driver.style.display = "none";
-  application.style.display = "none";
-  company.style.display = "none";
-  sponsor.style.display = "none";
-}
-function showDriver(){
-  var catalog = document.getElementById("CatalogInfo");
-  var driver = document.getElementById("DriverContent");
-  var application = document.getElementById("ApplicationContent");
-  var company = document.getElementById("CompanyInfo");
-  var sponsor = document.getElementById("NewSponsor");
-  catalog.style.display = "none";
-  driver.style.display = "block";
-  application.style.display = "none";
-  company.style.display = "none";
-  sponsor.style.display = "none";
-}
-function showApplication(){
-  var catalog = document.getElementById("CatalogInfo");
-  var driver = document.getElementById("DriverContent");
-  var application = document.getElementById("ApplicationContent");
-  var company = document.getElementById("CompanyInfo");
-  var sponsor = document.getElementById("NewSponsor");
-  catalog.style.display = "none";
-  driver.style.display = "none";
-  application.style.display = "block";
-  company.style.display = "none";
-  sponsor.style.display = "none";
-}
-function showCompany(){
-  var catalog = document.getElementById("CatalogInfo");
-  var driver = document.getElementById("DriverContent");
-  var application = document.getElementById("ApplicationContent");
-  var company = document.getElementById("CompanyInfo");
-  var sponsor = document.getElementById("NewSponsor");
-  catalog.style.display = "none";
-  driver.style.display = "none";
-  application.style.display = "none";
-  company.style.display = "block";
-  sponsor.style.display = "none";
-}
-function showSponsor(){
-  var catalog = document.getElementById("CatalogInfo");
-  var driver = document.getElementById("DriverContent");
-  var application = document.getElementById("ApplicationContent");
-  var company = document.getElementById("CompanyInfo");
-  var sponsor = document.getElementById("NewSponsor");
-  catalog.style.display = "none";
-  driver.style.display = "none";
-  application.style.display = "none";
-  company.style.display = "none";
-  sponsor.style.display = "block";
-}
-</script>

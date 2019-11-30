@@ -55,8 +55,15 @@ else  // populate data
 <html style = "height: 100%;">
 <?php include "htmlhead.php"?>
 <body style = "height: 100%;">
-<?php include "driver_header.php";?>
 
+<?php
+if(isset($_SESSION['Driver']) && $_SESSION['Usertype'] === "Driver")
+	include "driver_header.php";
+else if(isset($_SESSION['Sponsor']) && $_SESSION['Usertype'] === "Sponsor")
+	echo "I'm dummy thicc and the clap of my ass checks keeps me from making a sponsor header";
+else
+	include "admin_header.php";
+?>
 <div class = "jumbotron">
 	<h1>Edit Profile</h1>
 </div>

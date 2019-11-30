@@ -147,3 +147,15 @@ CREATE TABLE Application
     Processed BOOLEAN NOT NULL,
     PRIMARY KEY (AppID)
 );
+
+CREATE TABLE Payment
+(
+    PaymentID    VARCHAR(16)        NOT NULL,
+    AdminID    VARCHAR(16)        NOT NULL,
+    Amount    DECIMAL(4, 2)        NOT NULL,
+    Processed    BOOLEAN        NOT NULL,
+    ProcTime    DATETIME        NOT NULL,
+    PRIMARY KEY (PaymentID),
+    FOREIGN KEY (AdminID) REFERENCES Admin (UserID)
+);
+

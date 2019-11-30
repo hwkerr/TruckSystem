@@ -11,6 +11,7 @@ session_start();
                 exit;
         }
 $uid = $_SESSION['UserID'];
+$pfp = ninja_pfp($uid);
 $cid = ninja_sponsor_company_id($uid);
 $did = $_GET['DriverID'];
 
@@ -21,6 +22,7 @@ $cards = array();
 <html>
 <?php include "htmlhead.php"?>
 <body>
+<?php include "sponsor_header.php";?>
 <div class = "jumbotron">
 <h1>Order History</h1>
 </div>
@@ -38,6 +40,7 @@ $card = '';
 $timestamp = '';
 while ($row = $orders->fetch_assoc())
 {
+	$image64 = 'data:image/png;base64,'.(base64_encode($row['Image']));
 	if ($first || $prev != $row['OrderID'])  // decide if this goes on a new order
 	{
 		$new = true;
@@ -67,12 +70,11 @@ while ($row = $orders->fetch_assoc())
 		$new = false;
 		$total = 0;
 	}
-
         $card = $card.'     <!--Itemcard-->
                 <div class = "card">
                         <div class = "card-body">
                                 <p>'.$row['Name'].'</p>
-				<img src = "data:image/png;base64,'.base64_encode($row['Image']).'" width = " 80px"/>
+				<img src = "'.$image64.'" width = " 80px"/>
 		<!--<p style = "display: inline-block; margin: auto auto;">Orderstate</p> -->
 				<p style = "display: inline-block;float:right;">'.$row['Price'].' points</p>
                         </div>
@@ -81,7 +83,6 @@ while ($row = $orders->fetch_assoc())
 	$first = false;
 	$total += $row['Price'];
 }
-
 if (!$first)  // end the last order, if there was one
 {
        	$card = $card.'     <h5>Order Summary</h5>

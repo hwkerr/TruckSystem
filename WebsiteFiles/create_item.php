@@ -45,9 +45,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			<div class = "form-group" style = "margin-center: auto;">
 				<h1 style = "text-align: center;">Create New Item</h1>
 				<form method = "post">
-				<label for = "WebSource">Web Source</label>
-				<input class = "form-control" id = "WebSource" placeholder = "Web Source" name = "WebSource"/><br>
-				<label for = "LinkInfo">Link Info</label>
+				<label for = "WebSource">Source Website</label>
+                	        <select name = "WebSource" class = "form-control" id = "WebSource">
+				<!-- <option value = "Amazon">Amazon</option> -->
+				<option value = "Ebay" selected>Ebay</option>
+				</select>
+				<label for = "LinkInfo">URL (copy and paste from item view page on source wesbite)</label>
 				<input class = "form-control" id = "LinkInfo" placeholder = "Link Info" name = "LinkInfo"/><br>
 				<div style = "text-align: center;">
 					<button class = "btn btn-outline-light" type = "submit" >Create Item</button>

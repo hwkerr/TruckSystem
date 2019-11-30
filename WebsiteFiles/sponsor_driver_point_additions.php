@@ -11,6 +11,7 @@ session_start();
                 exit;
         }
 $uid = $_SESSION['UserID'];
+$pfp = ninja_pfp($uid);
 $cid = ninja_sponsor_company_id($uid);
 $did = $_GET['DriverID'];
 
@@ -19,6 +20,7 @@ $did = $_GET['DriverID'];
 <html>
 <?php include "htmlhead.php"?>
 <body>
+<?php include "sponsor_header.php"?>
 <div class = "jumbotron">
 <h1>Order History</h1>
 </div>

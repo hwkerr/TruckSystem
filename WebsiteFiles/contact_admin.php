@@ -67,11 +67,13 @@ else
         </div>
       </div>-->
             <div class = "row justify-content-center" style = "margin: auto;">
-	      <div class = "col-lg-3">
-		<p style = "font-size: 30px"><p class = "lead">Here at What the Truck!, we believe that the driver comes first!</p> That's why we think it is very Trucking important the the drivers are always able to get in touch with our admins. Whether you are having issues with the website or you just want to chat, place your message and information in the form provided and a What the Truck representative will get back to you as soon as possible. We look forward to hearing from you! Happy Driving!</p>
+	      <div class = "col-lg-8">
+		<p style = "font-size: 36px"><p class = "lead">Here at What the Truck!, we believe that the customer comes first!</p> That's why we think it is very Trucking important the you are always able to get in touch with our admins. Whether you are having issues with the website or you just want to chat, place your message and information in the form provided and a What the Truck representative will get back to you as soon as possible. We look forward to hearing from you! Keep on Truckin!</p>
 	<footer class = "blockquote-footer">Harrison Kerr, Founder of What the Truck!</footer>
 		</div>
-              <div class = "col-lg-4">
+	      </div><br><br>
+		<div class = "row justify-content-center" style = "margin: auto;">
+              <div class = "col-lg-8">
                 <form method = "post">
                   <div class = "row">
                     <div class = "col">
@@ -108,7 +110,7 @@ else
                           </div>
                         </div>
                   </form>
-               
+               </div>
               </div>
             </div>
           </div>

@@ -34,7 +34,12 @@ if ($_SESSION['UserType'] === "Driver")
 <?php include "htmlhead.php";?>
 <body style = "height: 100%;">
   <title><?php echo $name ?></title>
-<?php include "driver_header.php";?>
+<?php
+if($SESSION['UserType'] === "Driver")
+	 include "driver_header.php";
+else
+	include "admin_header.php";
+?>
 <div class = "jumbotron">
    <h1><?php echo $name?></h1>
 </div>
@@ -105,6 +110,13 @@ if ($_SESSION['UserType'] === "Driver")
 			echo "</p>";
 			echo "<p id = 'DriverSpace'>";
 			echo "";
+			echo "</p>";
+		}
+		else if ($_SESSION['UserType'] === "Admin")
+		{
+			$earned = ninja_money_earned($uid);
+			echo "<p id = 'EarnedMoney'>";
+			echo "Total Money Earned: $".$earned," USD";
 			echo "</p>";
 		}
 		?>

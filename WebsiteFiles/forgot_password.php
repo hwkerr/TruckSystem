@@ -80,6 +80,7 @@
       </div>
             <div class = "row justify-content-center" style = "margin: auto;">
             </div>
+		<button class = "btn btn-outline-light btn-block" onclick = "location.href = 'DesktopSite.php'">Back to Home</button>
           </div>
 
 </body>
