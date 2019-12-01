@@ -10,7 +10,7 @@ public class SendViewModel extends ViewModel {
 
     public SendViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Submit a Help Request in this fragment!");
+        mText.setValue("Submit a Help Request (feature not yet available)");
     }
 
     public LiveData<String> getText() {

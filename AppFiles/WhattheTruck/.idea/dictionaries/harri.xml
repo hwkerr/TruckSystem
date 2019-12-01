@@ -2,13 +2,17 @@
   <dictionary name="harri">
     <words>
       <w>autofill</w>
+      <w>bttn</w>
+      <w>catid</w>
       <w>companyid</w>
       <w>companyname</w>
       <w>fname</w>
+      <w>itemid</w>
       <w>lname</w>
       <w>networkable</w>
       <w>userid</w>
       <w>vals</w>
+      <w>vert</w>
       <w>whatthetruck</w>
     </words>
   </dictionary>

@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity implements Networkable {
 
-    public static final String EXTRA_USERNAME = "com.app.whatthetruck.USERNAME";
+    public static final String EXTRA_USERNAME = "com.beef.whatthetruck.USERNAME";
 
     private EditText Name;
     private EditText Password;
@@ -39,11 +39,12 @@ public class LoginActivity extends AppCompatActivity implements Networkable {
     }
 
     public void validate() {
-        OkNetNinja db = new OkNetNinja(); // change back to NetNinja
+        ((BeefApplication)(this.getApplication())).newSession();
 
         String username = Name.getText().toString().toLowerCase();
         String password = Password.getText().toString();
 
+        OkNetNinja db = new OkNetNinja();
         db.startTask(new NetFunction(this, NetNinja.Function.LOGIN, username, password));
     }
 
