@@ -57,10 +57,10 @@ else  // populate data
 <body style = "height: 100%;">
 
 <?php
-if(isset($_SESSION['Driver']) && $_SESSION['Usertype'] === "Driver")
+if($_SESSION['UserType'] === "Driver")
 	include "driver_header.php";
-else if(isset($_SESSION['Sponsor']) && $_SESSION['Usertype'] === "Sponsor")
-	echo "I'm dummy thicc and the clap of my ass checks keeps me from making a sponsor header";
+else if($_SESSION['UserType'] === "Sponsor")
+	include "sponsor_header.php";
 else
 	include "admin_header.php";
 ?>

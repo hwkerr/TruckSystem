@@ -35,10 +35,12 @@ if ($_SESSION['UserType'] === "Driver")
 <body style = "height: 100%;">
   <title><?php echo $name ?></title>
 <?php
-if($SESSION['UserType'] === "Driver")
+if($_SESSION['UserType'] === "Driver")
 	 include "driver_header.php";
-else
+else if($_SESSION['UserType'] === "Admin")
 	include "admin_header.php";
+else
+	include "sponsor_header.php";
 ?>
 <div class = "jumbotron">
    <h1><?php echo $name?></h1>
@@ -119,7 +121,15 @@ else
 			echo "Total Money Earned: $".$earned," USD";
 			echo "</p>";
 		}
+		else
+		{
+			$cid = ninja_sponsor_company_id($uid);
+			$cname = ninja_company_name($cid);
+			echo "<p id = 'SponsorName' style = 'font-size:25px;'>Name: $name;</p>";
+			echo "<p id = 'Company' style = 'font-size:25px;'>Company Name: $cname</p>";
+		}
 		?>
+		
           </div>
           <form style = "margin: 0 auto;" action = "logon.php">
             <div class = "row justify-content-center">

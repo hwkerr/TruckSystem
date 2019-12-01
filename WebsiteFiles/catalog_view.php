@@ -12,18 +12,22 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['Us
 
 $cid = $_GET['CatalogID'];
 
+$uid = $_SESSION['UserID'];
+
 if ($_SESSION['UserType'] === 'Sponsor')  // check if sponsor belongs to same company as catalog
 {
 	$ccid = ninja_catalog_company_id($cid);
-	$uid = $_SESSION['UserID'];
 	$scid = ninja_sponsor_company_id($uid);
-	$pfp = ninja_pfp($uid);
 	if ($ccid != $scid)
 	{
 		header("location: logon.php");
 		exit;
 	}
 }
+
+$pfp = ninja_pfp($uid);
+$fnamae = ninja_fname($uid);
+$lname = ninja_lname($uid);
 
 $items = ninja_catalog_items($cid);
 $catname = ninja_catalog_name($cid);
@@ -43,7 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")  // toggle visibility
 <html>
 <?php include"htmlhead.php" ?>
 <body>
-<?php include "sponsor_header.php"?>
+<?php
+if ($_SESSION['UserType'] === "Sponsor")
+ include "sponsor_header.php";
+else if ($_SESSION['UserType'] === "Admin")
+ include "admin_header.php";
+?>
 <div class = "jumbotron" style = "margin:0;"> 
   <h1><?php echo $catname; ?></h1>
 </div>

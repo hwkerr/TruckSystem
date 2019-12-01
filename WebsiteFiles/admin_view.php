@@ -39,6 +39,9 @@
     <li class = "nav-item">
       <a class = "nav-link" id = "companies-tab" data-toggle = "pill" href = "#companiesTab" aria-selected = "false">View Companies</a>
     </li>
+    <li class = "nav-item">
+	<a class = "nav-link" id = "catalog-tab" data-toggle = "pill" href = "#catalogTab" aria-selected = "false">View Catalogs</a>
+    </li>
   </ul>
 </nav>
 
@@ -138,17 +141,20 @@
                                         <div class = "card">
                                                 <div class = "card-header"><h4>Add New Item</h2></div>
                                                 <div class = "card-body">
-							<form>
+							<form action="create_item.php" method = "post">
 							      <div class = "row">
 							        <div class = "col-md-8">
-							          <label for = "webSource">Source</label>
-							          <input type = "text" id = "webSource" class = "form-control" placeholder="Web Source" />
+							          <label for = "WebSource">Source</label>
+                	        				  <select name = "WebSource" class = "form-control" id = "WebSource">
+								  <!-- <option value = "Amazon">Amazon</option> -->
+								  <option value = "Ebay" selected>Ebay</option>
+								  </select>
 							        </div>
 							      </div>
 							      <div class = "row">
 							        <div class = "col-md-8">
-							          <label for = "linkInfo">Link Info</label>
-								          <input type = "text" id = "linkInfo" class = "form-control" placeholder = "Link Info" />
+							          <label for = "LinkInfo">Link Info</label>
+								          <input type = "text" name = "LinkInfo" id = "LinkInfo" class = "form-control" placeholder = "Link Info" />
 							        </div>
 							      </div><br />
 							      <div class = "row">
@@ -157,13 +163,17 @@
 							        </div>
 							      </div>
 						    </form>
+							          <button class = "btn btn-primary" onclick = "location.href = 'base_catalog.php'">View base catalog</button>
                                                 </div>
                                         </div>
 				</div><br>
 			</div>
 		</div>
 	</div>
-  <div class = "tab-pane fade-show" id = "applicationtab" role = "tabpanel">
+  <div class = "tab-pane fade" id = "applicationtab" role = "tabpanel">
+	<div class = "jumbotron" style = "margin: 0;">
+		<h2>View Applications</h2>
+	</div>
  <div class="table-responsive-lg" style="overflow-x:auto;">
       <table class="table table-hover">
         <thead>
@@ -299,6 +309,10 @@
 
   <!--View Drivers-->
   <div class = "tab-pane fade" id = "driverTab" role = "tabpanel">
+        <div class = "jumbotron" style = "margin: 0;">
+                <h2>View Drivers</h2>
+        </div>
+
     <div class = "table-responsive-lg" style = "overflow-x:auto;">
       <table class = "table table-hover">
         <thead>
@@ -324,7 +338,7 @@
                         echo '<td>'.$row['LName'].'</td>';
                         echo '<td>'.ninja_company_name($cid).'</td>';
                         echo '<td>'.$row['Email'].'</td>';
-                        echo '<td>Edit Account?</td>';
+			echo '<td><a href="admin_edit_driver_profile.php?DID='.$row['UserID'].'">Edit Account</a></td>';
                         $cid = $row['CompanyID'];
                         echo '<td><a href="delete_account.php?UID='.$row['UserID'].'">Delete Account</a></td>';
                         echo '</tr>';
@@ -340,6 +354,10 @@
 
   <!--View Sponsors-->
   <div class = "tab-pane fade" id = "asponsorTab" role = "tabpanel">
+        <div class = "jumbotron" style = "margin:0;">
+                <h2>View Sponsors</h2>
+        </div>
+
     <div class = "table-responsive-lg" style = "overflow-x:auto;">
       <table class = "table table-hover">
         <thead>
@@ -372,30 +390,93 @@
 				echo '<td>N/A</td>';
                         echo '<td>'.ninja_company_name($cid).'</td>';
                         echo '<td>'.$row['Email'].'</td>';
-                        echo '<td>Modify Acount</td>';
+			echo '<td><a href="admin_edit_sponsor_profile.php?SID='.$row['UserID'].'">Edit Account</a></td>';
 			echo '<td><a href="delete_account.php?UID='.$row['UserID'].'">Delete Account</a></td>';
                         echo '</tr>';
                         $entry = $entry + 1;
                 }
           ?>
-
         </tbody>
       </table>
     </div>
   </div>
 
+        <!--EntryNum, Name, Company Name, Num of Items, View Catalog Link, Delete Catalog-->
+  <div class = "Tab-pane fade" id = "catalogTab" role = "tabpanel">
+        <div class = "jumbotron" style = "margin:0;">
+                <h2>View Catalogs</h2>
+        </div>
+        <div class = "table-responsive-lg" style = "overflow-x: auto;">
+                <table class = "table table-hover">
+                        <thead>
+                                <tr>
+                                        <th>#</th>
+                                        <th>Catalog Name</th>
+                                        <th>Company</th>
+                                        <th>Number of Items</th>
+					<th>Visible to Drivers</th>
+                                        <th>View Catalog</th>
+                                        <th>Delete Catalog</th>
+                                </tr>
+			</thead>
+			<tbody>
+	<?php
+
+	$catalogs = ninja_all_catalogs();
+	$num = 1;
+	while ($row = $catalogs->fetch_assoc())
+	{
+		echo '<tr>';
+		echo '<th>';
+		echo $num;
+		echo '</th>';
+		echo '<td>';
+		echo $row['CatalogName'];
+		echo '</td>';
+		echo '<td>';
+		echo $row['CompanyName'];
+		echo '</td>';
+		echo '<td>';
+		echo ninja_catalog_item_count($row['CatalogID']);
+		echo '</td>';
+		echo '<td>';
+		if (ninja_catalog_visible($row['CatalogID']))
+			echo 'Visible';
+		else
+			echo 'Not Visible';
+		echo '</td>';
+		echo '<td>';
+		echo '<a href = "catalog_view.php?CatalogID='.$row['CatalogID'].'">View Catalog</a>';
+		echo '</td>';
+		echo '<td>';
+		echo '<a href = "delete_catalog.php?CID='.$row['CatalogID'].'">Delete Catalog</a>';
+		echo '</td>';
+		echo '</tr>';
+
+		$num++;
+	}
+
+	?>
+                        </tbody>
+                </table>
+        </div>
+</div>
 
 
 
 <!--View Company-->
   <div class = "tab-pane fade" id = "companiesTab" role = "tabpanel">
+        <div class = "jumbotron" style = "margin: 0";>
+                <h2>View Companies</h2>
+        </div>
+
     <div class="table-responsive-lg" style="overflow-x:auto;">
       <table class="table table-hover">
         <thead>
           <tr>
             <th>#</th>
-            <th>Company Name</th>
             <th>Company ID</th>
+            <th>Company Name</th>
             <th>Number of Sponsors</th>
             <th>Number of Drivers</th>
 	    <th>Delete Company</th>

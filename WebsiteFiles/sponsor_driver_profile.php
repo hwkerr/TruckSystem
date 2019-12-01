@@ -18,9 +18,10 @@ if (ninja_driver_company_status($uid, $cid) != 1)
 	header("location: logon.php");
 	exit;
 }
-
-$name = ninja_name($uid);
-$pfp = ninja_pfp($uid);
+$pfp = ninja_pfp($sid);
+$name = ninja_name($sid);
+$dname = ninja_name($uid);
+$dpfp = ninja_pfp($uid);
 $phone = ninja_phone_dashes($uid);
 $company = ninja_company_name($cid);
 $spent = ninja_point_subtractions($uid, $cid);
@@ -37,50 +38,61 @@ $address = ninja_address_oneline($uid);
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
-<body style = "height: 100%;background-image: linear-gradient(to bottom right, #071461, #0B358E);">
-  <title><?php echo $name ?></title><br /><br /><br />
-<div class = "container" style = "margin: 0 auto;">
-  <div class = "row justify-content-center">
-    <div class = "col-lg-6" style = "text-align: center; color: white;">
-      <h1>
-        <br /><?php echo $name ?><br/><hr/>
-      </h1>
-    </br>
-    </div>
-  </div>
+<body style = "height: 100%;">
+  <title><?php echo $dname ?></title>
+<?php $uid = $sid;
+ include "sponsor_header.php";
+	$uid = $did;
+?>
+<div class = "jumbotron">
+	<h2><?php echo $dname?>'s Profile</h2>
+</div>
+<div class = "container-fluid" style = "margin: 0 auto;">
   <div class = "row justify-content-center" style = "margin: auto;">
       <div class = "col-md-6">
-          <div class = "ProfileName" style = "color: white;">
-          <span id = "Accountpicture"><img width = "60px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
-            <p id = "AccountText">
-              <?php echo ""; ?><br />
+          <div class = "ProfileName" style = "text-align: center;">
+	        <h2>Profile Info</h2>  
+		<span id = "Accountpicture"><img width = "200px" src =<?php echo '"data:image/png;base64,'.base64_encode($dpfp).'"' ?> /></span><br />
+	  </div>
+		<br>
+
+
+
+	  </div>
+	<div class = "col-md-6">
+            <p id = "AccountText" style = "font-size:30px;">
+              <?php echo ""; ?>
             </p>
 		<?php
-			echo "<p id = 'PhoneNumber'>";
+			echo "<p style = 'font-size:25px;'  id = 'Name'>Driver Name: $dname</p>";
+			echo "<p style = 'font-size:25px;' id = 'PhoneNumber'>";
 			echo "Phone: ".$phone;
 			echo "</p>";
-			echo "<p id = 'Address'>";
+			echo "<p style = 'font-size:25px;' id = 'Address'>";
 			echo "Address: ".$address;
 			echo "</p>";
-			echo "<p id = 'SpentPoints'>";
+			echo "<p style = 'font-size:25px;' id = 'SpentPoints'>";
 			echo "Total Points Spent: ".$spent;
 			echo "</p>";
-			echo '<button onclick = "window.location.href = \'sponsor_driver_orders.php?DriverID='.$did.'\';">View Orders</button>';
-			echo "<p id = 'EarnedPoints'>";
+			echo "<p style = 'font-size:25px;' id = 'EarnedPoints'>";
 			echo "Total Points Earned: ".$earned;
 			echo "</p>";
-			echo '<button onclick = "window.location.href = \'sponsor_driver_point_additions.php?DriverID='.$did.'\';">View Additions</button>';
+			echo '<button class = "btn btn-primary" style = "margin-right: 20px;" onclick = "window.location.href = \'sponsor_driver_point_additions.php?DriverID='.$did.'\';">View Additions</button>';
+			echo '<button class = "btn btn-secondary" onclick = "window.location.href = \'sponsor_driver_orders.php?DriverID='.$did.'\';">View Orders</button>';
 			echo "<p id = 'DriverSpace'>";
 			echo "";
 			echo "</p>";
 		?>
           </div>
-          <form style = "margin: 0 auto;" action = "logon.php">
+        </div>
+	<br><br>
+          <form style = "text-align: center; margin: 0 auto;" action = "logon.php">
             <div class = "row justify-content-center">
-              <button type = submit class = "btn btn-outline-light btn-block">Return to Home</button>
+              <button type = submit class = "btn btn-secondary">Return to Home</button>
             </div>
           </form>
-        </div>
+
+
       </div>
 
       <br />

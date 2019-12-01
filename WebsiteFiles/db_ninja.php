@@ -255,7 +255,8 @@ function dojo_new_generic_account($fname, $lname, $email, $pword)
 	$phash = password_hash($pword, PASSWORD_BCRYPT);
 
 	// insert user
-	$pst = $db->prepare("INSERT INTO Account VALUES (?, ?, ?, ?, ?, x'', 1, 0)");
+	$pic = addslashes(file_get_contents('./Assets/ProfilePicture.jpg'));
+	$pst = $db->prepare("INSERT INTO Account VALUES (?, ?, ?, ?, ?, '$pic', 1, 0)");
 	$pst->bind_param("sssss", $newid, $email, $phash, $fname, $lname);
 	$pst->execute();
 	return $newid;
@@ -274,7 +275,7 @@ function ninja_new_driver($fname, $lname, $email)
 		return false;
 
 	// create driver
-	$pst = $db->prepare("INSERT INTO Driver VALUES (?, '', '', '', '', '')");
+	$pst = $db->prepare("INSERT INTO Driver VALUES (?, '', '', '', '', '', '', '', 0, 0, 0)");
 	$pst->bind_param("s", $uid);
 	$pst->execute();
 	return $tpass;
@@ -1562,6 +1563,27 @@ function ninja_money_earned($uid)
 		$money = $row['Money'];
 	}
 	return $money;
+}
+
+function ninja_delete_base_item($iid)
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("DELETE FROM CatalogCatalogItem WHERE ItemID = ?");
+	$pst->bind_param("s", $iid);
+	$pst->execute();
+	
+	$pst2 = $db->prepare("DELETE FROM CatalogItem WHERE ItemID = ?");
+	$pst2->bind_param("s", $iid);
+	$pst2->execute();
+}
+
+function ninja_all_catalogs()
+{
+	$db = dojo_connect();
+	$pst = $db->prepare("SELECT Catalog.Name AS CatalogName, Catalog.CatalogID AS CatalogID, Company.Name AS CompanyName FROM Catalog INNER JOIN Company ON Catalog.CompanyID = Company.CompanyID WHERE Catalog.Deleted = 0 AND Company.Deleted = 0");
+	$pst->execute();
+	$res = $pst->get_result();
+	return $res;
 }
 
 ?>

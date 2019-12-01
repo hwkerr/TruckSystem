@@ -10,7 +10,8 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['Us
 	exit;
 }
 
-$cid = $_GET['CatalogID'];
+if (isset($_GET['CatalogID']))
+	$cid = $_GET['CatalogID'];
 
 if ($_SESSION['UserType'] === 'Sponsor')  // check if sponsor belongs to same company as catalog
 {
@@ -29,7 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	$websource = $_POST['WebSource'];
 	$linkinfo = $_POST['LinkInfo'];
 	ninja_add_base_item($websource, $linkinfo);
-	header("location: base_catalog.php?CatalogID=".$cid);
+	if (isset($_GET['CatalogID']))
+		header("location: base_catalog.php?CatalogID=".$cid);
+	else
+		header("location: logon.php");
 }
 
 ?>
