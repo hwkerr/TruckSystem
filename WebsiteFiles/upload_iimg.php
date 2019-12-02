@@ -4,7 +4,7 @@
 	
 	if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] === 'Driver')
 	{
-		header("location: DesktopSite.html");
+		header("location: DesktopSite.php");
 		exit;
 	}
 

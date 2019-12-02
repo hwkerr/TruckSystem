@@ -5,7 +5,7 @@ include "db_ninja.php";
 session_start();
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] !== 'Admin')
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 

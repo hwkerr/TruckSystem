@@ -4,7 +4,7 @@ include "db_ninja.php";
 session_start();
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 $uid = $_SESSION['UserID'];
@@ -49,13 +49,13 @@ else
   <div class = "row justify-content-center">
   </div>
   <div class = "row justify-content-center" style = "margin: auto;">
-      <div class = "col-md-6">
+      <div class = "col-md-6" style = "border-right: 1px gray solid;">
           <div class = "ProfileName">
 	  <h2>Profile Info</h2>
-          <span id = "Accountpicture"><img width = "260px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
+          <span id = "Accountpicture"><img width = "350px" src =<?php echo '"data:image/png;base64,'.base64_encode($pfp).'"' ?> /></span><br />
 	  </div>
        </div>
-	  <div class = "col-md-6">
+	  <div class = "col-md-6" style = "margin:auto;">
             <p id = "AccountText">
               <?php echo ""; ?><br />
             </p>
@@ -81,6 +81,7 @@ else
 				echo '<form method = "post">';
                        		echo  '<label for = "DriverorSponsor"></label>';
                 	        echo  '<select name = "DriverSponsor" class = "form-control" id = "DriverorSponsor" selected = "'.$company.'" onchange = "this.form.submit()">';
+				echo '<option>Choose a Company</option>';
 				$companies->data_seek(0);
 				while ($row = $companies->fetch_assoc())
 				{
@@ -131,7 +132,8 @@ else
 		?>
 		
           </div>
-          <form style = "margin: 0 auto;" action = "logon.php">
+	<br><br>
+          <form style = "margin: 0 auto; margin-top:20px;" action = "logon.php">
             <div class = "row justify-content-center">
               <button type = submit class = "btn btn-primary-light btn-block">Return to Home</button>
               <a href = "edit_profile.php" class = "form-text" style = "font-size: 12px;">Edit Information</a>

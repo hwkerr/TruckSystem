@@ -4,7 +4,7 @@ include "db_ninja.php";
 session_start();
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] !== 'Driver')
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 
@@ -36,36 +36,34 @@ $iimg = ninja_item_image($iid, $catid);
     </div>
   </div>
   <div class = "row">
-    <div class = "col-md-5" style = "text-align:center;">
+    <div class = "col-md-5" style = "text-align:center; border-right: 1px grey solid;">
       <img width = "350px" src = "data:image/png;base64,<?php echo base64_encode($iimg); ?>"/>
     </div>
-    <div class = "col-lg-3 justify-content-center">
+    <div class = "col-lg-3 justify-content-center" style = "margin: auto;">
       <ul class = "list-group">
         <li class = "list-group-item">
           <p>
             Price: <?php echo $price; ?> points
           </p>
         </li>
-        <li class = "list-group-item">
-          <p>
-            Available?: Maybe
-          </p>
-        </li>
+	<li class = "list-group-item">
+	<p>	
+		Description: <?php echo $desc; ?>
+	</p>
+	</li>
       </ul><br />
-      <button class = "btn btn-primary">Buy Now</button>
+      <button class = "btn btn-primary" onclick = "window.location.href = 'driver_view.php';">Back to Home</button>
       <button class = "btn btn-secondary" onclick="window.location.href = '<?php echo 'cart_add_item.php?ItemID='.$iid.'&Price='.$price.'&CatalogID='.$catid; ?>';">Add to Cart</button>
     </div>
   </div><br /><br />
   <div class = "row">
     <div class = "col-lg-9">
       <p>
-	<?php echo $desc; ?>
       </p>
     </div>
   </div>
   <div class = "row">
     <div class = "col-lg-6">
-      <button class = "btn btn-primary" onclick = "window.location.href = 'driver_view.php';">Back to Home</button>
     </div>
   </div>
 </div>

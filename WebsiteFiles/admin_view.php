@@ -332,6 +332,7 @@
                 $res = ninja_drivers();
                 while ($row = $res->fetch_assoc())
                 {
+                        $cid = $row['CompanyID'];
                         echo '<tr>';
                         echo '<th>'.$entry.'</th>';
                         echo '<td>'.$row['FName'].'</td>';
@@ -339,7 +340,6 @@
                         echo '<td>'.ninja_company_name($cid).'</td>';
                         echo '<td>'.$row['Email'].'</td>';
 			echo '<td><a href="admin_edit_driver_profile.php?DID='.$row['UserID'].'">Edit Account</a></td>';
-                        $cid = $row['CompanyID'];
                         echo '<td><a href="delete_account.php?UID='.$row['UserID'].'">Delete Account</a></td>';
                         echo '</tr>';
                         $entry = $entry + 1;

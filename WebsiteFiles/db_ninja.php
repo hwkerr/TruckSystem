@@ -320,7 +320,8 @@ function ninja_accept_company($cname, $fname, $lname, $email)
 	}
 	
 	// create company
-	$pst = $db->prepare("INSERT INTO Company VALUES (?, ?, x'', 0)");
+	$pic = addslashes(file_get_contents('./Assets/ProfilePicture.jpg'));
+	$pst = $db->prepare("INSERT INTO Company VALUES (?, ?, '$pic', 0, '', '')");
 	$pst->bind_param("ss", $newid, $cname);
 	$pst->execute();
 
@@ -1535,7 +1536,9 @@ function ninja_create_empty_company($name)
 				$unique = false;
 	}
 	
-	$pst = $db->prepare("INSERT INTO Company VALUES(?, ?, '', 0, '', '')");
+	// create company	
+	$pic = addslashes(file_get_contents('./Assets/ProfilePicture.jpg'));
+	$pst = $db->prepare("INSERT INTO Company VALUES(?, ?, '$pic', 0, '', '')");
 	$pst->bind_param("ss", $newid, $name);
 	$pst->execute();
 

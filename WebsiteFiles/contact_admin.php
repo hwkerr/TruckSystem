@@ -5,14 +5,14 @@ session_start();
 
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 
 $message = "Contact an admin for assistance, and they will email you in support at their earliest convenience!";
 $type = $_SESSION['UserType'];
 $uid = $_SESSION['UserID'];
-
+$pfp = ninja_pfp($uid);
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 	$fname = $_POST['FName'];
@@ -47,7 +47,15 @@ else
 <html>
 <?php include "htmlhead.php"?>
 <body style = "height: 100%;">
- <?php include "driver_header.php"?>
+<?php
+if($_SESSION['UserType'] === "Driver")
+        include "driver_header.php";
+else if($_SESSION['UserType'] === "Sponsor")
+        include "sponsor_header.php";
+else
+        include "admin_header.php";
+?>
+
 <div class = "jumbotron">
 <h1>Driver Help</h1>
 </div>

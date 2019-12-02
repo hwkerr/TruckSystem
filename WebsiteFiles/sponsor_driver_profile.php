@@ -4,7 +4,7 @@ include "db_ninja.php";
 session_start();
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] !== 'Sponsor')
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 
@@ -15,7 +15,7 @@ $did = $uid;
 
 if (ninja_driver_company_status($uid, $cid) != 1)
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 $pfp = ninja_pfp($sid);

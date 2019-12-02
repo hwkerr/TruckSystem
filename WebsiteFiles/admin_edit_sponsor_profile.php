@@ -4,7 +4,7 @@ include "db_ninja.php";
 session_start();
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] !== 'Admin')
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 $sid = $_GET['SID'];
@@ -41,7 +41,7 @@ else  // populate data
 <br><br>
 <div class = "container" style = "margin: 0 auto;">
   <div class = "row justify-content-center" style = "margin: auto;">
-      <div class = "col-md-6">
+      <div class = "col-md-6" style = "border-right: 1px gray solid;">
 	<img width = "200px" src = "<?php echo 'data:image/png;base64,'.base64_encode($dpfp); ?>"></img>
 	<hr>
 	<br>
@@ -70,7 +70,7 @@ else  // populate data
 	</div>
 		<br>
             <div class = "row justify-content-center">
-              <button type = submit class = "btn btn-primary btn-block">Save and Return</button>
+              <button type = submit class = "btn btn-primary">Save and Return</button>
             </div>
 	    </div>
           </form>

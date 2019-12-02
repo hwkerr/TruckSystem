@@ -6,7 +6,7 @@
 
 	if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] !== 'Driver')
 	{
-		header("location: logon.php");
+		header("location: DesktopSite.php");
 		exit;
 	}
 
@@ -25,7 +25,7 @@
 	</div>
       <div class = "container" style = "width: 80%;" id = "Catalog">
             <br />
-	<div id = "DefaultItemView" style = "display: inline-block;">
+	<div id = "DefaultItemView" style = "display:block;">
 
 	<?php
 		$items = ninja_browse_catalog_items($cid);
@@ -40,7 +40,7 @@
               			echo '<div class = "row">';
 			}
 			echo '<div class = "col-md-3 card-deck">';
-              		echo 	'<div class="card">';
+              		echo 	'<div class="card" style = "width: 18rem;">';
               		echo     '<img "card-img-top" style = "width: 100%;" src="data:image/png;base64,'.base64_encode($iimg).'">';
               		echo       '<div class="card-body">';
               		echo         '<a href = "driver_item_view.php?ItemID='.$iid.'&CatalogID='.$catid.'"><h5 class="card-title">'.$name.'</h5></a>';
@@ -59,7 +59,7 @@
 	?>
 	</div>
 
-<div id = "AscNameItemView" style = "display: none;">
+<div id = "AscNameItemView" style = "display:none;">
 
         <?php
                 $items = ninja_browse_catalog_items_asc_name($cid);
@@ -73,7 +73,7 @@
                         if ($rank % 4 == 0){
                        		echo '<div class = "row">';
 			}
-                        	echo '<div class = "col-md-3 card-deck">';
+                        echo '<div class = "col-md-3 card-deck">';
                         echo    '<div class="card" style="width: 18rem;">';
                         echo     '<img "card-img-top" style = "width: 100%;" src="data:image/png;base64,'.base64_encode($iimg).'">';
                         echo       '<div class="card-body">';

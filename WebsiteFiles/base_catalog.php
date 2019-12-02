@@ -6,7 +6,7 @@ session_start();
 
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] === 'Driver')
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 
@@ -162,7 +162,7 @@ else if ($_SESSION['UserType'] === "Admin")
 						<form method = "post" enctype = "multipart/form-data">
 							<div class = "form-group">
 								<label for = "ItemName">Item Name</label>
-								<input name = "ItemName" class = "form-control" type = "text" id = "ItemName" placeholder = "Item Name">
+								<input name = "ItemName" class = "form-control" type = "text" id = "ItemName" placeholder = "Item Name" value = "'.$name.'">
 								<input name = "ItemID" class = "form-control" type = "hidden" id = "ItemID" value = "'.$biid.'">
 								<input name = "LinkInfo" class = "form-control" type = "hidden" id = "LinkInfo" value = "'.$link.'">
 								<input name = "WebSource" class = "form-control" type = "hidden" id = "WebSource" value = "'.$site.'">
@@ -198,6 +198,7 @@ else if ($_SESSION['UserType'] === "Admin")
 	}
 
 	$rank = $rank + 1;
+	$num = $num + 1;
 
 	}
 	if($rank % 4 != 0){
