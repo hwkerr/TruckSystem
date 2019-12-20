@@ -1,20 +1,18 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This system is an independent rewards program for truck drivers and companies to sponsor them.
+Truck drivers can sign up and begin earning points for safe driving. They can then redeem those points for rewards in the system.
+Sponsors and Admins can manage items, catalogs, and relationships between other users.
+
+This system can be accessed via a website or a mobile Android application. Drivers can view and edit account info, browse the catalog, and place orders whereas Sponsors and Admins can manage other users and item catalogs.
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+1.	[Visit the website](http://ec2-54-234-169-204.compute-1.amazonaws.com/DesktopSite.php)
+2.	[Download the Android app](AppBuilds/wtt1.0.apk)
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
-
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+# Development
+Developed for Seminar in Professional Issues II course at Clemson University in a 3-person scrum team across 10 weekly sprints.
+The system uses the [LAMP model](https://en.wikipedia.org/wiki/LAMP_(software_bundle)).
+Technologies used include:
+1. Amazon AWS EC2/Aurora: Linux/Unix, SQL
+2. HTML, CSS, JavaScript, PHP
+3. Java/XML (Android Studio)
