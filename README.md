@@ -11,8 +11,9 @@ This system can be accessed via the website or mobile Android application.
 2.	[Download the Android app](AppBuilds/wtt1.0.apk)
 
 Log in with the following info:
-1. Driver Account Username: wttdriver@gmail.com | Password: demodriver
-2. Sponsor Account Username: wtt.driver@gmail.com | password: demosponsor
+
+    Username: wttdriver@gmail.com
+    Password: demodriver
 
 # Development
 Developed for Seminar in Professional Issues II course at Clemson University in a 3-person scrum team across 10 weekly sprints.
