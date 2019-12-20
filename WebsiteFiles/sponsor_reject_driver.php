@@ -7,7 +7,7 @@ session_start();
 
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] !== 'Sponsor')
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 
@@ -17,7 +17,7 @@ $cid = ninja_sponsor_company_id($sid);
 
 if (ninja_driver_company_status($did, $cid) != 0)
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 

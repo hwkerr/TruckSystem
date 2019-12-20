@@ -27,9 +27,6 @@ while ($row = $itemlist->fetch_assoc())
 }
 $itemjson = $itemjson.']}';
 
-//header('Content-type: text/javascript');
-
-//echo json_encode($realitemlist, JSON_PRETTY_PRINT);
 echo $itemjson;
 
 ?>

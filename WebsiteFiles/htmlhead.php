@@ -8,6 +8,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <link rel = "stylesheet" href = "style.css">
 <link href="/Assets/open-iconic/open-iconic-master/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+<link rel = "shortcut icon" href="Assets/logo-blue.png" />
 <title>What the Truck!</title>
 </head>
 

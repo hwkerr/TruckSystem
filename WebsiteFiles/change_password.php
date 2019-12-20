@@ -8,7 +8,7 @@
 
 	if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
 	{
-		header("location: logon.php");
+		header("location: DesktopSite.php");
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST")
@@ -18,6 +18,7 @@
 	
 		if ($pword !== $pword2)
 		{
+			header('location: change_password.php');
 			exit;
 		}
 

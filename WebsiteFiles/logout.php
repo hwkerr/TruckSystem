@@ -2,6 +2,6 @@
 	session_start();
 	$_SESSION = array();
 	session_destroy();
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 ?>

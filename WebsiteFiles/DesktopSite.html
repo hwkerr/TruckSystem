@@ -9,34 +9,101 @@
 </head>
 <body style = "background-color:transparent;">
   <title>What the Truck</title>
-<br /><br /><br /><br /><br /><br /><br /><br /><br />
-<div class = "container">
-  <div class = "row" style = "margin:auto;">
-      <div class = "col-md-12" style = "text-align:center;">
-        <h3 style = "font-size: 80px; color: white;text-align: center; margin:auto;">What the Truck!</h3>
-        <h1 style = "font-size: 20px; color: white; padding-left: 20px;">The Best Truckin' Experience of your Life</h1>
-        <hr />
-        <br /><br />
-      </div>
-    </div>
-    <div class = "row justify-content-center">
-      <div class = "col-md-6" style = "text-align: center; font-size: 40px;">
-            <button type = "button" onclick = "location.href = 'logon.php'" class = "btn btn-outline-light btn-block">Log In</button>
-          </div>
-        </div>
-        <br />
-        <div class = "row justify-content-center">
-          <div class = "col-md-6">
-            <button type = "button" onclick = "location.href = 'application.php'" class = "btn btn-outline-light btn-block">Apply to Join</button>
-          </div>
-        </div>
-          </div>
-        </div>
-        </div>
-      </div>
+	<div class = "container-fluid">
+  <nav class = "navbar navbar-expand-lg" style = "z-index:2000;">
+<a class = "navbar-brand text-light" >What the Truck!</a>
+  <ul class = "nav navbar-nav ml-auto">
+	<li class = "nav-item">
+		<a class = "nav-link text-light" data-toggle="modal" data-target = "#ApplicationModal">Apply to Join</a>
+	</li>
+	<li class = "nav-item dropdown">
+		<a class = "nav-link dropdown-toggle text-light" data-toggle = "dropdown">Log In</a>
+       <!-- 	<div class = "dropdown-menu dropdown-menu-right px-auto"> -->
+                	<form class = "dropdown-menu dropdown-menu-right p-4" style = "min-width: 30rem;">
+				<div class = "form-group">
+						<label for = "eMail">Email</label>
+						<input type = "email" class = "form-control input-lg" id = "eMail" placeholder = "Email">
+				</div>
+				<div class = "form-group">
+					<label for = "password">Password</label>
+					<input type = "text" class = "form-control input-lg" id = "password" placeholder = "Password">
+				</div>
+				<div class = "row">
+					<div class = "col-md-4">
+						<button class = "btn btn-secondary">Forgot Password</button>
+					</div>
+					<div class = "col-md-4">
+						<button class = "btn btn-primary btn-block" onclick = "location.href = 'logon.php'">Logon</button>
+					</div>
+				</div>
+               		</form>
+    <!--   		 </div> -->
+	</li>
+  </ul>
+	</nav>
+</div>
+<div class = "container-fluid" style = "z-index:1900;position:relative;">
+  <div class = "row justify-content-center">
+	<div class = "col-md-6" style = "position:fixed; vertical-align:middle; top:30%;">
+  		<div id = "title" style = "vertical-align:middle; text-align:center; position:relative; top:30%;" class = "align-middle my-auto text-light">
+			<h1 class = "display-1">What the Truck!</h1>
+			<hr style = "border-top: 1px solid rgba(255,255,255,.5); width:50%;"/>
+			<p class = "lead" style = "z-index:2000; font-size: 30px;">The Best Truckin Experience of Your Life!</p>
+ 		 </div> 
+	</div>
+  </div>
+</div>
+</div>
+<div class = "modal-backdrop fade-show" style = "opacity: .3;"></div>
 </body>
 
 </html>
+
+
+
+<div class = "modal fade" id = "ApplicationModal" style = "z-index:100000000000; position: relative;">
+	<div class = "modal-dialog">
+		<div class = "modal-content">
+			<div class = "modal-header">
+				<h4>Submit an Application</h4>
+			</div>
+			<div class = "modal-body">
+				<form>
+					<div class = "row">
+						<div class = "col">
+							<label for = "applicationFirstName">First Name</label>
+							<input class = "form-control" placeholder = "First Name" id = "applicationFirstName" name = "FName" required>
+						</div>
+						<div class = "col">
+							<label for = "applicationLastName">Last Name</label>
+							<input class = "form-control" placeholder = "Last Name" id = "applicationLastName" name = "LName" required>
+						</div>
+					</div>
+					<div class = "row">
+						<div class = "col">
+							<label for = "applicationEmail">Enter Email</label>
+							<input class = "form-control" placeholder = "Email" id = "applicationEmail" name = "Email" required>
+						</div>
+						<div class = "col">
+							<label for = "DriverorSponsor">Application Type</label>
+							<select name = "DriverSponsor" class = "form-control" id = "DriverorSponsor">
+								<option>Driver</option>
+								<option>Sponsor</option>
+							</select>
+						</div>
+					</div>
+					<br><br>
+					<div class = "row">
+						<div class = "col" style = "text-align:center;">
+							<button class = "btn btn-secondary" data-dismiss = "modal">Close</button>
+							<button class = "btn btn-primary">Submit Application</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 <style>
 html {
@@ -46,4 +113,5 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
+
 </style>

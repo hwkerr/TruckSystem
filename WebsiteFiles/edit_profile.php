@@ -4,7 +4,7 @@ include "db_ninja.php";
 session_start();
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 $uid = $_SESSION['UserID'];
@@ -55,15 +55,22 @@ else  // populate data
 <html style = "height: 100%;">
 <?php include "htmlhead.php"?>
 <body style = "height: 100%;">
-<?php include "driver_header.php";?>
 
+<?php
+if($_SESSION['UserType'] === "Driver")
+	include "driver_header.php";
+else if($_SESSION['UserType'] === "Sponsor")
+	include "sponsor_header.php";
+else
+	include "admin_header.php";
+?>
 <div class = "jumbotron">
 	<h1>Edit Profile</h1>
 </div>
 <br><br>
 <div class = "container" style = "margin: 0 auto;">
   <div class = "row justify-content-center" style = "margin: auto;">
-      <div class = "col-md-6">
+      <div class = "col-md-6" style = "border-right: 1px gray solid;">
 	<img width = "200px" src = "<?php echo 'data:image/png;base64,'.base64_encode($pfp); ?>"></img>
 	<hr>
 	<br>
@@ -149,7 +156,7 @@ else  // populate data
 		?>
 		<br>
             <div class = "row justify-content-center">
-              <button type = submit class = "btn btn-primary btn-block">Save and Return to Profile</button>
+              <button type = submit class = "btn btn-primary">Save and Return to Profile</button>
             </div>
 	    </div>
           </form>

@@ -4,7 +4,7 @@
 
 	if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
 	{
-		header("location: logon.php");
+		header("location: DesktopSite.php");
 		exit;
 	}
 
@@ -21,7 +21,7 @@
 <nav class = "navbar sticky-top navbar-expand-lg navbar-light" style = "background-image:linear-gradient(to right, #071461, #0B358E); box-shadow: 8px 8px 8px 5px rgba(0, 0, 255, .1);" >
 
     <a class = "navbar-brand" style = "color:white;" onclick = "window.location.href = 'driver_view.php';">
-	<img width = "30px" height = "30px" src = "Assets/logo-blue.png">What the Truck!<a>
+	<!--<img width = "30px" height = "30px" src = "Assets/logo-blue.png">-->What the Truck!</a>
 <button class = "navbar-toggler" style = "background-color: white;" type = "button" data-toggle="collapse" data-target = "#navbarNav" aria-expanded="false" aria-controls = "navbarNav" aria-label = "Toggles navbar">
 	<span class = "navbar-toggler-icon" ></span>
 </button>
@@ -34,23 +34,9 @@
 	<li class = nav-item">
 		<a class = "nav-link" style = "color: white;" href = "driver_history.php">History</a>
 	</li>
-<!--	<li class = "nav-item">
-		<a class = "nav-link" style = "color:white;" href = "driver_cart.php">View Cart</a>
-	</li>
--->
     <li class = "nav-item" style = "color: white;">
       <a class = "nav-link" style = "color:white;" href = "contact_admin.php">Contact Us</a>
     </li>
-
-   <!-- <li class = "nav-item" style = "color:white;">
-        <a class = "nav-link" style = "color:white;" href = "Assets/Files/wtt-alpha-s7.apk" download>Download Mobile App</a>
-    </li>
-
- <li class = "nav-item" style = "color:white;">
-      <a class = "nav-link" style = "color:white;" href = "logout.php">Log Off</a>
-    </li>-->
-
-
   </ul>
 </div>
 

@@ -4,7 +4,7 @@
 	
 	if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] != 'Sponsor')
 	{
-		header("location: logon.php");
+		header("location: DesktopSite.php");
 		exit;
 	}
 

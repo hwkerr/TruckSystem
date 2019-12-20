@@ -10,7 +10,7 @@ public class ToolsViewModel extends ViewModel {
 
     public ToolsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("If there are any settings, they'll appear in this fragment");
+        mText.setValue("Settings: unavailable");
     }
 
     public LiveData<String> getText() {

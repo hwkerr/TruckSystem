@@ -6,11 +6,12 @@ session_start();
 
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] === 'Driver')
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 
-$cid = $_GET['CatalogID'];
+if (isset($_GET['CatalogID']))
+	$cid = $_GET['CatalogID'];
 
 if ($_SESSION['UserType'] === 'Sponsor')  // check if sponsor belongs to same company as catalog
 {
@@ -29,7 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	$websource = $_POST['WebSource'];
 	$linkinfo = $_POST['LinkInfo'];
 	ninja_add_base_item($websource, $linkinfo);
-	header("location: base_catalog.php?CatalogID=".$cid);
+	if (isset($_GET['CatalogID']))
+		header("location: base_catalog.php?CatalogID=".$cid);
+	else
+		header("location: logon.php");
 }
 
 ?>
@@ -45,9 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			<div class = "form-group" style = "margin-center: auto;">
 				<h1 style = "text-align: center;">Create New Item</h1>
 				<form method = "post">
-				<label for = "WebSource">Web Source</label>
-				<input class = "form-control" id = "WebSource" placeholder = "Web Source" name = "WebSource"/><br>
-				<label for = "LinkInfo">Link Info</label>
+				<label for = "WebSource">Source Website</label>
+                	        <select name = "WebSource" class = "form-control" id = "WebSource">
+				<!-- <option value = "Amazon">Amazon</option> -->
+				<option value = "Ebay" selected>Ebay</option>
+				</select>
+				<label for = "LinkInfo">URL (copy and paste from item view page on source wesbite)</label>
 				<input class = "form-control" id = "LinkInfo" placeholder = "Link Info" name = "LinkInfo"/><br>
 				<div style = "text-align: center;">
 					<button class = "btn btn-outline-light" type = "submit" >Create Item</button>

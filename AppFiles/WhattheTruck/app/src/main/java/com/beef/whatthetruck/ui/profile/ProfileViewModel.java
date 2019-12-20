@@ -1,5 +1,7 @@
 package com.beef.whatthetruck.ui.profile;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Log;
 
@@ -17,11 +19,13 @@ import static com.beef.whatthetruck.DrawerActivity.DEFAULT_NET_TEXT;
 public class ProfileViewModel extends ViewModel implements Networkable {
 
     private static String email, uid, cid, name, fname, lname, company_name, phone, address, points;
+    private static Bitmap pfp;
 
     private MutableLiveData<String> mText;
     private static MutableLiveData<String> nameText, fnameText, lnameText, company_nameText, phoneText,
             addressStreetText, addressStreet2Text, addressCityText, addressStateText, addressZipText,
             emailText, pointsText;
+    private static MutableLiveData<Bitmap> mPicture;
 
     public ProfileViewModel() {
 
@@ -62,6 +66,8 @@ public class ProfileViewModel extends ViewModel implements Networkable {
         pointsText = new MutableLiveData<>();
         pointsText.setValue(DEFAULT_NET_TEXT);
 
+        mPicture = new MutableLiveData<>();
+
         initText();
     }
 
@@ -78,6 +84,7 @@ public class ProfileViewModel extends ViewModel implements Networkable {
             db.startTask(this, NetNinja.Function.CURRENT_DRIVER_COMPANY, uid);
             db.startTask(this, NetNinja.Function.ADDRESS, uid);
             db.startTask(this, NetNinja.Function.PHONE, uid);
+            db.startTask(this, NetNinja.Function.PFP, uid);
         }
         else { // After _ milliseconds, try again
             final Handler handler = new Handler();
@@ -103,6 +110,7 @@ public class ProfileViewModel extends ViewModel implements Networkable {
     public LiveData<String> getAddressZip() { return addressZipText; }
     public LiveData<String> getEmail() { return emailText; }
     public LiveData<String> getPoints() { return pointsText; }
+    public LiveData<Bitmap> getPFP() { return mPicture; }
 
     public void updateName(String fname, String lname) {
         OkNetNinja db = new OkNetNinja();
@@ -152,13 +160,17 @@ public class ProfileViewModel extends ViewModel implements Networkable {
             case COMPANY_NAME:
                 company_name = results[0].toString();
                 if (company_name.isEmpty())
-                    company_name = "none found";
+                    company_name = "N/A";
                 company_nameText.setValue(company_name);
                 break;
             case POINTS:
                 points = results[0].toString();
                 pointsText.setValue(points);
                 break;
+            case PFP:
+                byte[] data = (byte[])results[0];
+                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                mPicture.setValue(bmp);
             default:
                 break;
         }

@@ -69,17 +69,20 @@
           <?php echo $error ?>
           </p>
           <form style = "margin: 0 auto;" method = "post">
-            <div class = "form-group" style = "margin-center: auto;">
-              <input type= "User-ID" name = "ID" class = "form-control" id = "InputID" placeholder="Enter Email"/>
+            <div class = "form-row" style = "margin-center: auto;">
+		<div class = "col-md-8">
+             	 	<input type= "User-ID" name = "ID" class = "form-control" id = "InputID" placeholder="Enter Email"/>
+		</div>
+		<div class = "col-md-4">
+			<button type = "submit" class = "btn btn-outline-light btn-block">Send Email</button>
+		</div>
             </div>
-              <div class = "col-lg-6" style = "text-align: center;">
-                <button type = "submit" class = "btn btn-outline-light btn-block">Send Email</button>
-              </div>
           </form>
         </div>
-      </div>
-            <div class = "row justify-content-center" style = "margin: auto;">
-            </div>
+      </div><br><br>
+            <div class = "row justify-content-center" style = "text-align: center;margin: auto;">
+            
+		<button class = "btn btn-outline-light" onclick = "location.href = 'DesktopSite.php'">Back to Home</button>
           </div>
 
 </body>

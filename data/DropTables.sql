@@ -24,3 +24,5 @@ DROP TABLE Account;
 
 DROP TABLE Application;
 
+DROP TABLE Payment;
+

@@ -5,14 +5,14 @@ session_start();
 
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 
 $message = "Contact an admin for assistance, and they will email you in support at their earliest convenience!";
 $type = $_SESSION['UserType'];
 $uid = $_SESSION['UserID'];
-
+$pfp = ninja_pfp($uid);
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 	$fname = $_POST['FName'];
@@ -47,7 +47,15 @@ else
 <html>
 <?php include "htmlhead.php"?>
 <body style = "height: 100%;">
- <?php include "driver_header.php"?>
+<?php
+if($_SESSION['UserType'] === "Driver")
+        include "driver_header.php";
+else if($_SESSION['UserType'] === "Sponsor")
+        include "sponsor_header.php";
+else
+        include "admin_header.php";
+?>
+
 <div class = "jumbotron">
 <h1>Driver Help</h1>
 </div>
@@ -67,11 +75,13 @@ else
         </div>
       </div>-->
             <div class = "row justify-content-center" style = "margin: auto;">
-	      <div class = "col-lg-3">
-		<p style = "font-size: 30px"><p class = "lead">Here at What the Truck!, we believe that the driver comes first!</p> That's why we think it is very Trucking important the the drivers are always able to get in touch with our admins. Whether you are having issues with the website or you just want to chat, place your message and information in the form provided and a What the Truck representative will get back to you as soon as possible. We look forward to hearing from you! Happy Driving!</p>
+	      <div class = "col-lg-8">
+		<p style = "font-size: 36px"><p class = "lead">Here at What the Truck!, we believe that the customer comes first!</p> That's why we think it is very Trucking important the you are always able to get in touch with our admins. Whether you are having issues with the website or you just want to chat, place your message and information in the form provided and a What the Truck representative will get back to you as soon as possible. We look forward to hearing from you! Keep on Truckin!</p>
 	<footer class = "blockquote-footer">Harrison Kerr, Founder of What the Truck!</footer>
 		</div>
-              <div class = "col-lg-4">
+	      </div><br><br>
+		<div class = "row justify-content-center" style = "margin: auto;">
+              <div class = "col-lg-8">
                 <form method = "post">
                   <div class = "row">
                     <div class = "col">
@@ -108,7 +118,7 @@ else
                           </div>
                         </div>
                   </form>
-               
+               </div>
               </div>
             </div>
           </div>

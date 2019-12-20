@@ -24,34 +24,20 @@ public class NetFunction {
             case LOGIN:
                 login(output[0].toString(), output[1].toString());
                 break;
+            case PFP:
+                useBytes((byte[])output[0]);
+                break;
+            case ITEM_IMG:
+                setItemImage((byte[])output[0], output[1].toString(), output[2].toString());
+                break;
             case UPDATE_NAME:
             case UPDATE_PHONE:
             case UPDATE_ADDRESS:
                 break;
-            /*case USERID:
-                userid(output[0].toString());
+            case CATALOG_ITEMS:
+            case ITEM_INFO:
+                defaultFunJSON(output[0].toString());
                 break;
-            case NAME:
-                name(output[0].toString());
-            case FNAME:
-                fname(output[0].toString());
-            case LNAME:
-                lname(output[0].toString());
-            case CURRENT_DRIVER_COMPANY:
-                current_driver_company(output[0].toString());
-                break;
-            case COMPANY_NAME:
-                company_name(output[0].toString());
-                break;
-            case PHONE:
-                phone(output[0].toString());
-                break;
-            case ADDRESS:
-                address(output[0].toString());
-                break;
-            case POINTS:
-                points(output[0].toString());
-                break;*/
             default:
                 defaultFun(output[0].toString());
                 break;
@@ -59,57 +45,28 @@ public class NetFunction {
     }
 
     private void defaultFun(String val) {
-        Log.d("BEEF--NETVAL", function.toString() + "=" + val + ";");
+        Log.d("Networking", function.toString() + "=" + val + ";");
         context.getResult(function, val);
+    }
+
+    private void defaultFunJSON(String json) {
+        Log.d("Networking", function.toString() + "=" + json + ";");
+        context.getResult(function, json);
     }
 
     private void login(String result, String username) {
         boolean success = (result.equals("0") || result.equals("1") || result.equals("2") || result.equals("3"));
-        Log.d("BEEF--NETVAL", "result=" + result + ";");
+        Log.d("Networking", "result=" + result + ";");
         ((LoginActivity)context).login(success, username);
     }
 
-    /*private void userid(String userid) {
-        Log.d("BEEF--NETVAL", "userid=" + userid + ";");
-        context.getResult(function, userid);
+    private void setItemImage(byte[] bytes, String itemID, String catID) {
+        Log.d("Networking", "length of " + function.toString() + "=" + bytes.length + ";");
+        context.getResult(function, bytes, itemID, catID);
     }
 
-    private void name(String name) {
-        Log.d("BEEF--NETVAL", "name=" + name + ";");
-        context.getResult(function, name);
+    private void useBytes(byte[] bytes) {
+        Log.d("Networking", "length of " + function.toString() + "=" + bytes.length + ";");
+        context.getResult(function, bytes);
     }
-
-    private void fname(String fname) {
-        Log.d("BEEF--NETVAL", "fname=" + fname + ";");
-        context.getResult(function, fname);
-    }
-
-    private void lname(String lname) {
-        Log.d("BEEF--NETVAL", "lname=" + lname + ";");
-        context.getResult(function, lname);
-    }
-
-    private void current_driver_company(String companyid) {
-        Log.d("BEEF--NETVAL", "companyid=" + companyid + ";");
-        context.getResult(function, companyid);
-    }
-
-    private void company_name(String companyname) {
-        Log.d("BEEF--NETVAL", "companyname=" + companyname + ";");
-        context.getResult(function, companyname);
-    }
-
-    private void phone(String phone) {
-        Log.d("BEEF--NETVAL", "phone=" + phone + ";");
-        context.getResult(function, phone);
-    }
-
-    private void address(String address) {
-        Log.d("BEEF--NETVAL", "address=" + address + ";");
-        context.getResult(function, address);
-    }
-    private void points(String points) {
-        Log.d("BEEF--NETVAL", "points=" + points + ";");
-        context.getResult(function, points);
-    }*/
 }

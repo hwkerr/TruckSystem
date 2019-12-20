@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                         <div class = "row">
                           <div class = "col"><br />
                             <button type = submit class = "btn btn-outline-light btn-block">Submit</button>
-              		    <a href = "DesktopSite.html" class = "form-text" style = "font-size: 12px; color: white;">Back to Home</a>
+              		    <a href = "DesktopSite.php" class = "form-text" style = "font-size: 12px; color: white;">Back to Home</a>
                           </div>
                         </div>
                   </form>

@@ -6,13 +6,13 @@ session_start();
 
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true || $_SESSION['UserType'] !== 'Driver')
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 
 if (!isset($_SESSION['Cart']) || count($_SESSION['Cart']) < 1)
 {
-	header("location: logon.php");
+	header("location: DesktopSite.php");
 	exit;
 }
 

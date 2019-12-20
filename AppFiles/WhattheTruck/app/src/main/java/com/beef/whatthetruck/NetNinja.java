@@ -21,9 +21,14 @@ public interface NetNinja {
         PHONE("phone"),
         ADDRESS("address"),
         POINTS("points"),
+        PFP("pfp"),
+        ITEM_INFO("item_info"),
+        ITEM_IMG("item_img"),
         UPDATE_NAME("update_name"),
         UPDATE_PHONE("update_phone"),
         UPDATE_ADDRESS("update_address"),
+        CATALOG_ITEMS("catalog_items"),
+        PLACE_ORDER("place_order"),
         NULL("null");
 
         private String name;

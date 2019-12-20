@@ -1,11 +1,13 @@
 package com.beef.whatthetruck.ui.profile;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -15,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.beef.whatthetruck.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class ProfileFragment extends Fragment {
 
@@ -26,11 +29,11 @@ public class ProfileFragment extends Fragment {
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        final TextView textView = root.findViewById(R.id.text_profile);
-        profileViewModel.getText().observe(this, new Observer<String>() {
+        final ImageView imgPFP = root.findViewById(R.id.imgPFP);
+        profileViewModel.getPFP().observe(this, new Observer<Bitmap>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onChanged(@Nullable Bitmap bmp) {
+                imgPFP.setImageBitmap(bmp);
             }
         });
 
@@ -118,8 +121,8 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        final Button Save = root.findViewById(R.id.bttnSave);
-        Save.setOnClickListener(new View.OnClickListener() {
+        final Button bttnSave = root.findViewById(R.id.bttnSave);
+        bttnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //function to start tasks
@@ -127,6 +130,8 @@ public class ProfileFragment extends Fragment {
                 profileViewModel.updatePhone(getInput(etPhone));
                 profileViewModel.updateAddress(getInput(etAddressStreet), getInput(etAddressStreet2),
                         getInput(etAddressCity), getInput(etAddressState), getInput(etAddressZip));
+                Snackbar.make(v, "Saved changes to profile", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
 

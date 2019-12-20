@@ -93,6 +93,7 @@ CREATE TABLE Catalog
     Name            VARCHAR(20)            NOT NULL,
     Visible            BOOLEAN            NOT NULL,
     CompanyID        VARCHAR(16)            NOT NULL,
+    Deleted	BOOLEAN	NOT NULL,
     PRIMARY KEY (CatalogID),
     FOREIGN KEY (CompanyID) REFERENCES Company (CompanyID)
 );
@@ -114,7 +115,7 @@ CREATE TABLE ItemOrderCatalogItem
     Shipped        BOOLEAN            NOT NULL,
     Cancelled        BOOLEAN            NOT NULL,
     CatalogID	VARCHAR(16)	NOT NULL,
-    PRIMARY KEY (OrderID, ItemID),
+    PRIMARY KEY (OrderID, ItemID, Position),
     FOREIGN KEY (OrderID) REFERENCES ItemOrder (OrderID),
     FOREIGN KEY (ItemID) REFERENCES CatalogItem (ItemID)
 );
@@ -146,3 +147,15 @@ CREATE TABLE Application
     Processed BOOLEAN NOT NULL,
     PRIMARY KEY (AppID)
 );
+
+CREATE TABLE Payment
+(
+    PaymentID    VARCHAR(16)        NOT NULL,
+    AdminID    VARCHAR(16)        NOT NULL,
+    Amount    DECIMAL(4, 2)        NOT NULL,
+    Processed    BOOLEAN        NOT NULL,
+    ProcTime    DATETIME        NOT NULL,
+    PRIMARY KEY (PaymentID),
+    FOREIGN KEY (AdminID) REFERENCES Admin (UserID)
+);
+

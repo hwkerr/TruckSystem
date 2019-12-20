@@ -7,7 +7,7 @@
 	
 	if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] !== true)
 	{
-		header("location: logon.php");
+		header("location: DesktopSite.php");
 		exit;
 	}
 
