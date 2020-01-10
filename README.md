@@ -19,6 +19,6 @@ Log in with the following info:
 Developed for Seminar in Professional Issues II course at Clemson University in a 3-person scrum team across 10 weekly sprints.
 The system uses the [LAMP model](https://en.wikipedia.org/wiki/LAMP_(software_bundle)).
 Technologies used include:
-1. Amazon AWS EC2/Aurora: Linux/Unix, SQL
+1. Amazon AWS EC2/RDS: Linux/Unix, SQL
 2. HTML, CSS, JavaScript, PHP
 3. Java/XML (Android Studio)
